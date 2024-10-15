@@ -10,3 +10,7 @@ uploads
 **/uploads
 .vscode
 coverage
+
+# output
+es
+lib
