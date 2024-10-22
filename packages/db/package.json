@@ -1,0 +1,23 @@
+{
+  "name": "@baicie/md-db",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "idb": "^8.0.0"
+  },
+  "peerDependencies": {
+    "idb": "^8.0.0"
+  },
+  "peerDependenciesMeta": {
+    "idb": {
+      "optional": true
+    }
+  }
+}
