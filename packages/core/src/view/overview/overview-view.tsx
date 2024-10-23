@@ -1,6 +1,7 @@
 import type { ReactElement } from 'react'
-import styles from './overview.module.scss'
+import '@toast-ui/editor/dist/toastui-editor.css'
 import { TFunction } from 'i18next'
+import { Editor } from '@toast-ui/react-editor'
 
 interface Props {
   msg: string
@@ -9,12 +10,6 @@ interface Props {
 }
 
 const DemoView = ({ msg, onClick, t }: Props): ReactElement => (
-  <div>
-    <h1>{t('demo.Welcome to React')}</h1>
-    <h1 className={styles.text}>{msg}</h1>
-    <button type="button" className={styles.button} onClick={onClick}>
-      click
-    </button>
-  </div>
+  <Editor initialEditType="wysiwyg" />
 )
 export default DemoView
