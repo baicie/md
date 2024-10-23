@@ -10,15 +10,10 @@ import { observer } from 'mobx-react-lite'
 import { useEffect, useState } from 'react'
 import { I18nextProvider, useTranslation } from 'react-i18next'
 import { RouterProvider } from 'react-router-dom'
-import 'reflect-metadata'
-import { registerGlobalModules } from './di.ts'
-import { useInjectable } from './hooks/use-di.ts'
-import './index.css'
-import locales from './locales/index.ts'
-import router from './router/index.tsx'
-import { Config } from './store/config.ts'
-
-registerGlobalModules()
+import router from './router'
+import { useInjectable } from './hooks/use-di'
+import { Config } from './store/config'
+import locales from './locales'
 
 export default observer(() => {
   const { i18n } = useTranslation()
