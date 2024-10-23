@@ -2,9 +2,11 @@
   "name": "@baicie/md-db",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./lib/index.js",
+  "module": "./es/index.js",
+  "types": "./es/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "pnpm bai build -d"
   },
   "keywords": [],
   "author": "",
