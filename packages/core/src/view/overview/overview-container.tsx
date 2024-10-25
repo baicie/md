@@ -1,24 +1,34 @@
+import { Color } from '@tiptap/extension-color'
+import ListItem from '@tiptap/extension-list-item'
+import TextStyle from '@tiptap/extension-text-style'
+import StarterKit from '@tiptap/starter-kit'
 import { observer } from 'mobx-react-lite'
-import { useCallback } from 'react'
 import { useInjectable } from '../../hooks/use-di'
 import { useLogger } from '../../hooks/use-logger'
 import { Demo } from '../../store/demo'
 import OverviewView from './overview-view'
-import { useTranslation } from 'react-i18next'
+import { useState } from 'react'
 
 export default observer(() => {
   const demo = useInjectable(Demo)
   const logger = useLogger()
-  const { t } = useTranslation()
 
-  const handleClick = useCallback(() => {
-    logger.debug('click debug')
-    logger.info('click info')
-    logger.warn('click warn')
-    logger.error('click error')
+  const [content, setContent] = useState()
 
-    demo.doSth()
-  }, [demo, logger])
+  const extensions = [
+    Color.configure({ types: [TextStyle.name, ListItem.name] }),
+    TextStyle,
+    StarterKit.configure({
+      bulletList: {
+        keepMarks: true,
+        keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
+      },
+      orderedList: {
+        keepMarks: true,
+        keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
+      },
+    }),
+  ]
 
-  return <OverviewView msg={demo.msg} onClick={handleClick} t={t} />
+  return <OverviewView extensions={extensions} content={content} />
 })
