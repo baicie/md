@@ -1,5 +1,7 @@
 import type { ReactElement } from 'react'
-import { EditorProvider, Extensions, Content } from '@tiptap/react'
+import { Extensions, Content } from '@tiptap/react'
+import './overview.module.scss'
+import TipTap from '@/tiptap/app/page'
 
 interface Props {
   extensions?: Extensions
@@ -7,12 +9,6 @@ interface Props {
 }
 
 const DemoView = ({ extensions, content }: Props): ReactElement => {
-  return (
-    <EditorProvider
-      // slotBefore={<MenuBar />}
-      extensions={extensions}
-      content={content}
-    ></EditorProvider>
-  )
+  return <TipTap />
 }
 export default DemoView

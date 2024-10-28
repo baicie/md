@@ -1,6 +1,11 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import path from 'node:path'
+import tailwindcss from 'tailwindcss'
+import autoprefixer from 'autoprefixer'
+import defaultTheme from 'tailwindcss/defaultTheme'
+import tailwindcssAnimate from 'tailwindcss-animate'
+import tailwindcssTypography from '@tailwindcss/typography'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -31,6 +36,26 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, '../core/src'),
+    },
+  },
+  css: {
+    postcss: {
+      plugins: [
+        tailwindcss({
+          darkMode: ['class'],
+          content: ['./tiptap/**/*.{ts,tsx}'],
+          safelist: ['ProseMirror'],
+          theme: {
+            extend: {
+              fontFamily: {
+                sans: ['Inter', ...defaultTheme.fontFamily.sans],
+              },
+            },
+          },
+          plugins: [tailwindcssAnimate, tailwindcssTypography],
+        }),
+        autoprefixer(),
+      ],
     },
   },
 })

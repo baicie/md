@@ -1,6 +1,6 @@
 {
   "name": "@baicie/md-db",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "",
   "main": "./lib/index.js",
   "module": "./es/index.js",
