@@ -43,7 +43,7 @@ export default defineConfig({
       plugins: [
         tailwindcss({
           darkMode: ['class'],
-          content: ['./tiptap/**/*.{ts,tsx}'],
+          content: ['../core/tiptap/**/*.{ts,tsx}'],
           safelist: ['ProseMirror'],
           theme: {
             extend: {

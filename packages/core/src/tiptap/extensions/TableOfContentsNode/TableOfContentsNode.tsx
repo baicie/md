@@ -1,15 +1,10 @@
 import { Node, NodeViewRendererProps } from '@tiptap/core'
 import { NodeViewWrapper, ReactNodeViewRenderer } from '@tiptap/react'
-import { TableOfContents } from '@/tiptap/components/TableOfContents'
 
 const TableOfNodeContent = (props: NodeViewRendererProps) => {
-  const { editor } = props
-
   return (
     <NodeViewWrapper>
-      <div className="p-2 -m-2 rounded-lg" contentEditable={false}>
-        <TableOfContents editor={editor} />
-      </div>
+      <div className="p-2 -m-2 rounded-lg" contentEditable={false}></div>
     </NodeViewWrapper>
   )
 }

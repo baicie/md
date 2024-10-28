@@ -8,7 +8,7 @@ interface Props {
   content?: Content
 }
 
-const DemoView = ({ extensions, content }: Props): ReactElement => {
+const DemoView = ({}: Props): ReactElement => {
   return <TipTap />
 }
 export default DemoView

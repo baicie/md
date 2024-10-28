@@ -1,10 +1,5 @@
-import { Icon } from '@/tiptap/components/ui/Icon'
-import { Toolbar } from '@/tiptap/components/ui/Toolbar'
 import { Editor } from '@tiptap/react'
 
-import * as Popover from '@radix-ui/react-popover'
-import { Surface } from '@/tiptap/components/ui/Surface'
-import { DropdownButton } from '@/tiptap/components/ui/Dropdown'
 import useContentItemActions from './hooks/useContentItemActions'
 import { useData } from './hooks/useData'
 import { useEffect, useState } from 'react'
