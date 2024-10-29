@@ -1,14 +1,11 @@
 import type { ReactElement } from 'react'
-import { Extensions, Content } from '@tiptap/react'
 import './overview.module.scss'
-import TipTap from '@/tiptap/app/page'
+import { BlockEditor } from '@baicie/md-tiptap'
+import '@baicie/md-tiptap/style'
 
-interface Props {
-  extensions?: Extensions
-  content?: Content
-}
+interface Props {}
 
 const DemoView = ({}: Props): ReactElement => {
-  return <TipTap />
+  return <BlockEditor />
 }
 export default DemoView
