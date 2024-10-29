@@ -1,13 +1,5 @@
-import { TiptapCollabProvider } from '@hocuspocus/provider'
 import 'iframe-resizer/js/iframeResizer.contentWindow'
-import { useSearchParams } from 'next/navigation'
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useState,
-} from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Doc as YDoc } from 'yjs'
 
 import { BlockEditor } from '@/components/BlockEditor'
@@ -29,11 +21,7 @@ import '@fontsource/inter/600.css'
 import '@fontsource/inter/700.css'
 
 const useDarkmode = () => {
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(
-    typeof window !== 'undefined'
-      ? window.matchMedia('(prefers-color-scheme: dark)').matches
-      : false,
-  )
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(false)
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
@@ -63,29 +51,8 @@ const useDarkmode = () => {
 
 export default function Document() {
   const { isDarkMode, darkMode, lightMode } = useDarkmode()
-  const [provider, setProvider] = useState<TiptapCollabProvider | null>(null)
-  const [collabToken, setCollabToken] = useState<string | null | undefined>()
-  const [aiToken, setAiToken] = useState<string | null | undefined>()
-  const searchParams = useSearchParams()
-
-  const hasCollab =
-    parseInt(searchParams?.get('noCollab') as string) !== 1 &&
-    collabToken !== null
 
   const ydoc = useMemo(() => new YDoc(), [])
-
-  useLayoutEffect(() => {
-    if (hasCollab && collabToken) {
-      setProvider(
-        new TiptapCollabProvider({
-          name: `${process.env.NEXT_PUBLIC_COLLAB_DOC_PREFIX}`,
-          appId: process.env.NEXT_PUBLIC_TIPTAP_COLLAB_APP_ID ?? '',
-          token: collabToken,
-          document: ydoc,
-        }),
-      )
-    }
-  }, [setProvider, collabToken, ydoc, hasCollab])
 
   const DarkModeSwitcher = createPortal(
     <Surface className="flex items-center gap-1 fixed bottom-6 right-6 z-[99999] p-1">
