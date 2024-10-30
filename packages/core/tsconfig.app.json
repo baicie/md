@@ -25,7 +25,8 @@
 
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@tip/*": ["src/tiptap/*"]
     }
   },
   "include": ["src", "tiptap"]
