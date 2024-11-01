@@ -1,4 +1,4 @@
-import { ConfigProvider } from 'antd'
+import { ConfigProvider, theme } from 'antd'
 import enUS from 'antd/lib/locale/en_US'
 import frFR from 'antd/lib/locale/fr_FR'
 import zhCN from 'antd/lib/locale/zh_CN'
@@ -61,7 +61,12 @@ export default observer(() => {
   }, [])
 
   return (
-    <ConfigProvider locale={antdLocale}>
+    <ConfigProvider
+      locale={antdLocale}
+      theme={{
+        algorithm: theme.defaultAlgorithm,
+      }}
+    >
       <I18nextProvider i18n={locales}>
         <RouterProvider router={router} />
       </I18nextProvider>

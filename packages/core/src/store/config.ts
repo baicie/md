@@ -1,4 +1,3 @@
-import { getConfig } from '@/service/config'
 import { action, computed, makeObservable, observable } from 'mobx'
 import { singleton } from 'tsyringe'
 
@@ -13,10 +12,7 @@ export class Config {
   }
 
   @action
-  public async queryConfig() {
-    const res = await getConfig()
-    this.config = res
-  }
+  public async queryConfig() {}
 
   @computed
   get env() {
