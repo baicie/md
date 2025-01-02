@@ -5,7 +5,7 @@ import { Outlet, useNavigate } from 'react-router-dom'
 import MdSider from './sider'
 import MdFolders from './folders'
 
-const { Content } = Layout
+const { Content, Sider, Header } = Layout
 
 const DeftLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false)
@@ -36,20 +36,28 @@ const DeftLayout: React.FC = () => {
   return (
     <Layout>
       <MdSider></MdSider>
-      <Content
-        style={{
-          overflow: 'hidden',
-          height: '100vh',
-          background: colorBgContainer,
-          borderRadius: borderRadiusLG,
-        }}
-      >
-        <Flex gap="small">
+      <Layout>
+        <Sider>
           <MdFolders></MdFolders>
+        </Sider>
 
-          <Outlet />
-        </Flex>
-      </Content>
+        <Layout>
+          {/* TODO: 顶部导航栏 文件类型+菜单 */}
+          <Header></Header>
+
+          <Content
+            style={{
+              margin: '0',
+              overflow: 'initial',
+              height: 'calc(100vh - 64px)',
+              background: colorBgContainer,
+              borderRadius: borderRadiusLG,
+            }}
+          >
+            <Outlet />
+          </Content>
+        </Layout>
+      </Layout>
     </Layout>
   )
 }

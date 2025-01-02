@@ -1,3 +1,4 @@
+import type { Theme } from '@/theme'
 import { action, computed, makeObservable, observable } from 'mobx'
 import { singleton } from 'tsyringe'
 
@@ -6,9 +7,17 @@ export class Config {
   @observable
   public config = {}
 
+  @observable
+  public theme: Theme = 'default'
+
   @action
   public setConfig(config: any) {
     this.config = config
+  }
+
+  @action
+  public setTheme(theme: Theme) {
+    this.theme = theme
   }
 
   @action

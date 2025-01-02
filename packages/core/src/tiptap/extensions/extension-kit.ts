@@ -1,5 +1,3 @@
-'use client'
-
 import { HocuspocusProvider } from '@hocuspocus/provider'
 import { Markdown } from 'tiptap-markdown'
 

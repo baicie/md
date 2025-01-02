@@ -54,7 +54,7 @@ export default defineConfig({
             },
           },
           plugins: [tailwindcssAnimate, tailwindcssTypography],
-        }),
+        }) as any,
         autoprefixer(),
       ],
     },

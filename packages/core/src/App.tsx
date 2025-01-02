@@ -1,4 +1,4 @@
-import { ConfigProvider, theme } from 'antd'
+import { ConfigProvider } from 'antd'
 import enUS from 'antd/lib/locale/en_US'
 import frFR from 'antd/lib/locale/fr_FR'
 import zhCN from 'antd/lib/locale/zh_CN'
@@ -17,6 +17,7 @@ import './index.css'
 import locales from './locales/index.ts'
 import router from './router/index.tsx'
 import { Config } from './store/config.ts'
+import { themes } from './theme/index.ts'
 
 registerGlobalModules()
 
@@ -61,12 +62,7 @@ export default observer(() => {
   }, [])
 
   return (
-    <ConfigProvider
-      locale={antdLocale}
-      theme={{
-        algorithm: theme.defaultAlgorithm,
-      }}
-    >
+    <ConfigProvider locale={antdLocale} theme={themes[config.theme]}>
       <I18nextProvider i18n={locales}>
         <RouterProvider router={router} />
       </I18nextProvider>

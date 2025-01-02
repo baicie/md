@@ -7,7 +7,7 @@ import Suggestion, {
 import { PluginKey } from '@tiptap/pm/state'
 import tippy from 'tippy.js'
 
-import { GROUPS } from './groups'
+import { useSlashCommandGroups } from './groups'
 import { MenuList } from './MenuList'
 
 const extensionName = 'slashCommand'
@@ -85,7 +85,8 @@ export const SlashCommand = Extension.create({
           view.focus()
         },
         items: ({ query }: { query: string }) => {
-          const withFilteredCommands = GROUPS.map((group) => ({
+          const groups = useSlashCommandGroups()
+          const withFilteredCommands = groups.map((group) => ({
             ...group,
             commands: group.commands
               .filter((item) => {
@@ -277,5 +278,4 @@ export const SlashCommand = Extension.create({
     }
   },
 })
-
 export default SlashCommand

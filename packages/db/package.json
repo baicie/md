@@ -12,7 +12,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "idb": "^8.0.0"
+    "idb": "^8.0.1"
   },
   "peerDependencies": {
     "idb": "^8.0.0"
