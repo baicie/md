@@ -1,4 +1,4 @@
-import { Flex, Layout, MenuProps, theme } from 'antd'
+import { Layout, MenuProps, theme, Splitter } from 'antd'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Outlet, useNavigate } from 'react-router-dom'
@@ -36,19 +36,27 @@ const DeftLayout: React.FC = () => {
   return (
     <Layout>
       <MdSider></MdSider>
-      <Layout>
+      <Layout
+        style={{
+          borderTopLeftRadius: '12px',
+          borderTopRightRadius: '12px',
+          backgroundColor: '#fff',
+          overflow: 'hidden',
+          boxShadow: '-2px 0 4px #00000005',
+        }}
+      >
         <Sider>
           <MdFolders></MdFolders>
         </Sider>
 
         <Layout>
           {/* TODO: 顶部导航栏 文件类型+菜单 */}
-          <Header></Header>
+          <Header>Header TODO</Header>
 
           <Content
             style={{
               margin: '0',
-              overflow: 'initial',
+              overflow: 'auto',
               height: 'calc(100vh - 64px)',
               background: colorBgContainer,
               borderRadius: borderRadiusLG,

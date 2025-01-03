@@ -5,6 +5,10 @@ import { BlockEditor } from '@/tiptap'
 interface Props {}
 
 const DemoView = ({}: Props): ReactElement => {
-  return <BlockEditor />
+  return (
+    <div style={{ padding: '0 44px' }}>
+      <BlockEditor />
+    </div>
+  )
 }
 export default DemoView

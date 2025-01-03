@@ -6,6 +6,7 @@ import autoprefixer from 'autoprefixer'
 import defaultTheme from 'tailwindcss/defaultTheme'
 import tailwindcssAnimate from 'tailwindcss-animate'
 import tailwindcssTypography from '@tailwindcss/typography'
+import svgr from 'vite-plugin-svgr'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -13,6 +14,7 @@ export default defineConfig({
     react({
       tsDecorators: true,
     }),
+    svgr({ svgrOptions: { icon: true } }),
   ],
   build: {
     emptyOutDir: true,
