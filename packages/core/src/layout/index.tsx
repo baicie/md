@@ -1,9 +1,10 @@
-import { Layout, MenuProps, theme, Splitter } from 'antd'
+import { Layout, theme } from 'antd'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Outlet, useNavigate } from 'react-router-dom'
 import MdSider from './sider'
-import MdFolders from './folders'
+import Folders from './folders'
+import type { MenuProps } from 'antd'
 
 const { Content, Sider, Header } = Layout
 
@@ -34,7 +35,7 @@ const DeftLayout: React.FC = () => {
   ]
 
   return (
-    <Layout>
+    <Layout style={{ backgroundColor: '#fff' }}>
       <MdSider></MdSider>
       <Layout
         style={{
@@ -45,13 +46,11 @@ const DeftLayout: React.FC = () => {
           boxShadow: '-2px 0 4px #00000005',
         }}
       >
-        <Sider>
-          <MdFolders></MdFolders>
-        </Sider>
+        <Folders></Folders>
 
         <Layout>
           {/* TODO: 顶部导航栏 文件类型+菜单 */}
-          <Header>Header TODO</Header>
+          <Header style={{ backgroundColor: '#fff' }}>Header TODO</Header>
 
           <Content
             style={{

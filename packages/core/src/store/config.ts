@@ -1,31 +1,41 @@
-import type { Theme } from '@/theme'
+import type { StorageType } from '@/service/types'
+import { persistent } from '@/utils/decorators'
 import { action, computed, makeObservable, observable } from 'mobx'
 import { singleton } from 'tsyringe'
 
 @singleton()
 export class Config {
   @observable
-  public config = {}
+  public config = {
+    apiUrl: '',
+    token: '',
+  }
 
   @observable
-  public theme: Theme = 'default'
+  @persistent()
+  public storageType: StorageType = 'local'
 
   @action
-  public setConfig(config: any) {
+  public setConfig(config: typeof this.config) {
     this.config = config
   }
 
   @action
-  public setTheme(theme: Theme) {
-    this.theme = theme
+  public setStorageType(type: StorageType) {
+    this.storageType = type
   }
 
-  @action
-  public async queryConfig() {}
-
   @computed
-  get env() {
-    return this.config
+  get currentConfig() {
+    return {
+      storageType: this.storageType,
+      apiUrl: this.config.apiUrl,
+      token: this.config.token,
+    }
+  }
+
+  public queryConfig() {
+    return this.currentConfig
   }
 
   constructor() {
