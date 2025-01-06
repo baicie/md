@@ -27,17 +27,17 @@
 
 #### 20:00-21:00 配置开发环境
 
-- [ ] 配置 TypeScript
-- [ ] 配置 ESLint 和 Prettier
-- [ ] 配置 Git 工作流
-- [ ] 配置 CI/CD 基础
+- [x] 配置 TypeScript
+- [x] 配置 ESLint 和 Prettier
+- [x] 配置 Git 工作流
+- [x] 配置 CI/CD 基础
 
 #### 21:00-23:00 创建基础项目
 
-- [ ] 初始化前端项目（Vite + React）
-- [ ] 初始化后端项目（NestJS）
-- [ ] 初始化 Tauri 项目
-- [ ] 测试项目基础功能
+- [x] 初始化前端项目（Vite + React）
+- [x] 初始化后端项目（NestJS）
+- [x] 初始化 Tauri 项目
+- [x] 测试项目基础功能
 
 ### Day 2（周二）：编辑器核心
 

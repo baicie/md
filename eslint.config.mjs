@@ -33,6 +33,8 @@ export default tseslint.config(
       '**/coverage/**',
       '**/vite.config.ts',
       '**/vitest.config.ts',
+      '**/tailwind.config.js',
+      '**/postcss.config.js',
     ],
   },
 
