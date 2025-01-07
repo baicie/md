@@ -13,6 +13,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+        # 自动安装 Rust
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+        # 自动设置 Rust 缓存
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
