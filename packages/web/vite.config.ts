@@ -13,6 +13,9 @@ export default defineConfig(({ mode }) => {
         '@': path.resolve(__dirname, './src'),
       },
     },
+    server: {
+      port: 1420,
+    },
     define: {
       __PLATFORM__: JSON.stringify(env.VITE_APP_PLATFORM || 'web'),
       __VERSION__: JSON.stringify(env.VITE_APP_VERSION),
@@ -20,10 +23,22 @@ export default defineConfig(({ mode }) => {
       __APP_NAME__: JSON.stringify('MD Editor'),
     },
     build: {
-      outDir:
-        process.env.VITE_APP_PLATFORM === 'desktop'
-          ? '../desktop/dist'
-          : 'dist',
+      emptyOutDir: true,
+      rollupOptions: {
+        output: {
+          chunkFileNames: 'js/[name].[hash].js',
+          entryFileNames: 'js/[name].[hash].js',
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              const directories = id.toString().split('node_modules/')
+              if (directories.length > 2) {
+                return directories[2].split('/')[0].toString()
+              }
+              return directories[1].split('/')[0].toString()
+            }
+          },
+        },
+      },
     },
   }
 })

@@ -9,6 +9,10 @@
     },
     "stub": {
       "cache": true
+    },
+    "desktop-dev": {
+      "cache": true,
+      "dependsOn": ["build"]
     }
   },
   "ui": "stream"

@@ -27,7 +27,7 @@ export default tseslint.config(
   // 忽略文件
   {
     ignores: [
-      '**/dist/**',
+      '**/{dist,target}/**',
       '**/node_modules/**',
       '**/.turbo/**',
       '**/coverage/**',
