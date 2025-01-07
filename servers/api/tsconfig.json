@@ -20,7 +20,8 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@/*": ["src/*"]
-    }
+    },
+    "types": ["node", "vitest/globals", "@nestjs/testing"]
   },
   "include": ["src", "index.d.ts", "test"],
   "exclude": ["static"]

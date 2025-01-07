@@ -5,7 +5,7 @@
     "preinstall": "npx only-allow pnpm",
     "postinstall": "simple-git-hooks && pnpm run stub",
     "format": "prettier --write --cache .",
-    "lint": "eslint . --ext .ts,.tsx",
+    "lint": "eslint . --cache",
     "typecheck": "echo typecheck",
     "server-dev": "turbo run dev --filter=./servers/*",
     "server-build": "turbo run build --filter=./servers/*",

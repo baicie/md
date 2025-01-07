@@ -1,4 +1,3 @@
-import swc from 'unplugin-swc'
 import { defineConfig, defineWorkspace } from 'vitest/config'
 
 const commonConfig = defineConfig({
@@ -16,11 +15,6 @@ const commonConfig = defineConfig({
     target: 'node18',
   },
   publicDir: false,
-  plugins: [
-    swc.vite({
-      module: { type: 'es6' },
-    }),
-  ],
 })
 
 // defineWorkspace 会提供一个很好的类型提示开发体验

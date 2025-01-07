@@ -120,7 +120,7 @@ export default tseslint.config(
 
   // 测试文件配置
   {
-    files: ['**/__tests__/**/*.{ts,tsx}', '**/*.test.{ts,tsx}'],
+    files: ['**/__tests__/**/*.{ts,tsx}', '**/*.{test,spec}.{ts,tsx}'],
     rules: {
       'no-console': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
