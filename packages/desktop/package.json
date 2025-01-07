@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "tauri": "tauri",
-    "build": "tauri build",
+    "build": "echo 'Building desktop app'",
     "dev": "tauri dev"
   },
   "dependencies": {

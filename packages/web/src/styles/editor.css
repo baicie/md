@@ -1,0 +1,36 @@
+.ProseMirror {
+  @apply p-4;
+
+  &:focus {
+    @apply outline-none;
+  }
+
+  > * + * {
+    @apply mt-4;
+  }
+
+  ul,
+  ol {
+    @apply pl-4;
+  }
+
+  blockquote {
+    @apply pl-4 border-l-4 border-neutral-200 dark:border-neutral-800;
+  }
+
+  pre {
+    @apply bg-neutral-100 dark:bg-neutral-900 p-4 rounded;
+  }
+
+  [data-drag-handle] {
+    @apply opacity-0 transition-opacity;
+  }
+
+  *:hover > [data-drag-handle] {
+    @apply opacity-100;
+  }
+}
+
+[data-active='true'] {
+  @apply bg-accent text-accent-foreground;
+}
