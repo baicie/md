@@ -7,9 +7,10 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { SettingsService } from './settings.service';
+
 import { CreateSettingDto } from './dto/create-setting.dto';
 import { UpdateSettingDto } from './dto/update-setting.dto';
+import { SettingsService } from './settings.service';
 
 @Controller('settings')
 export class SettingsController {

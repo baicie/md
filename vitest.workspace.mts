@@ -1,5 +1,4 @@
-import { defineWorkspace } from 'vitest/config'
-import { configDefaults } from 'vitest/config'
+import { defineWorkspace, configDefaults } from 'vitest/config'
 
 export default defineWorkspace([
   {

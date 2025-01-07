@@ -10,6 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@milkdown/core": "^7.5.9",
+    "@milkdown/ctx": "^7.5.9",
+    "@milkdown/plugin-math": "^7.5.9",
+    "@milkdown/plugin-slash": "^7.5.9",
+    "@milkdown/plugin-tooltip": "^7.5.9",
+    "@milkdown/preset-commonmark": "^7.5.9",
+    "@milkdown/theme-nord": "^7.5.9",
+    "@milkdown/transformer": "^7.5.9",
     "@radix-ui/react-slot": "^1.1.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

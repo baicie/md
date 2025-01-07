@@ -1,12 +1,14 @@
 // @ts-check
+import { fileURLToPath } from 'node:url'
+
 import { FlatCompat } from '@eslint/eslintrc'
 import eslint from '@eslint/js'
+import importPlugin from 'eslint-plugin-import'
 import jsxA11yPlugin from 'eslint-plugin-jsx-a11y'
 import reactPlugin from 'eslint-plugin-react'
 import reactHooksPlugin from 'eslint-plugin-react-hooks'
 import reactRefreshPlugin from 'eslint-plugin-react-refresh'
 import globals from 'globals'
-import { fileURLToPath } from 'node:url'
 import * as tseslint from 'typescript-eslint'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
@@ -21,6 +23,7 @@ export default tseslint.config(
       react: reactPlugin,
       'react-hooks': reactHooksPlugin,
       'react-refresh': reactRefreshPlugin,
+      import: importPlugin,
     },
   },
 
@@ -70,6 +73,46 @@ export default tseslint.config(
         },
       ],
       'no-console': 'error',
+      'import/order': [
+        'error',
+        {
+          groups: [
+            'builtin', // node 内置模块
+            'external', // 外部模块
+            'internal', // 内部模块
+            ['parent', 'sibling'], // 父级和兄弟模块
+            'index', // 当前目录下的模块
+            'object', // 对象导入
+            'type', // 类型导入
+          ],
+          'newlines-between': 'always', // 不同组之间空行
+          alphabetize: {
+            order: 'asc', // 按字母顺序
+            caseInsensitive: true,
+          },
+        },
+      ],
+
+      // 类型导入必须使用 type
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        {
+          prefer: 'type-imports',
+          fixStyle: 'separate-type-imports',
+          disallowTypeAnnotations: true,
+        },
+      ],
+
+      // 类型导出必须使用 type
+      '@typescript-eslint/consistent-type-exports': [
+        'error',
+        {
+          fixMixedExportsWithInlineTypeSpecifier: true,
+        },
+      ],
+
+      // 禁止重复导入
+      'import/no-duplicates': 'error',
     },
   },
 

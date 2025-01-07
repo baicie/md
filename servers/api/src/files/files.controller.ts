@@ -7,9 +7,10 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { FilesService } from './files.service';
+
 import { CreateFileDto } from './dto/create-file.dto';
 import { UpdateFileDto } from './dto/update-file.dto';
+import { FilesService } from './files.service';
 
 @Controller('files')
 export class FilesController {
