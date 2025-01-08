@@ -10,7 +10,4 @@ uploads
 **/uploads
 .vscode
 coverage
-
-# output
-es
-lib
+!internal/*/dist

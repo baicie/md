@@ -1,4 +1,4 @@
 packages:
   - 'packages/*'
   - 'servers/*'
-  - 'tiptap-templates'
+  - 'internal/*'

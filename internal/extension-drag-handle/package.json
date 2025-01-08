@@ -1,0 +1,30 @@
+{
+  "name": "@baicie/md-extension-drag-handle",
+  "version": "0.0.0",
+  "private": true,
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "peerDependencies": {
+    "@baicie/md-extension-node-range": "workspace:*",
+    "@tiptap/core": "^2.0.0",
+    "@tiptap/extension-collaboration": "^2.0.0",
+    "@tiptap/pm": "^2.0.0",
+    "y-prosemirror": "^1.2.5"
+  },
+  "dependencies": {
+    "tippy.js": "^6.3.7"
+  },
+  "devDependencies": {
+    "@baicie/md-extension-node-range": "workspace:*",
+    "@tiptap/core": "^2.0.0",
+    "@tiptap/extension-collaboration": "^2.0.0",
+    "@tiptap/pm": "^2.0.0",
+    "tippy.js": "^6.3.7",
+    "y-prosemirror": "^1.2.12"
+  },
+  "scripts": {}
+}

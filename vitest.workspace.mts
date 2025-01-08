@@ -1,17 +1,7 @@
-import { defineWorkspace, configDefaults } from 'vitest/config'
+import { configDefaults, defineWorkspace } from 'vitest/config'
 
 export default defineWorkspace([
-  {
-    extends: './packages/web/vitest.config.ts',
-    test: {
-      name: 'web',
-      root: './packages/web',
-      environment: 'jsdom',
-      setupFiles: ['./src/test/setup.ts'],
-      include: ['src/**/*.{test,spec}.{ts,tsx}'],
-      exclude: [...configDefaults.exclude],
-    },
-  },
+  './packages/web/vitest.config.ts',
   {
     extends: './packages/desktop/vitest.config.ts',
     test: {

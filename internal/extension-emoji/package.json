@@ -1,0 +1,30 @@
+{
+  "name": "@baicie/md-extension-emoji",
+  "version": "0.0.0",
+  "private": true,
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "peerDependencies": {
+    "@tiptap/core": "^2.0.0",
+    "@tiptap/pm": "^2.0.0",
+    "@tiptap/suggestion": "^2.0.0"
+  },
+  "dependencies": {
+    "emoji-regex": "^10.4.0",
+    "emojibase-data": "^7.0.1",
+    "is-emoji-supported": "^0.0.5"
+  },
+  "devDependencies": {
+    "@tiptap/core": "^2.0.0",
+    "@tiptap/pm": "^2.0.0",
+    "@tiptap/suggestion": "^2.0.0",
+    "emoji-datasource": "^7.0.2",
+    "json5": "^2.2.3",
+    "tsm": "^2.3.0"
+  },
+  "scripts": {}
+}

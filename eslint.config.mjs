@@ -68,11 +68,15 @@ export default tseslint.config(
         {
           args: 'all',
           argsIgnorePattern: '^_',
+          caughtErrors: 'all',
+          caughtErrorsIgnorePattern: '^_',
+          destructuredArrayIgnorePattern: '^_',
           varsIgnorePattern: '^_',
           ignoreRestSiblings: true,
         },
       ],
       'no-console': 'error',
+
       'import/order': [
         'error',
         {
@@ -85,11 +89,7 @@ export default tseslint.config(
             'object', // 对象导入
             'type', // 类型导入
           ],
-          'newlines-between': 'always', // 不同组之间空行
-          alphabetize: {
-            order: 'asc', // 按字母顺序
-            caseInsensitive: true,
-          },
+          'newlines-between': 'always',
         },
       ],
 

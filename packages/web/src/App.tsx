@@ -1,4 +1,5 @@
-// import TiptapEditor from './components/tiptap'
+import { BlockEditor } from './components/editor'
+import { useCollaboration } from './hooks/useCollaboration'
 
 import {
   ResizableHandle,
@@ -9,6 +10,11 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 
 export default function App() {
+  const providerState = useCollaboration({
+    docId: '123',
+    enabled: true,
+  })
+
   return (
     <div className="h-screen w-full flex flex-col">
       {/* 顶部工具栏 */}
@@ -39,7 +45,10 @@ export default function App() {
               <div className="flex-1">Document Title</div>
             </div>
             <ScrollArea className="flex-1 w-full p-4">
-              {/* <TiptapEditor /> */}
+              <BlockEditor
+                ydoc={providerState.yDoc}
+                provider={providerState.provider}
+              />
             </ScrollArea>
           </div>
         </ResizablePanel>
