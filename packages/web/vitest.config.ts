@@ -11,7 +11,7 @@ export default defineProject({
     isolate: false,
     globals: true,
     setupFiles: ['./test/setup.ts'],
-    environment: 'jsdom',
+    environment: 'happy-dom',
   },
   esbuild: {
     target: 'node18',

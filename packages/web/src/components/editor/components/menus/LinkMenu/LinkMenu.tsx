@@ -55,7 +55,7 @@ export const LinkMenu = ({ editor, appendTo }: MenuProps): JSX.Element => {
           modifiers: [{ name: 'flip', enabled: false }],
         },
         appendTo: () => {
-          return appendTo?.current
+          return appendTo?.current || document.body
         },
         onHidden: () => {
           setShowEdit(false)

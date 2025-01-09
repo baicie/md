@@ -54,7 +54,7 @@ export const useBlockEditor = ({
       extensions: [
         ...ExtensionKit({
           provider,
-        }),
+        }).filter((e) => e !== undefined),
         provider && ydoc
           ? Collaboration.configure({
               document: ydoc,

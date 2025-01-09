@@ -16,6 +16,7 @@ import {
   Document,
   Dropcursor,
   Emoji,
+  emojiSuggestion,
   Figcaption,
   FileHandler,
   Focus,
@@ -23,6 +24,7 @@ import {
   FontSize,
   Heading,
   Highlight,
+  History,
   HorizontalRule,
   ImageBlock,
   Link,
@@ -45,7 +47,6 @@ import {
   Typography,
   Underline,
   UniqueID,
-  emojiSuggestion,
 } from '.'
 
 import type { HocuspocusProvider } from '@hocuspocus/provider'
@@ -55,9 +56,13 @@ import API from '@/lib/api'
 
 interface ExtensionKitProps {
   provider?: HocuspocusProvider | null
+  disableUniqueID?: boolean
 }
 
-export const ExtensionKit = ({ provider }: ExtensionKitProps) => [
+export const ExtensionKit = ({
+  provider,
+  disableUniqueID,
+}: ExtensionKitProps) => [
   Document,
   Columns,
   TaskList,
@@ -70,11 +75,13 @@ export const ExtensionKit = ({ provider }: ExtensionKitProps) => [
     levels: [1, 2, 3, 4, 5, 6],
   }),
   HorizontalRule,
-  UniqueID.configure({
-    types: ['paragraph', 'heading', 'blockquote', 'codeBlock', 'table'],
-    filterTransaction: (transaction: Transaction) =>
-      !isChangeOrigin(transaction),
-  }),
+  disableUniqueID
+    ? undefined
+    : UniqueID.configure({
+        types: ['paragraph', 'heading', 'blockquote', 'codeBlock', 'table'],
+        filterTransaction: (transaction: Transaction) =>
+          !isChangeOrigin(transaction),
+      }),
   StarterKit.configure({
     document: false,
     dropcursor: false,
@@ -94,6 +101,7 @@ export const ExtensionKit = ({ provider }: ExtensionKitProps) => [
   DetailsSummary,
   CodeBlock,
   TextStyle,
+  History,
   FontSize,
   FontFamily,
   Color,
