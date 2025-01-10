@@ -1,28 +1,6 @@
 import type { Group } from './types'
 
 export const GROUPS: Group[] = [
-  // {
-  //   name: 'ai',
-  //   title: 'AI',
-  //   commands: [
-  //     {
-  //       name: 'aiWriter',
-  //       label: 'AI Writer',
-  //       iconName: 'Sparkles',
-  //       description: 'Let AI finish your thoughts',
-  //       shouldBeHidden: (editor) => editor.isActive('columns'),
-  //       action: (editor) => editor.chain().focus().setAiWriter().run(),
-  //     },
-  //     {
-  //       name: 'aiImage',
-  //       label: 'AI Image',
-  //       iconName: 'Sparkles',
-  //       description: 'Generate an image from text',
-  //       shouldBeHidden: (editor) => editor.isActive('columns'),
-  //       action: (editor) => editor.chain().focus().setAiImage().run(),
-  //     },
-  //   ],
-  // },
   {
     name: 'format',
     title: 'Format',
@@ -36,6 +14,7 @@ export const GROUPS: Group[] = [
         action: (editor) => {
           editor.chain().focus().setHeading({ level: 1 }).run()
         },
+        isActive: (editor) => editor.isActive('heading', { level: 1 }),
       },
       {
         name: 'heading2',
@@ -46,6 +25,7 @@ export const GROUPS: Group[] = [
         action: (editor) => {
           editor.chain().focus().setHeading({ level: 2 }).run()
         },
+        isActive: (editor) => editor.isActive('heading', { level: 2 }),
       },
       {
         name: 'heading3',
@@ -56,6 +36,7 @@ export const GROUPS: Group[] = [
         action: (editor) => {
           editor.chain().focus().setHeading({ level: 3 }).run()
         },
+        isActive: (editor) => editor.isActive('heading', { level: 3 }),
       },
       {
         name: 'bulletList',
@@ -66,6 +47,7 @@ export const GROUPS: Group[] = [
         action: (editor) => {
           editor.chain().focus().toggleBulletList().run()
         },
+        isActive: (editor) => editor.isActive('bulletList'),
       },
       {
         name: 'numberedList',
@@ -76,6 +58,7 @@ export const GROUPS: Group[] = [
         action: (editor) => {
           editor.chain().focus().toggleOrderedList().run()
         },
+        isActive: (editor) => editor.isActive('orderedList'),
       },
       {
         name: 'taskList',
@@ -86,6 +69,7 @@ export const GROUPS: Group[] = [
         action: (editor) => {
           editor.chain().focus().toggleTaskList().run()
         },
+        isActive: (editor) => editor.isActive('taskList'),
       },
       {
         name: 'toggleList',
@@ -96,6 +80,7 @@ export const GROUPS: Group[] = [
         action: (editor) => {
           editor.chain().focus().setDetails().run()
         },
+        isActive: (editor) => editor.isActive('details'),
       },
       {
         name: 'blockquote',
@@ -105,6 +90,7 @@ export const GROUPS: Group[] = [
         action: (editor) => {
           editor.chain().focus().setBlockquote().run()
         },
+        isActive: (editor) => editor.isActive('blockquote'),
       },
       {
         name: 'codeBlock',
@@ -115,6 +101,7 @@ export const GROUPS: Group[] = [
         action: (editor) => {
           editor.chain().focus().setCodeBlock().run()
         },
+        isActive: (editor) => editor.isActive('codeBlock'),
       },
     ],
   },
@@ -135,6 +122,7 @@ export const GROUPS: Group[] = [
             .insertTable({ rows: 3, cols: 3, withHeaderRow: false })
             .run()
         },
+        isActive: (editor) => editor.isActive('table'),
       },
       {
         name: 'image',
@@ -145,6 +133,7 @@ export const GROUPS: Group[] = [
         action: (editor) => {
           editor.chain().focus().setImageUpload().run()
         },
+        isActive: (editor) => editor.isActive('image'),
       },
       {
         name: 'columns',
@@ -161,6 +150,7 @@ export const GROUPS: Group[] = [
             .focus(editor.state.selection.head - 1)
             .run()
         },
+        isActive: (editor) => editor.isActive('columns'),
       },
       {
         name: 'horizontalRule',
@@ -171,6 +161,7 @@ export const GROUPS: Group[] = [
         action: (editor) => {
           editor.chain().focus().setHorizontalRule().run()
         },
+        isActive: (editor) => editor.isActive('horizontalRule'),
       },
       {
         name: 'toc',
@@ -182,6 +173,7 @@ export const GROUPS: Group[] = [
         action: (editor) => {
           editor.chain().focus().insertTableOfContents().run()
         },
+        isActive: (editor) => editor.isActive('tableOfContents'),
       },
     ],
   },

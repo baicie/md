@@ -5,6 +5,37 @@ import ExtensionKit from '../extensions/extension-kit'
 
 import type { Transaction } from '@tiptap/pm/state'
 
+declare module 'vitest' {
+  interface Assertion {
+    toMatchTiptapStructure: (expected: string) => void
+  }
+}
+
+expect.extend({
+  toMatchTiptapStructure(received: string, expected: string) {
+    // 清理 HTML：只保留标签结构，移除所有属性
+    const cleanHTML = (html: string) => {
+      return html
+        .replace(/\s+/g, ' ') // 标准化空白
+        .replace(/<([a-zA-Z0-9]+)[^>]*>/g, '<$1>') // 移除所有属性，只保留标签
+        .replace(/>\s+</g, '><') // 移除标签间的空白
+        .trim()
+    }
+
+    const cleanedReceived = cleanHTML(received)
+    const cleanedExpected = cleanHTML(expected)
+
+    return {
+      pass: cleanedReceived === cleanedExpected,
+      message: () => `
+Expected structure: ${cleanedExpected}
+Received structure: ${cleanedReceived}
+Original received: ${received}
+      `,
+    }
+  },
+})
+
 describe('Editor Basic Functions', () => {
   let editor: Editor
 
@@ -55,20 +86,22 @@ describe('Editor Basic Functions', () => {
     expect(editor.getHTML()).toContain('<li>')
   })
 
-  // // 测试标题功能
-  // it('should handle headings', () => {
-  //   editor.commands.setHeading({ level: 1 })
-  //   expect(editor.getHTML()).toBe('<h1>Hello World</h1>')
-  // })
+  // 测试标题功能
+  it('should handle headings', () => {
+    editor.commands.setHeading({ level: 1 })
+    expect(editor.getHTML()).toMatchTiptapStructure(
+      '<h1>Hello World</h1><p></p>',
+    )
+  })
 
-  // // 测试链接功能
-  // it('should handle links', () => {
-  //   editor.commands.selectAll()
-  //   editor.commands.setLink({ href: 'https://example.com' })
-  //   expect(editor.getHTML()).toBe(
-  //     '<p><a href="https://example.com">Hello World</a></p>',
-  //   )
-  // })
+  // 测试链接功能
+  it('should handle links', () => {
+    editor.commands.selectAll()
+    editor.commands.setLink({ href: 'https://example.com' })
+    expect(editor.getHTML()).toMatchTiptapStructure(
+      '<p><a href="https://example.com">Hello World</a></p>',
+    )
+  })
 
   // 测试快捷键
   it('should handle keyboard shortcuts', () => {

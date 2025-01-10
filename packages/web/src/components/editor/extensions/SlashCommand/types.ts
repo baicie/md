@@ -15,6 +15,7 @@ export interface Command {
   iconName: keyof typeof icons
   action: (editor: Editor) => void
   shouldBeHidden?: (editor: Editor) => boolean
+  isActive?: (editor: Editor) => boolean
 }
 
 export interface MenuListProps {

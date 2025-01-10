@@ -4,6 +4,7 @@ import { useRef } from 'react'
 import { ContentItemMenu } from '../menus/ContentItemMenu'
 import { LinkMenu } from '../menus/LinkMenu'
 import { TextMenu } from '../menus/TextMenu'
+import { Toolbar } from '../Toolbar'
 
 import type { TiptapCollabProvider } from '@hocuspocus/provider'
 import type * as Y from 'yjs'
@@ -44,6 +45,7 @@ export const BlockEditor = ({
         editor={editor}
       />
       <div className="relative flex flex-col flex-1 h-full overflow-hidden">
+        <Toolbar editor={editor} />
         <EditorContent editor={editor} className="flex-1 overflow-y-auto" />
         <ContentItemMenu editor={editor} />
         <LinkMenu editor={editor} appendTo={menuContainerRef} />
