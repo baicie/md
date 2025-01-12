@@ -1,7 +1,7 @@
 import { useEditorState } from '@tiptap/react'
 import { memo } from 'react'
 
-import type { TableOfContentsStorage } from '@tiptap-pro/extension-table-of-contents'
+import type { TableOfContentsStorage } from '@baicie/md-extension-table-of-contents'
 import type { Editor as CoreEditor } from '@tiptap/core'
 
 import { cn } from '@/lib/utils'

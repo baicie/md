@@ -7,15 +7,15 @@ import type { TippyProps, TooltipProps } from './types'
 
 const isMac =
   typeof window !== 'undefined'
-    ? navigator.platform.toUpperCase().indexOf('MAC') >= 0
+    ? /Mac|iPod|iPhone|iPad/.test(window.navigator.userAgent)
     : false
 
 const ShortcutKey = ({ children }: { children: string }): JSX.Element => {
   const className =
-    'inline-flex items-center justify-center w-5 h-5 p-1 text-[0.625rem] rounded font-semibold leading-none border border-neutral-200 text-neutral-500 border-b-2'
+    'inline-flex items-center justify-center min-w-5 h-5 px-1.5 text-[0.625rem] rounded font-semibold leading-none border border-neutral-200 text-neutral-500 border-b-2 whitespace-nowrap'
 
   if (children === 'Mod') {
-    return <kbd className={className}>{isMac ? '⌘' : 'Ctrl'}</kbd> // ⌃
+    return <kbd className={className}>{isMac ? '⌘' : 'Ctrl'}</kbd>
   }
 
   if (children === 'Shift') {
@@ -23,7 +23,7 @@ const ShortcutKey = ({ children }: { children: string }): JSX.Element => {
   }
 
   if (children === 'Alt') {
-    return <kbd className={className}>{isMac ? '⌥' : 'Alt'}</kbd>
+    return <kbd className={className}>⌥</kbd>
   }
 
   return <kbd className={className}>{children}</kbd>
@@ -39,17 +39,17 @@ export const Tooltip = ({
   const renderTooltip = useCallback(
     (attrs: TippyProps) => (
       <span
-        className="flex items-center gap-2 px-2.5 py-1 bg-white border border-neutral-100 rounded-lg shadow-sm z-[999]"
+        className="inline-flex items-center gap-2 px-2.5 py-1.5 bg-white border border-neutral-100 rounded-lg shadow-sm z-[999]"
         tabIndex={-1}
         data-placement={attrs['data-placement']}
         data-reference-hidden={attrs['data-reference-hidden']}
         data-escaped={attrs['data-escaped']}
       >
         {title && (
-          <span className="text-xs font-medium text-neutral-500">{title}</span>
+          <span className="text-xs font-medium text-neutral-700">{title}</span>
         )}
         {shortcut && (
-          <span className="flex items-center gap-0.5">
+          <span className="flex items-center gap-0.5 text-neutral-500">
             {shortcut.map((shortcutKey) => (
               <ShortcutKey key={shortcutKey}>{shortcutKey}</ShortcutKey>
             ))}

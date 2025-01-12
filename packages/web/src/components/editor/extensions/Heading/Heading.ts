@@ -15,6 +15,16 @@ export const Heading = TiptapHeading.extend({
       0,
     ]
   },
+  addKeyboardShortcuts() {
+    return {
+      'Mod-1': () => this.editor.chain().focus().setHeading({ level: 1 }).run(),
+      'Mod-2': () => this.editor.chain().focus().setHeading({ level: 2 }).run(),
+      'Mod-3': () => this.editor.chain().focus().setHeading({ level: 3 }).run(),
+      // 'Mod-4': () => this.editor.chain().focus().setHeading({ level: 4 }).run(),
+      // 'Mod-5': () => this.editor.chain().focus().setHeading({ level: 5 }).run(),
+      // 'Mod-6': () => this.editor.chain().focus().setHeading({ level: 6 }).run(),
+    }
+  },
 })
 
 export default Heading

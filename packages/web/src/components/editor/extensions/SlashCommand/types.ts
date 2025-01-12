@@ -16,6 +16,8 @@ export interface Command {
   action: (editor: Editor) => void
   shouldBeHidden?: (editor: Editor) => boolean
   isActive?: (editor: Editor) => boolean
+  shortcut?: string[]
+  tooltip?: string
 }
 
 export interface MenuListProps {

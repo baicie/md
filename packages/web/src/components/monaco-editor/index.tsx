@@ -1,7 +1,7 @@
 import { Editor as MonacoEditor } from '@monaco-editor/react'
-import hljs from 'highlight.js'
-import 'highlight.js/styles/github.css'
 import { useEffect, useRef } from 'react'
+
+import highlight from '@/lib/highlight'
 
 interface SourceEditorProps {
   value: string
@@ -24,13 +24,13 @@ export const SourceEditor = ({
   // 更新预览
   useEffect(() => {
     if (previewRef.current) {
-      const highlighted = hljs.highlight(value, { language }).value
-      previewRef.current.innerHTML = highlighted
+      previewRef.current.innerHTML = highlight(value)
     }
   }, [value, language])
 
   // Monaco Editor 配置
-  const handleEditorDidMount = (editor: unknown) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleEditorDidMount = (editor: any) => {
     editorRef.current = editor
 
     // 配置编辑器

@@ -14,6 +14,8 @@ import type {
   SuggestionProps,
 } from '@tiptap/suggestion'
 
+import i18next from '@/i18n'
+
 const extensionName = 'slashCommand'
 
 let popup: any
@@ -89,7 +91,7 @@ export const SlashCommand = Extension.create({
           view.focus()
         },
         items: ({ query }: { query: string }) => {
-          const withFilteredCommands = GROUPS.map((group) => ({
+          const withFilteredCommands = GROUPS(i18next.t).map((group) => ({
             ...group,
             commands: group.commands
               .filter((item) => {

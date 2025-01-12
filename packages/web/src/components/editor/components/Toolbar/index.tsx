@@ -1,18 +1,19 @@
 import { useEffect, useState } from 'react'
 
-import GROUPS from '../../extensions/SlashCommand/groups'
+import useGroups from '../../extensions/SlashCommand/groups'
 
 import type { Editor } from '@tiptap/core'
 
-import { Button } from '@/components/ui/Button'
 import { Icon } from '@/components/ui/Icon'
+import { Toolbar as UIToolbar } from '@/components/ui/Toolbar'
 
-interface ToolbarProps {
+interface EditorToolbarProps {
   editor: Editor | null
 }
 
-export const Toolbar = ({ editor }: ToolbarProps) => {
+export const EditorToolbar = ({ editor }: EditorToolbarProps) => {
   const [, setForceUpdate] = useState(0)
+  const allCommands = useGroups().flatMap((group) => group.commands)
 
   useEffect(() => {
     if (!editor) return
@@ -32,24 +33,23 @@ export const Toolbar = ({ editor }: ToolbarProps) => {
 
   if (!editor) return null
 
-  const allCommands = GROUPS.flatMap((group) => group.commands)
-
   return (
     <div className="border-b border-border bg-background p-1 flex items-center gap-1">
       {allCommands.map((command) => {
         const isActive = command.isActive?.(editor)
         return (
-          <Button
+          <UIToolbar.Button
             key={command.name}
             variant="ghost"
             buttonSize="icon"
             onClick={() => command.action(editor)}
             disabled={command.shouldBeHidden?.(editor)}
             active={isActive}
-            title={`${command.label} - ${command.description}`}
+            tooltipShortcut={command.shortcut}
+            tooltip={command.label}
           >
             <Icon name={command.iconName} className="w-4 h-4" />
-          </Button>
+          </UIToolbar.Button>
         )
       })}
     </div>

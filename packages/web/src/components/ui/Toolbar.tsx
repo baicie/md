@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import { forwardRef } from 'react'
 
 import { Surface } from './Surface'
 import { Button } from './Button'
