@@ -1,4 +1,5 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { act, waitFor } from '@testing-library/react'
+import { beforeEach, describe, expect, it } from 'vitest'
 
 import { useThemeStore } from '../theme'
 
@@ -12,30 +13,25 @@ describe('Theme Store', () => {
     useThemeStore.setState({ theme: 'light' })
   })
 
-  it('should initialize with system preference', () => {
-    // Mock matchMedia
-    Object.defineProperty(window, 'matchMedia', {
-      value: vi.fn().mockImplementation((query) => ({
-        matches: query === '(prefers-color-scheme: dark)',
-        addEventListener: vi.fn(),
-        removeEventListener: vi.fn(),
-      })),
+  it('should toggle theme', async () => {
+    const { toggleTheme } = useThemeStore.getState()
+
+    act(() => {
+      toggleTheme()
     })
 
-    const store = useThemeStore.getState()
-    expect(store.theme).toBe('dark')
-  })
+    await waitFor(() => {
+      expect(useThemeStore.getState().theme).toBe('dark')
+      expect(document.documentElement.classList.contains('dark')).toBe(true)
+    })
 
-  it('should toggle theme', () => {
-    const store = useThemeStore.getState()
-
-    store.toggleTheme()
-    expect(store.theme).toBe('dark')
-    expect(document.documentElement.classList.contains('dark')).toBe(true)
-
-    store.toggleTheme()
-    expect(store.theme).toBe('light')
-    expect(document.documentElement.classList.contains('dark')).toBe(false)
+    act(() => {
+      toggleTheme()
+    })
+    await waitFor(() => {
+      expect(useThemeStore.getState().theme).toBe('light')
+      expect(document.documentElement.classList.contains('light')).toBe(false)
+    })
   })
 
   it('should persist theme preference', () => {

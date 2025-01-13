@@ -1,3 +1,4 @@
+import { Icon } from '@/components/ui/Icon'
 import {
   ResizableHandle,
   ResizablePanel,
@@ -5,7 +6,6 @@ import {
 } from '@/components/ui/resizable'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
-import { Icon } from '@/components/ui/Icon'
 import { Toolbar } from '@/components/ui/Toolbar'
 import { useThemeStore } from '@/stores/theme'
 
@@ -24,6 +24,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
               <Toolbar.Button
                 tooltip={theme === 'dark' ? 'Light mode' : 'Dark mode'}
                 onClick={toggleTheme}
+                aria-label="Toggle theme"
               >
                 <Icon name={theme === 'dark' ? 'Sun' : 'Moon'} />
               </Toolbar.Button>

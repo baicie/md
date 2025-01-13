@@ -7,12 +7,13 @@ const timeout = process.env.PWDEBUG ? Infinity : process.env.CI ? 50000 : 30000
 export default defineConfig({
   resolve: {
     alias: {
-      '~utils': resolve(__dirname, './test/test-utils'),
+      '~utils': resolve(__dirname, './test/utils'),
     },
   },
   test: {
     include: ['./e2e/**/*.spec.[tj]s'],
     setupFiles: ['./test/e2e/setup.ts'],
+    globalSetup: ['./test/e2e/global-setup.ts'],
     testTimeout: timeout,
     hookTimeout: timeout,
     reporters: 'dot',

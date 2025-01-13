@@ -35,4 +35,7 @@ export default defineProject({
       '@': path.resolve(__dirname, 'src'),
     },
   },
+  define: {
+    __DEV__: false,
+  },
 })

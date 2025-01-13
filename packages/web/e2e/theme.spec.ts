@@ -1,66 +1,60 @@
-import { describe, test, expect, beforeEach, afterEach } from 'vitest'
+import { expect, test } from 'vitest'
 
-import { setupE2E, teardownE2E } from '../test/e2e/utils'
+import { browser, page, viteTestUrl } from '../test/utils'
 
-import type { Browser, Page } from '@playwright/test'
-
-describe('Theme Switching', () => {
-  let browser: Browser
-  let page: Page
-  let baseUrl: string
-
-  beforeEach(async () => {
-    const context = await setupE2E()
-    browser = context.browser
-    page = context.page
-    baseUrl = context.baseUrl
-    await page.goto(baseUrl)
+test('theme toggle', async () => {
+  const themeButton = page.getByRole('button', {
+    name: /toggle theme/i,
   })
 
-  afterEach(async () => {
-    await teardownE2E({ browser, page, baseUrl })
-  })
+  const html = page.locator('html')
 
-  test('should toggle theme and persist', async () => {
-    // 获取主题按钮和 html 元素
-    const themeButton = page.getByRole('button', {
-      name: /dark mode|light mode/i,
-    })
-    const html = page.locator('html')
+  // 点击切换到暗色主题
+  await themeButton.click()
+  expect(await html.evaluate((el: any) => el.classList.contains('dark'))).toBe(
+    true,
+  )
+  expect(await themeButton.locator('svg').getAttribute('data-icon')).toBe('Sun')
 
-    // 点击切换到暗色主题
-    await themeButton.click()
-    expect(await html.evaluate((el) => el.classList.contains('dark'))).toBe(
-      true,
-    )
-    expect(await themeButton.locator('svg').getAttribute('data-icon')).toBe(
-      'sun',
-    )
+  // 刷新页面，验证持久化
+  await page.reload()
+  expect(await html.evaluate((el: any) => el.classList.contains('dark'))).toBe(
+    true,
+  )
 
-    // 刷新页面，验证持久化
-    await page.reload()
-    expect(
-      await html.evaluate((el: Element) => el.classList.contains('dark')),
-    ).toBe(true)
+  // 再次切换回亮色主题
+  await themeButton.click()
+  expect(await html.evaluate((el: any) => el.classList.contains('dark'))).toBe(
+    false,
+  )
+  expect(await themeButton.locator('svg').getAttribute('data-icon')).toBe(
+    'Moon',
+  )
+})
 
-    // 再次切换回亮色主题
-    await themeButton.click()
-    expect(
-      await html.evaluate((el: Element) => el.classList.contains('dark')),
-    ).toBe(false)
-    expect(await themeButton.locator('svg').getAttribute('data-icon')).toBe(
-      'moon',
-    )
-  })
+test('system preference', async () => {
+  const newPage = await browser.newPage()
 
-  test('should respect system preference', async () => {
-    // 模拟系统暗色主题
-    await page.emulateMedia({ colorScheme: 'dark' })
-    await page.reload()
+  await newPage.emulateMedia({ colorScheme: 'dark' })
+  await newPage.goto(viteTestUrl)
 
-    const html = page.locator('html')
-    await expect(
-      await html.evaluate((el: Element) => el.classList.contains('dark')),
-    ).toBe(true)
-  })
+  const html = newPage.locator('html')
+  expect(await html.evaluate((el: any) => el.classList.contains('dark'))).toBe(
+    true,
+  )
+
+  // 切换到浅色主题并等待 DOM 变化
+  await newPage.emulateMedia({ colorScheme: 'light' })
+  await newPage.waitForFunction(
+    () => {
+      return !document.documentElement.classList.contains('dark')
+    },
+    { timeout: 2000 },
+  )
+
+  expect(await html.evaluate((el: any) => el.classList.contains('dark'))).toBe(
+    false,
+  )
+
+  await newPage.close()
 })

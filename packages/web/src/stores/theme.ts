@@ -36,8 +36,8 @@ export const useThemeStore = create<ThemeState>()(
     (set) => ({
       theme: initializeTheme(),
       setTheme: (theme) => {
-        set({ theme })
         updateTheme(theme)
+        set({ theme })
       },
       toggleTheme: () =>
         set((state) => {
@@ -57,7 +57,6 @@ function updateTheme(theme: 'light' | 'dark') {
   root.classList.toggle('dark', theme === 'dark')
 }
 
-// 监听系统主题变化
 if (typeof window !== 'undefined') {
   const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
   mediaQuery.addEventListener('change', (e) => {
