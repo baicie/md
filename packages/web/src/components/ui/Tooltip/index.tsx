@@ -3,6 +3,7 @@
 import Tippy from '@tippyjs/react/headless'
 import { useCallback } from 'react'
 
+import type { JSX } from 'react'
 import type { TippyProps, TooltipProps } from './types'
 
 const isMac =
