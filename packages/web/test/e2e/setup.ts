@@ -1,14 +1,7 @@
 import path from 'node:path'
 
 import { chromium } from 'playwright-chromium'
-import {
-  build,
-  createBuilder,
-  createServer,
-  loadConfigFromFile,
-  mergeConfig,
-  preview,
-} from 'vite'
+import { createServer, loadConfigFromFile, mergeConfig } from 'vite'
 import { beforeAll, inject } from 'vitest'
 
 import type * as http from 'node:http'
@@ -18,7 +11,6 @@ import type {
   ConfigEnv,
   InlineConfig,
   Logger,
-  PluginOption,
   ResolvedConfig,
   UserConfig,
   ViteDevServer,
@@ -64,12 +56,12 @@ export const serverLogs: string[] = []
 export const browserLogs: string[] = []
 export const browserErrors: Error[] = []
 
-export let resolvedConfig: ResolvedConfig = undefined!
+export const resolvedConfig: ResolvedConfig = undefined!
 
 export let page: Page = undefined!
 export let browser: Browser = undefined!
 export let viteTestUrl = ''
-export let watcher: RollupWatcher | undefined = undefined
+export const watcher: RollupWatcher | undefined = undefined
 
 export function setViteUrl(url: string): void {
   viteTestUrl = url
@@ -81,11 +73,7 @@ beforeAll(async (s) => {
   const suite = s as RunnerTestFile
 
   testPath = suite.filepath!
-  testName = slash(testPath).match(/e2e\/([\w-]+)\//)?.[1] || ''
   testDir = path.dirname(testPath)
-  if (testName) {
-    testDir = path.resolve(workspaceRoot, 'e2e-temp', testName)
-  }
 
   const wsEndpoint = inject('wsEndpoint')
   if (!wsEndpoint) {
@@ -120,6 +108,10 @@ beforeAll(async (s) => {
       browserErrors.push(error)
     })
 
+    if (testDir) {
+      rootDir = path.dirname(testDir)
+    }
+
     await startDefaultServe()
   } catch (e) {
     // Closing the page since an error in the setup, for example a runtime error
@@ -135,13 +127,11 @@ beforeAll(async (s) => {
     serverLogs.length = 0
     await page?.close()
     await server?.close()
-    await watcher?.close()
     if (browser) {
       await browser.close()
     }
   }
 })
-
 async function loadConfig(configEnv: ConfigEnv) {
   let config: UserConfig | null = null
 
@@ -183,59 +173,14 @@ async function loadConfig(configEnv: ConfigEnv) {
 export async function startDefaultServe(): Promise<void> {
   setupConsoleWarnCollector(serverLogs)
 
-  if (!isBuild) {
-    process.env.VITE_INLINE = 'inline-serve'
-    const config = await loadConfig({ command: 'serve', mode: 'development' })
-    viteServer = server = await (await createServer(config)).listen()
-    viteTestUrl = server.resolvedUrls?.local[0] || ''
-    if (server.config.base === '/') {
-      viteTestUrl = viteTestUrl.replace(/\/$/, '')
-    }
-    await page.goto(viteTestUrl)
-  } else {
-    process.env.VITE_INLINE = 'inline-build'
-    // determine build watch
-    const resolvedPlugin: () => PluginOption = () => ({
-      name: 'vite-plugin-watcher',
-      configResolved(config) {
-        resolvedConfig = config
-      },
-    })
-    const buildConfig = mergeConfig(
-      await loadConfig({ command: 'build', mode: 'production' }),
-      {
-        plugins: [resolvedPlugin()],
-      },
-    )
-    if (buildConfig.builder) {
-      const builder = await createBuilder(buildConfig)
-      await builder.buildApp()
-    } else {
-      const rollupOutput = await build(buildConfig)
-      const isWatch = !!resolvedConfig!.build.watch
-      // in build watch,call startStaticServer after the build is complete
-      if (isWatch) {
-        watcher = rollupOutput as RollupWatcher
-        await notifyRebuildComplete(watcher)
-      }
-      if (buildConfig.__test__) {
-        buildConfig.__test__()
-      }
-    }
-
-    const previewConfig = await loadConfig({
-      command: 'serve',
-      mode: 'development',
-      isPreview: true,
-    })
-    const _nodeEnv = process.env.NODE_ENV
-    const previewServer = await preview(previewConfig)
-    // prevent preview change NODE_ENV
-    process.env.NODE_ENV = _nodeEnv
-    viteTestUrl = previewServer.resolvedUrls?.local[0] || ''
-
-    await page.goto(viteTestUrl || '')
+  process.env.VITE_INLINE = 'inline-serve'
+  const config = await loadConfig({ command: 'serve', mode: 'development' })
+  viteServer = server = await (await createServer(config)).listen()
+  viteTestUrl = server.resolvedUrls?.local[0] || ''
+  if (server.config.base === '/') {
+    viteTestUrl = viteTestUrl.replace(/\/$/, '')
   }
+  await page.goto(viteTestUrl)
 }
 
 /**

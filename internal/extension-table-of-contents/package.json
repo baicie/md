@@ -10,11 +10,11 @@
   ],
   "scripts": {},
   "dependencies": {
-    "uuid": "^10.0.0"
+    "uuid": "^11.0.5"
   },
   "devDependencies": {
-    "@tiptap/core": "^2.0.0",
-    "@tiptap/pm": "^2.0.0",
+    "@tiptap/core": "^2.11.2",
+    "@tiptap/pm": "^2.11.2",
     "@types/uuid": "^10.0.0"
   },
   "peerDependencies": {

@@ -15,14 +15,14 @@
   },
   "dependencies": {
     "emoji-regex": "^10.4.0",
-    "emojibase-data": "^7.0.1",
+    "emojibase-data": "^16.0.2",
     "is-emoji-supported": "^0.0.5"
   },
   "devDependencies": {
-    "@tiptap/core": "^2.0.0",
-    "@tiptap/pm": "^2.0.0",
-    "@tiptap/suggestion": "^2.0.0",
-    "emoji-datasource": "^7.0.2",
+    "@tiptap/core": "^2.11.2",
+    "@tiptap/pm": "^2.11.2",
+    "@tiptap/suggestion": "^2.11.2",
+    "emoji-datasource": "^15.1.2",
     "json5": "^2.2.3",
     "tsm": "^2.3.0"
   },

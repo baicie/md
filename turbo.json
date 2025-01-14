@@ -13,6 +13,9 @@
     "desktop-dev": {
       "cache": true,
       "dependsOn": ["build"]
+    },
+    "test:e2e": {
+      "cache": true
     }
   },
   "ui": "stream"

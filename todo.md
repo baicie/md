@@ -61,7 +61,9 @@ vscode插件？谷歌插件？
 - [x] 设计主题系统
 - [x] 实现明暗主题
 - [x] 创建主题切换功能
-- [ ] 测试主题系统
+- [x] 测试主题系统
+  <!-- vitest + workspace +  tailwindcss = who use who sb-->
+  <!-- 配置后无法正确找到tailwindcss配置 不知道是谁的错 大概率是vitest的 -->
 
 ### Day 3（周三）：PC 客户端
 
