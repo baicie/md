@@ -7,6 +7,8 @@
     "tauri": "tauri",
     "build": "echo 'Building desktop app'",
     "dev": "tauri dev",
+    "desktop-dev": "tauri dev",
+    "desktop-build": "tauri build",
     "test:e2e": "echo todo"
   },
   "dependencies": {

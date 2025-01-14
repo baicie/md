@@ -16,7 +16,6 @@ export async function setup({ provide }: GlobalSetupContext): Promise<void> {
       ? ['--no-sandbox', '--disable-setuid-sandbox']
       : undefined,
   })
-
   provide('wsEndpoint', browserServer.wsEndpoint())
 }
 

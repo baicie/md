@@ -1,0 +1,28 @@
+[workspace]
+members = [
+  "packages/desktop/src-tauri"
+]
+resolver = "2"
+
+  [workspace.package]
+  edition    = "2021"
+  license    = "MIT"
+  repository = "https://github.com/baicie/md.git"
+
+
+  [workspace.dependencies]
+
+
+[profile.release]
+lto = true
+
+[profile.bench]
+debug = true
+lto   = true
+
+# Optimize for iteration
+[profile.dev.build-override]
+opt-level = 3
+
+[profile.dev.package."*"]
+opt-level = 3
