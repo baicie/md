@@ -2,12 +2,14 @@ mod commands;
 mod constant;
 mod plugins;
 mod setup;
+mod theme;
 
-use commands::{greet, toggle_theme};
+use commands::greet;
 use plugins::init_plugins;
 use rust_i18n::t;
 use setup::setup;
 use tauri::menu::{Menu, MenuItem, PredefinedMenuItem, Submenu};
+use theme::toggle_theme;
 
 // 设置翻译文件目录
 rust_i18n::i18n!("locales");
