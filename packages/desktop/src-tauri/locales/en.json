@@ -1,0 +1,13 @@
+{
+  "menu": {
+    "file": "File",
+    "edit": "Edit",
+    "view": "View",
+    "help": "Help",
+    "new": "New",
+    "open": "Open",
+    "save": "Save",
+    "save_as": "Save As",
+    "exit": "Exit"
+  }
+}

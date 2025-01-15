@@ -4,10 +4,10 @@
   "version": "0.1.0",
   "identifier": "com.baicie.md.desktop.app",
   "build": {
-    "beforeDevCommand": "pnpm --filter @baicie/md-web dev",
+    "beforeDevCommand": "pnpm --filter @baicie/md-core dev",
     "devUrl": "http://localhost:1420",
-    "beforeBuildCommand": "pnpm --filter @baicie/md-web build",
-    "frontendDist": "../../web/dist"
+    "beforeBuildCommand": "pnpm --filter @baicie/md-core build",
+    "frontendDist": "../../core/dist"
   },
   "app": {
     "withGlobalTauri": true,

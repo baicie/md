@@ -55,8 +55,8 @@ export default tseslint.config(
       parserOptions: {
         project: [
           './tsconfig.json',
-          './packages/web/tsconfig.app.json',
-          './packages/web/tsconfig.node.json',
+          './packages/core/tsconfig.app.json',
+          './packages/core/tsconfig.node.json',
           './servers/api/tsconfig.json',
         ],
         tsconfigRootDir: __dirname,
@@ -118,7 +118,7 @@ export default tseslint.config(
 
   // Web 前端配置
   {
-    files: ['packages/web/**/*.{ts,tsx}'],
+    files: ['packages/core/**/*.{ts,tsx}'],
     languageOptions: {
       globals: {
         ...globals.browser,

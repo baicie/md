@@ -11,7 +11,7 @@
     "server-build": "turbo run build --filter=./servers/*",
     "build": "turbo run build",
     "test-unit": "vitest run --workspace vitest.workspace.mts",
-    "test-e2e": "turbo run test:e2e",
+    "test-e2e": "turbo run test:e2e --concurrency=1",
     "test-docs": "pnpm run docs-build",
     "docs": "pnpm --filter=docs run docs",
     "docs-build": "pnpm --filter=docs run docs-build",
