@@ -302,26 +302,7 @@ importers:
         specifier: ^10.0.0
         version: 10.0.0
 
-  packages/desktop:
-    dependencies:
-      '@tauri-apps/api':
-        specifier: ^2.2.0
-        version: 2.2.0
-      '@tauri-apps/plugin-opener':
-        specifier: ^2.2.4
-        version: 2.2.4
-    devDependencies:
-      '@tauri-apps/cli':
-        specifier: ^2.2.4
-        version: 2.2.4
-      typescript:
-        specifier: ~5.7.3
-        version: 5.7.3
-      vite:
-        specifier: ^6.0.7
-        version: 6.0.7(@types/node@22.10.6)(jiti@2.4.2)(sass@1.83.3)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1)
-
-  packages/web:
+  packages/core:
     dependencies:
       '@baicie/md-extension-details':
         specifier: workspace:^
@@ -369,6 +350,9 @@ importers:
         specifier: ^1.1.1
         version: 1.1.1(@types/react@19.0.6)(react@19.0.0)
       '@tauri-apps/api':
+        specifier: ^2.2.0
+        version: 2.2.0
+      '@tauri-apps/plugin-store':
         specifier: ^2.2.0
         version: 2.2.0
       '@tippyjs/react':
@@ -588,6 +572,25 @@ importers:
       vitest:
         specifier: ^2.1.8
         version: 2.1.8(@types/node@22.10.6)(@vitest/ui@2.1.8)(happy-dom@16.5.3)(jsdom@25.0.1)(msw@2.7.0(@types/node@22.10.6)(typescript@5.7.3))(sass@1.83.3)(terser@5.37.0)
+
+  packages/desktop:
+    dependencies:
+      '@tauri-apps/api':
+        specifier: ^2.2.0
+        version: 2.2.0
+      '@tauri-apps/plugin-opener':
+        specifier: ^2.2.4
+        version: 2.2.4
+    devDependencies:
+      '@tauri-apps/cli':
+        specifier: ^2.2.4
+        version: 2.2.4
+      typescript:
+        specifier: ~5.7.3
+        version: 5.7.3
+      vite:
+        specifier: ^6.0.7
+        version: 6.0.7(@types/node@22.10.6)(jiti@2.4.2)(sass@1.83.3)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1)
 
   servers/api:
     dependencies:
@@ -2289,6 +2292,9 @@ packages:
 
   '@tauri-apps/plugin-opener@2.2.4':
     resolution: {integrity: sha512-5oXWr80ek8JHwQ/budIdZTHAWBF4XfYMiXIyH8Pr92QtwEG+6xCgCcws0k4xCemVDEetclveJPu8yB9ysuU/dQ==}
+
+  '@tauri-apps/plugin-store@2.2.0':
+    resolution: {integrity: sha512-hJTRtuJis4w5fW1dkcgftsYxKXK0+DbAqurZ3CURHG5WkAyyZgbxpeYctw12bbzF9ZbZREXZklPq8mocCC3Sgg==}
 
   '@testing-library/dom@10.4.0':
     resolution: {integrity: sha512-pemlzrSESWbdAloYml3bAJMEfNh1Z7EduzqPKprCH5S341frlpYnUEW0H72dLxa6IsYr+mPno20GiSm+h9dEdQ==}
@@ -8133,6 +8139,10 @@ snapshots:
       '@tauri-apps/cli-win32-x64-msvc': 2.2.4
 
   '@tauri-apps/plugin-opener@2.2.4':
+    dependencies:
+      '@tauri-apps/api': 2.2.0
+
+  '@tauri-apps/plugin-store@2.2.0':
     dependencies:
       '@tauri-apps/api': 2.2.0
 

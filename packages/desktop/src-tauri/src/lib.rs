@@ -1,32 +1,41 @@
-use tauri::menu::{Menu, MenuItem, PredefinedMenuItem, Submenu};
+mod commands;
+mod constant;
+mod plugins;
+mod setup;
+
+use commands::{greet, toggle_theme};
+use plugins::init_plugins;
 use rust_i18n::t;
+use setup::setup;
+use tauri::menu::{Menu, MenuItem, PredefinedMenuItem, Submenu};
 
 // 设置翻译文件目录
 rust_i18n::i18n!("locales");
 
-// Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
-
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    tauri::Builder::default()
-    .menu(|handle| Menu::with_items(handle, &[
-        &Submenu::with_items(
-          handle,
-          t!("menu.file"),
-          true,
-          &[
-            &PredefinedMenuItem::close_window(handle, None)?,
-            #[cfg(target_os = "macos")]
-            &MenuItem::new(handle, t!("menu.file"), true, None::<&str>)?,
-          ],
-        )?
-      ]))
-        .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![greet])
+    let mut builder = tauri::Builder::default();
+    builder = init_plugins(builder);
+    builder
+        .setup(|app| {
+            setup(app);
+            Ok(())
+        })
+        .menu(|handle| {
+            Menu::with_items(
+                handle,
+                &[&Submenu::with_items(
+                    handle,
+                    t!("menu.file"),
+                    true,
+                    &[
+                        &PredefinedMenuItem::close_window(handle, None)?,
+                        &MenuItem::new(handle, t!("menu.file"), true, None::<&str>)?,
+                    ],
+                )?],
+            )
+        })
+        .invoke_handler(tauri::generate_handler![greet, toggle_theme])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
