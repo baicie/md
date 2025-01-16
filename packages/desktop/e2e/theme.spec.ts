@@ -1,12 +1,10 @@
 import { By } from 'selenium-webdriver'
 import { expect, test } from 'vitest'
 
-import { driver } from '../test/global-setup'
+import { driver } from '../test/setup'
 
 test('theme toggle', async () => {
-  const themeButton = await driver.findElement(
-    By.css('[aria-label="toggle theme"]'),
-  )
+  const themeButton = await driver.findElement(By.className(''))
   const html = await driver.findElement(By.css('html'))
 
   // 点击切换到暗色主题

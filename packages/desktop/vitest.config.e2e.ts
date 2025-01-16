@@ -13,6 +13,7 @@ export default defineConfig({
   test: {
     include: ['./e2e/**/*.spec.[tj]s'],
     globalSetup: ['./test/global-setup.ts'],
+    setupFiles: ['./test/setup.ts'],
     testTimeout: timeout,
     hookTimeout: timeout,
     reporters: 'dot',
