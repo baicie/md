@@ -1,7 +1,7 @@
 import { useCollaboration } from './hooks/useCollaboration'
 
-import { Layout } from '@/components/Layout'
 import { BlockEditor } from '@/components/editor'
+import { Layout } from '@/components/layout'
 
 export default function App() {
   const providerState = useCollaboration({

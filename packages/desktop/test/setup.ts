@@ -1,6 +1,8 @@
-import { Builder, Capabilities, WebDriver } from 'selenium-webdriver'
+import { Builder, Capabilities } from 'selenium-webdriver'
 import { Options } from 'selenium-webdriver/edge'
 import { beforeAll } from 'vitest'
+
+import type { WebDriver } from 'selenium-webdriver'
 
 export let driver: WebDriver
 

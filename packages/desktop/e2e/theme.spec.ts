@@ -4,7 +4,11 @@ import { expect, test } from 'vitest'
 import { driver } from '../test/setup'
 
 test('theme toggle', async () => {
-  const themeButton = await driver.findElement(By.className(''))
+  // 使用 aria-label 属性查找按钮
+  const themeButton = await driver.findElement(
+    By.css('button[aria-label="toggle theme"]'),
+  )
+  // driver.findElement(By.xpath('//*[@aria-label="toggle theme"]'))
   const html = await driver.findElement(By.css('html'))
 
   // 点击切换到暗色主题

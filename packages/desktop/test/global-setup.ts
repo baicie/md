@@ -1,9 +1,9 @@
-import { execa } from 'execa'
-import { Builder, Capabilities, WebDriver } from 'selenium-webdriver'
-import { Options } from 'selenium-webdriver/edge'
 import { join } from 'node:path'
+
+import { execa } from 'execa'
 import killPort from 'kill-port'
-import { ChildProcess } from 'node:child_process'
+
+import type { ChildProcess } from 'node:child_process'
 
 export let tauriDriver: ChildProcess
 
@@ -12,10 +12,11 @@ export async function setup() {
   try {
     await killPort(4444)
     await killPort(4445)
-  } catch (error) {
-    console.log('No process on ports')
+  } catch (_) {
+    //
   }
 
+  //   spawnSync('cargo', ['build', '--release'])
   // 启动 tauri-driver
   // await execa('cargo', ['install', 'tauri-driver'])
 
@@ -23,12 +24,6 @@ export async function setup() {
     '--native-driver',
     join('D:', 'downloads', 'edgedriver_win64', 'msedgedriver.exe'),
   ])
-
-  try {
-  } catch (error) {
-    tauriDriver.kill()
-    throw error
-  }
 }
 
 export async function teardown(): Promise<void> {
