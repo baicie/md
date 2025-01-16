@@ -57,6 +57,7 @@ export default tseslint.config(
           './tsconfig.json',
           './packages/core/tsconfig.app.json',
           './packages/core/tsconfig.node.json',
+          './packages/desktop/tsconfig.node.json',
           './servers/api/tsconfig.json',
         ],
         tsconfigRootDir: __dirname,

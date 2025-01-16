@@ -10,8 +10,6 @@
     "preview": "vite preview",
     "test": "vitest",
     "test:e2e": "vitest run -c vitest.config.e2e.ts",
-    "test:e2e:ui": "vitest -c vitest.config.e2e.ts --ui",
-    "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {

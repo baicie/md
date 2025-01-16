@@ -5,11 +5,11 @@
   "type": "module",
   "scripts": {
     "tauri": "tauri",
-    "build": "echo 'Building desktop app'",
+    "build": "tauri build",
     "dev": "tauri dev",
     "desktop-dev": "tauri dev",
     "desktop-build": "tauri build",
-    "test:e2e": "echo todo"
+    "test:e2e": "vitest run -c vitest.config.e2e.ts"
   },
   "dependencies": {
     "@tauri-apps/api": "^2.2.0",
@@ -17,7 +17,9 @@
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2.2.4",
-    "vite": "^6.0.7",
-    "typescript": "~5.7.3"
+    "@types/selenium-webdriver": "^4.1.28",
+    "selenium-webdriver": "^4.27.0",
+    "typescript": "~5.7.3",
+    "vite": "^6.0.7"
   }
 }
