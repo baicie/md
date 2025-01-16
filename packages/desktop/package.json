@@ -9,8 +9,7 @@
     "dev": "tauri dev",
     "desktop-dev": "tauri dev",
     "desktop-build": "tauri build",
-    "test:e2e": "cross-env TAURI_DRIVER_PORT=4444 PWDEBUG=1 vitest run -c vitest.config.e2e.ts",
-    "test:e2e:dev": "cross-env TAURI_DRIVER_PORT=4444 vitest -c vitest.config.e2e.ts"
+    "test:e2e-": "vitest run -c vitest.config.e2e.ts"
   },
   "dependencies": {
     "@tauri-apps/api": "^2.2.0",

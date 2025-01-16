@@ -8,7 +8,7 @@ dist/
 **/dist/
 uploads
 **/uploads
-.vscode
+# .vscode
 coverage
 !internal/*/dist
 target

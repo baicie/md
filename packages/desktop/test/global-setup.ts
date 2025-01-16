@@ -1,5 +1,3 @@
-import { join } from 'node:path'
-
 import { execa } from 'execa'
 import killPort from 'kill-port'
 
@@ -20,10 +18,7 @@ export async function setup() {
   // 启动 tauri-driver
   // await execa('cargo', ['install', 'tauri-driver'])
 
-  tauriDriver = execa('tauri-driver', [
-    '--native-driver',
-    join('D:', 'downloads', 'edgedriver_win64', 'msedgedriver.exe'),
-  ])
+  tauriDriver = execa('tauri-driver', [])
 }
 
 export async function teardown(): Promise<void> {
