@@ -585,6 +585,9 @@ importers:
       '@tauri-apps/cli':
         specifier: ^2.2.4
         version: 2.2.4
+      '@types/selenium-webdriver':
+        specifier: ^4.1.28
+        version: 4.1.28
       selenium-webdriver:
         specifier: ^4.27.0
         version: 4.27.0
@@ -2770,6 +2773,9 @@ packages:
   '@types/resolve@1.20.2':
     resolution: {integrity: sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==}
 
+  '@types/selenium-webdriver@4.1.28':
+    resolution: {integrity: sha512-Au7CXegiS7oapbB16zxPToY4Cjzi9UQQMf3W2ZZM8PigMLTGR3iUAHjPUTddyE5g1SBjT/qpmvlsAQLBfNAdKg==}
+
   '@types/send@0.17.4':
     resolution: {integrity: sha512-x2EM6TJOybec7c52BX0ZspPodMsQUd5L6PRwOunVyVUhXiBSKf3AezDL8Dgvgt5o0UfKNfuA0eMLr2wLT4AiBA==}
 
@@ -2799,6 +2805,9 @@ packages:
 
   '@types/validator@13.12.2':
     resolution: {integrity: sha512-6SlHBzUW8Jhf3liqrGGXyTJSIFe4nqlJ5A5KaMZ2l/vbM3Wh3KSybots/wfWVzNLK4D1NZluDlSQIbIEPx6oyA==}
+
+  '@types/ws@8.5.13':
+    resolution: {integrity: sha512-osM/gWBTPKgHV8XkTunnegTRIsvF6owmf5w+JtAfOw472dptdm0dlGv4xCt6GwQRcC2XVOvvRE/0bAoQcL2QkA==}
 
   '@typescript-eslint/eslint-plugin@8.20.0':
     resolution: {integrity: sha512-naduuphVw5StFfqp4Gq4WhIBE2gN1GEmMUExpJYknZJdRnc+2gDzB8Z3+5+/Kv33hPQRDGzQO/0opHE72lZZ6A==}
@@ -9061,6 +9070,11 @@ snapshots:
 
   '@types/resolve@1.20.2': {}
 
+  '@types/selenium-webdriver@4.1.28':
+    dependencies:
+      '@types/node': 22.10.6
+      '@types/ws': 8.5.13
+
   '@types/send@0.17.4':
     dependencies:
       '@types/mime': 1.3.5
@@ -9097,6 +9111,10 @@ snapshots:
   '@types/uuid@10.0.0': {}
 
   '@types/validator@13.12.2': {}
+
+  '@types/ws@8.5.13':
+    dependencies:
+      '@types/node': 22.10.6
 
   '@typescript-eslint/eslint-plugin@8.20.0(@typescript-eslint/parser@8.20.0(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.3))(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.3)':
     dependencies:
