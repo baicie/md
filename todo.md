@@ -72,7 +72,8 @@ vscode插件？谷歌插件？
 - [x] 配置主进程
 - [x] 设置 IPC 通信
 - [x] 配置窗口管理
-- [ ] 测试基础功能
+- [x] 测试基础功能
+<!-- 单元测试 tauri/mock rust/test e2e采用webdriver 设置app md-desktop-->
 
 #### 20:30-22:00 文件系统集成
 
