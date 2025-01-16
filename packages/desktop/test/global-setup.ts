@@ -1,9 +1,10 @@
+import path from 'node:path'
+
 import { execa } from 'execa'
 import killPort from 'kill-port'
 
-import type { ChildProcess } from 'node:child_process'
-
-export let tauriDriver: ChildProcess
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export let tauriDriver: any
 
 export async function setup() {
   // 先确保端口被释放
@@ -18,7 +19,10 @@ export async function setup() {
   // 启动 tauri-driver
   // await execa('cargo', ['install', 'tauri-driver'])
 
-  tauriDriver = execa('tauri-driver', [])
+  tauriDriver = execa('tauri-driver', [
+    '--native-driver',
+    path.join('D:', 'downloads', 'edgedriver_win64', 'msedgedriver.exe'),
+  ])
 }
 
 export async function teardown(): Promise<void> {

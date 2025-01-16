@@ -20,5 +20,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["test", "vitest.config.e2e.ts", "e2e"]
+  "include": ["test", "vitest.config.e2e.ts", "e2e", "wdio.conf.js"]
 }

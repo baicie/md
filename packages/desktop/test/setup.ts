@@ -1,22 +1,31 @@
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
 import { Builder, Capabilities } from 'selenium-webdriver'
-import { Options } from 'selenium-webdriver/edge'
 import { beforeAll } from 'vitest'
 
 import type { WebDriver } from 'selenium-webdriver'
 
 export let driver: WebDriver
 
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+const application = path.resolve(
+  __dirname,
+  '../../../',
+  'target/release/',
+  'md-desktop',
+)
+
 beforeAll(async () => {
-  const options = new Options()
-  options.addArguments('--headless')
-
   const capabilities = new Capabilities()
-  capabilities.set('browserName', 'MicrosoftEdge')
+  capabilities.set('tauri:options', { application })
+  capabilities.setBrowserName('wry')
 
+  // start the webdriver client
   driver = await new Builder()
     .withCapabilities(capabilities)
-    .setEdgeOptions(options)
-    .usingServer('http://localhost:4445')
+    .usingServer('http://127.0.0.1:4444/')
     .build()
 })
 

@@ -1,19 +1,10 @@
-import { resolve } from 'node:path'
-
 import { defineConfig } from 'vitest/config'
 
 const timeout = process.env.PWDEBUG ? Infinity : process.env.CI ? 50000 : 30000
 
 export default defineConfig({
-  resolve: {
-    alias: {
-      '~utils': resolve(__dirname, './test/utils'),
-    },
-  },
   test: {
     include: ['./e2e/**/*.spec.[tj]s'],
-    globalSetup: ['./test/global-setup.ts'],
-    setupFiles: ['./test/setup.ts'],
     testTimeout: timeout,
     hookTimeout: timeout,
     reporters: 'dot',
