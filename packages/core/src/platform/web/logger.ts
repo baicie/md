@@ -1,13 +1,7 @@
 /* eslint-disable no-console */
-type LogLevel = 'debug' | 'info' | 'warn' | 'error'
+import type { LoggerCapability, LoggerOptions, LogLevel } from '../types'
 
-interface LoggerOptions {
-  level?: LogLevel
-  prefix?: string
-  disabled?: boolean
-}
-
-class Logger {
+export class WebLogger implements LoggerCapability {
   private level: LogLevel
   private prefix: string
   private disabled: boolean
@@ -29,8 +23,15 @@ class Logger {
     return this.levels[level] >= this.levels[this.level]
   }
 
+  private formatTimestamp(date: Date): string {
+    const pad = (n: number) => n.toString().padStart(2, '0')
+    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(
+      date.getHours(),
+    )}:${pad(date.getMinutes())}:${pad(date.getSeconds())}.${pad(date.getMilliseconds())}`
+  }
+
   private formatMessage(level: LogLevel, message: string): string {
-    const timestamp = new Date().toISOString()
+    const timestamp = this.formatTimestamp(new Date())
     const prefix = this.prefix ? `[${this.prefix}]` : ''
     return `${timestamp} ${prefix}[${level.toUpperCase()}] ${message}`
   }
@@ -75,11 +76,3 @@ class Logger {
     this.disabled = true
   }
 }
-
-export const logger = new Logger({
-  level: import.meta.env.DEV ? 'debug' : 'info',
-  prefix: 'MdEditor',
-})
-
-export { Logger }
-export type { LogLevel, LoggerOptions }

@@ -1,8 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-import { logger } from '@/lib/logger'
-
 interface ThemeState {
   theme: 'light' | 'dark'
   setTheme: (theme: 'light' | 'dark') => void
@@ -20,7 +18,7 @@ const initializeTheme = () => {
         return state.theme
       }
     } catch (_e) {
-      logger.error('Failed to parse saved theme')
+      // logger.error('Failed to parse saved theme')
     }
   }
 

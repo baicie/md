@@ -1,3 +1,5 @@
+import { FileSelector } from '../ui/file-select'
+
 import { Icon } from '@/components/ui/Icon'
 import {
   ResizableHandle,
@@ -30,7 +32,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
               </Toolbar.Button>
             </div>
             <ScrollArea className="flex-1 w-full">
-              {/* 文件树内容 */}
+              <FileSelector />
             </ScrollArea>
           </div>
         </ResizablePanel>
@@ -47,7 +49,6 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
           </div>
         </ResizablePanel>
       </ResizablePanelGroup>
-
       {/* 底部状态栏 */}
       <div className="h-6 w-full border-t flex items-center px-4 text-sm text-muted-foreground shrink-0">
         <div className="flex items-center space-x-4">

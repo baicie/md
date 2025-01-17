@@ -57,7 +57,6 @@ export default tseslint.config(
           './tsconfig.json',
           './packages/core/tsconfig.app.json',
           './packages/core/tsconfig.node.json',
-          './packages/desktop/tsconfig.node.json',
           './servers/api/tsconfig.json',
         ],
         tsconfigRootDir: __dirname,
@@ -133,10 +132,6 @@ export default tseslint.config(
     rules: {
       'react/react-in-jsx-scope': 'off',
       'react-hooks/exhaustive-deps': 'warn',
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
     },
     settings: {
       react: {

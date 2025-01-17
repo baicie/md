@@ -18,9 +18,9 @@ import {
   TableColumnMenu,
   TableRowMenu,
 } from '@/components/editor/extensions/Table/menus'
-import { useBlockEditor } from '@/hooks/useBlockEditor'
-import { useSidebar } from '@/hooks/useSidebar'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { useBlockEditor } from '@/hooks/use-block-editor'
+import { useSidebar } from '@/hooks/use-sidebar'
 
 export const BlockEditor = ({
   ydoc,
