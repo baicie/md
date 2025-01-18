@@ -13,7 +13,7 @@ interface FileSelectorProps {
 
 export function FileSelector({
   onSelect,
-  accept = {
+  accept: _ = {
     'text/plain': ['.txt', '.md'],
     'application/json': ['.json'],
   },
@@ -25,14 +25,7 @@ export function FileSelector({
   const handleClick = async () => {
     try {
       setLoading(true)
-      const files = await platform.fs?.readFiles({
-        types: [
-          {
-            description,
-            accept,
-          },
-        ],
-      })
+      const files = await platform.fs?.readDirRecursive()
 
       if (files) {
         onSelect?.(files)

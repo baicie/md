@@ -102,6 +102,10 @@ export interface FileSystemCapability {
   exists(path: string): Promise<boolean>
   readDir(path: string): Promise<string[]>
   createDir(path: string): Promise<void>
+  readDirRecursive(
+    basePath?: string,
+    subDirHandle?: FileSystemDirectoryHandle,
+  ): Promise<{ name: string; content: Uint8Array }[]>
 }
 
 export interface FileStat {
