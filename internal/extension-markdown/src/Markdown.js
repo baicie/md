@@ -1,9 +1,9 @@
 import { Extension, extensions } from '@tiptap/core'
 
-import { MarkdownTightLists } from './extensions/tiptap/tight-lists'
-import { MarkdownSerializer } from './serialize/MarkdownSerializer'
-import { MarkdownParser } from './parse/MarkdownParser'
 import { MarkdownClipboard } from './extensions/tiptap/clipboard'
+import { MarkdownTightLists } from './extensions/tiptap/tight-lists'
+import { MarkdownParser } from './parse/MarkdownParser'
+import { MarkdownSerializer } from './serialize/MarkdownSerializer'
 
 export const Markdown = Extension.create({
   name: 'markdown',
@@ -24,6 +24,11 @@ export const Markdown = Extension.create({
     const commands = extensions.Commands.config.addCommands()
     return {
       setContent: (content, emitUpdate, parseOptions) => (props) => {
+        // eslint-disable-next-line no-undef, no-console
+        console.log(
+          'content',
+          props.editor.storage.markdown.parser.parse(content),
+        )
         return commands.setContent(
           props.editor.storage.markdown.parser.parse(content),
           emitUpdate,

@@ -113,7 +113,6 @@ export const Layout = ({
         if (file.type === 'file') {
           setActiveFile(file.path)
           const content = await file.raw.text()
-          logger.debug('content', content)
           editor?.commands.setContent(content)
         }
       } catch (error) {

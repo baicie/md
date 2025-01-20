@@ -2,6 +2,7 @@
   "name": "@baicie/md-extension-markdown",
   "version": "0.0.1",
   "scripts": {
+    "dev": "vite build --watch",
     "test": "vitest",
     "build": "vite build"
   },
