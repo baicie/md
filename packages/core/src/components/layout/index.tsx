@@ -14,7 +14,6 @@ import {
 } from '@/components/ui/resizable'
 import {
   Sidebar,
-  SidebarContent,
   SidebarGroup,
   SidebarGroupLabel,
   SidebarHeader,
@@ -45,12 +44,15 @@ const FileTreeNode = ({
   if (isDirectory) {
     return (
       <SidebarMenuItem>
-        <SidebarMenuButton onClick={() => setIsOpen(!isOpen)} className="gap-2">
+        <SidebarMenuButton onClick={() => setIsOpen(!isOpen)} className="gap-1">
           <ChevronRight
-            className={cn('transition-transform', isOpen && 'rotate-90')}
+            className={cn(
+              'transition-transform shrink-0 size-4',
+              isOpen && 'rotate-90',
+            )}
           />
-          <Folder className="size-4" />
-          <span>{file.name}</span>
+          <Folder className="shrink-0 size-4" />
+          <span className="truncate text-left">{file.name}</span>
         </SidebarMenuButton>
 
         {isOpen && file.children && (
@@ -74,10 +76,10 @@ const FileTreeNode = ({
       <SidebarMenuButton
         onClick={() => onFileClick(file)}
         isActive={activeFile === file.path}
-        className="gap-2"
+        className="gap-1"
       >
-        <File className="size-4" />
-        <span>{file.name}</span>
+        <File className="shrink-0 size-4" />
+        <span className="truncate text-left">{file.name}</span>
       </SidebarMenuButton>
     </SidebarMenuItem>
   )
@@ -93,7 +95,7 @@ export const Layout = ({
   const { theme, toggleTheme } = useThemeStore()
   const [files, setFiles] = useState<FileNode[]>([])
   const [activeFile, setActiveFile] = useState<string>()
-  const [isLoading, setIsLoading] = useState(false)
+  const [_, setIsLoading] = useState(false)
   const [error, setError] = useState<Error | null>(null)
   const [width, setWidth] = useState(20)
   const { logger } = usePlatform()
@@ -131,48 +133,52 @@ export const Layout = ({
           maxSize={30}
           onResize={setWidth}
         >
-          <SidebarProvider defaultOpen>
-            <Sidebar variant="inset" className="flex-1">
-              <SidebarHeader className="border-b border-neutral-200 dark:border-neutral-700 w-full">
-                <div className="flex items-center justify-between">
-                  <span className="text-neutral-900 dark:text-white">文件</span>
-                  <div className="flex items-center gap-2">
-                    <SidebarTrigger />
-                    <button
-                      onClick={toggleTheme}
-                      className="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-md"
-                      aria-label="切换主题"
-                    >
-                      <Icon
-                        name={theme === 'dark' ? 'Sun' : 'Moon'}
-                        className="size-4"
-                      />
-                    </button>
+          <div className="h-full flex flex-col">
+            <SidebarProvider defaultOpen>
+              <Sidebar variant="inset" className="flex-1">
+                <SidebarHeader className="border-b border-neutral-200 dark:border-neutral-700 w-full">
+                  <div className="flex items-center justify-between">
+                    <span className="text-neutral-900 dark:text-white">
+                      文件
+                    </span>
+                    <div className="flex items-center gap-2">
+                      <SidebarTrigger />
+                      <button
+                        onClick={toggleTheme}
+                        className="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-md"
+                        aria-label="切换主题"
+                      >
+                        <Icon
+                          name={theme === 'dark' ? 'Sun' : 'Moon'}
+                          className="size-4"
+                        />
+                      </button>
+                    </div>
+                  </div>
+                </SidebarHeader>
+                <div className="flex-1 overflow-y-auto">
+                  <div className="flex flex-col space-y-4 p-4">
+                    <FileSelector onSelect={handleFileSelect} />
+                    {files.length > 0 && (
+                      <SidebarGroup>
+                        <SidebarGroupLabel>已选择的文件</SidebarGroupLabel>
+                        <SidebarMenu>
+                          {files.map((file) => (
+                            <FileTreeNode
+                              key={file.path}
+                              file={file}
+                              onFileClick={handleFileClick}
+                              activeFile={activeFile}
+                            />
+                          ))}
+                        </SidebarMenu>
+                      </SidebarGroup>
+                    )}
                   </div>
                 </div>
-              </SidebarHeader>
-              <SidebarContent>
-                <div className="space-y-4">
-                  <FileSelector onSelect={handleFileSelect} />
-                  {files.length > 0 && (
-                    <SidebarGroup>
-                      <SidebarGroupLabel>已选择的文件</SidebarGroupLabel>
-                      <SidebarMenu>
-                        {files.map((file) => (
-                          <FileTreeNode
-                            key={file.path}
-                            file={file}
-                            onFileClick={handleFileClick}
-                            activeFile={activeFile}
-                          />
-                        ))}
-                      </SidebarMenu>
-                    </SidebarGroup>
-                  )}
-                </div>
-              </SidebarContent>
-            </Sidebar>
-          </SidebarProvider>
+              </Sidebar>
+            </SidebarProvider>
+          </div>
         </ResizablePanel>
 
         <ResizableHandle />
@@ -185,9 +191,6 @@ export const Layout = ({
               </div>
             </div>
             <div className="flex-1 overflow-hidden">
-              {isLoading && (
-                <div className="hint purple-spinner">Processing...</div>
-              )}
               {error && <div className="hint error">{error.message}</div>}
               {children}
             </div>

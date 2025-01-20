@@ -8,6 +8,7 @@ export interface TooltipProps {
   shortcut?: string[]
   tippyOptions?: Omit<Partial<Props>, 'content'>
   content?: React.ReactNode
+  className?: string
 }
 
 export interface TippyProps {
