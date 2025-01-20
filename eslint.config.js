@@ -58,6 +58,7 @@ export default tseslint.config(
           './packages/core/tsconfig.app.json',
           './packages/core/tsconfig.node.json',
           './servers/api/tsconfig.json',
+          './internal/extension-markdown/tsconfig.json',
         ],
         tsconfigRootDir: __dirname,
       },
@@ -140,6 +141,16 @@ export default tseslint.config(
     },
   },
 
+  {
+    files: ['internal/extension-markdown/**/*.{ts,tsx}'],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+      },
+    },
+    extends: [...compat.extends('plugin:jsx-a11y/recommended')],
+  },
+
   // NestJS 后端配置
   {
     files: ['servers/api/**/*.ts'],
@@ -159,7 +170,16 @@ export default tseslint.config(
 
   // 测试文件配置
   {
-    files: ['**/__tests__/**/*.{ts,tsx}', '**/*.{test,spec}.{ts,tsx}'],
+    files: [
+      '**/__tests__/**/*.{ts,tsx,js,jsx}',
+      '**/*.{test,spec}.{ts,tsx,js,jsx}',
+    ],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.jest,
+      },
+    },
     rules: {
       'no-console': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
