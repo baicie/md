@@ -12,7 +12,6 @@ import type { Doc as YDoc } from 'yjs'
 import type { EditorUser } from '../components/editor/components/BlockEditor/types'
 
 import { ExtensionKit } from '@/components/editor/extensions/extension-kit'
-import { initialContent } from '@/lib/data/initialContent'
 import { randomElement } from '@/lib/utils/index'
 
 declare global {
@@ -31,25 +30,26 @@ export const useBlockEditor = ({
   const [collabState, setCollabState] = useState<WebSocketStatus>(
     provider ? WebSocketStatus.Connecting : WebSocketStatus.Disconnected,
   )
+  const [isEditorReady, setIsEditorReady] = useState(false)
 
   const editor = useEditor(
     {
-      immediatelyRender: true,
-      shouldRerenderOnTransaction: false,
-      autofocus: true,
-      onCreate: (ctx) => {
+      editable: true,
+      injectCSS: true,
+      onCreate: ({ editor }) => {
         if (provider && !provider.isSynced) {
           provider.on('synced', () => {
-            setTimeout(() => {
-              if (ctx.editor.isEmpty) {
-                ctx.editor.commands.setContent(initialContent)
-              }
-            }, 0)
+            setIsEditorReady(true)
           })
-        } else if (ctx.editor.isEmpty) {
-          ctx.editor.commands.setContent(initialContent)
-          ctx.editor.commands.focus('start', { scrollIntoView: true })
+        } else {
+          if (editor.isEmpty) {
+            editor.commands.focus('start', { scrollIntoView: true })
+          }
+          setIsEditorReady(true)
         }
+      },
+      onDestroy: () => {
+        setIsEditorReady(false)
       },
       extensions: [
         ...ExtensionKit({
@@ -81,6 +81,7 @@ export const useBlockEditor = ({
     },
     [ydoc, provider],
   )
+
   const users = useEditorState({
     editor,
     selector: (ctx): (EditorUser & { initials: string })[] => {
@@ -105,9 +106,13 @@ export const useBlockEditor = ({
     provider?.on('status', (event: { status: WebSocketStatus }) => {
       setCollabState(event.status)
     })
-  }, [provider])
+
+    return () => {
+      editor?.destroy()
+    }
+  }, [provider, editor])
 
   window.editor = editor
 
-  return { editor, users, collabState }
+  return { editor, users, collabState, isEditorReady }
 }

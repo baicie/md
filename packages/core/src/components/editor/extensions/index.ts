@@ -1,5 +1,3 @@
-'use client'
-
 export { Details } from '@baicie/md-extension-details'
 export { DetailsContent } from '@baicie/md-extension-details-content'
 export { DetailsSummary } from '@baicie/md-extension-details-summary'
@@ -44,6 +42,7 @@ export { HorizontalRule } from './HorizontalRule'
 export { ImageBlock } from './ImageBlock'
 export { ImageUpload } from './ImageUpload'
 export { Link } from './Link'
+export { Markdown } from './markdown'
 export { Column, Columns } from './MultiColumn'
 export { Selection } from './Selection'
 export { SlashCommand } from './SlashCommand'

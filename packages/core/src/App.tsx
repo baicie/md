@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 
+import { useBlockEditor } from './hooks/use-block-editor'
 import { useCollaboration } from './hooks/use-collaboration'
 import { PlatformProvider } from './hooks/use-platform'
 import { createPlatform } from './platform'
@@ -13,6 +14,10 @@ export default function App() {
   const providerState = useCollaboration({
     docId: '123',
     enabled: true,
+  })
+  const { editor } = useBlockEditor({
+    ydoc: providerState.yDoc,
+    provider: providerState.provider,
   })
 
   const [platform, setPlatform] = useState<PlatformCapabilities | null>(null)
@@ -28,11 +33,8 @@ export default function App() {
   return (
     <PlatformProvider platform={platform}>
       <div className="dark:bg-neutral-900 dark:text-white">
-        <Layout>
-          <BlockEditor
-            ydoc={providerState.yDoc}
-            provider={providerState.provider}
-          />
+        <Layout editor={editor}>
+          <BlockEditor editor={editor} />
         </Layout>
       </div>
     </PlatformProvider>
