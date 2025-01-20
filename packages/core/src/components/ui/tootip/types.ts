@@ -9,6 +9,7 @@ export interface TooltipProps {
   tippyOptions?: Omit<Partial<Props>, 'content'>
   content?: React.ReactNode
   className?: string
+  spanClassName?: string
 }
 
 export interface TippyProps {

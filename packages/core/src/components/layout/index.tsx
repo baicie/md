@@ -2,6 +2,8 @@ import { ChevronRight, File, Folder } from 'lucide-react'
 import { useCallback, useState } from 'react'
 
 import { FileSelector } from '../composite/file-select'
+import { Ellipsis } from '../ui/ellipsis'
+import { ScrollArea } from '../ui/scroll-area'
 
 import type { FileNode } from '@/platform/types'
 import type { Editor } from '@tiptap/core'
@@ -52,7 +54,7 @@ const FileTreeNode = ({
             )}
           />
           <Folder className="shrink-0 size-4" />
-          <span className="truncate text-left">{file.name}</span>
+          <Ellipsis className="text-left">{file.name}</Ellipsis>
         </SidebarMenuButton>
 
         {isOpen && file.children && (
@@ -79,7 +81,7 @@ const FileTreeNode = ({
         className="gap-1"
       >
         <File className="shrink-0 size-4" />
-        <span className="truncate text-left">{file.name}</span>
+        <Ellipsis className="text-left">{file.name}</Ellipsis>
       </SidebarMenuButton>
     </SidebarMenuItem>
   )
@@ -156,26 +158,24 @@ export const Layout = ({
                     </div>
                   </div>
                 </SidebarHeader>
-                <div className="flex-1 overflow-y-auto">
-                  <div className="flex flex-col space-y-4 p-4">
-                    <FileSelector onSelect={handleFileSelect} />
-                    {files.length > 0 && (
-                      <SidebarGroup>
-                        <SidebarGroupLabel>已选择的文件</SidebarGroupLabel>
-                        <SidebarMenu>
-                          {files.map((file) => (
-                            <FileTreeNode
-                              key={file.path}
-                              file={file}
-                              onFileClick={handleFileClick}
-                              activeFile={activeFile}
-                            />
-                          ))}
-                        </SidebarMenu>
-                      </SidebarGroup>
-                    )}
-                  </div>
-                </div>
+                <ScrollArea>
+                  <FileSelector onSelect={handleFileSelect} />
+                  {files.length > 0 && (
+                    <SidebarGroup>
+                      <SidebarGroupLabel>已选择的文件</SidebarGroupLabel>
+                      <SidebarMenu>
+                        {files.map((file) => (
+                          <FileTreeNode
+                            key={file.path}
+                            file={file}
+                            onFileClick={handleFileClick}
+                            activeFile={activeFile}
+                          />
+                        ))}
+                      </SidebarMenu>
+                    </SidebarGroup>
+                  )}
+                </ScrollArea>
               </Sidebar>
             </SidebarProvider>
           </div>

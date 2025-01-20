@@ -20,6 +20,7 @@
     "@baicie/md-extension-emoji": "workspace:^",
     "@baicie/md-extension-file-handler": "workspace:^",
     "@baicie/md-extension-import": "workspace:^",
+    "@baicie/md-extension-markdown": "workspace:^",
     "@baicie/md-extension-table-of-contents": "workspace:^",
     "@baicie/md-extension-unique-id": "workspace:^",
     "@hocuspocus/provider": "^2.15.0",
@@ -83,7 +84,6 @@
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
     "tippy.js": "^6.3.7",
-    "tiptap-markdown": "^0.8.10",
     "uuid": "^11.0.5",
     "yjs": "^13.6.23",
     "zustand": "^5.0.3"
@@ -112,16 +112,5 @@
     "vite": "^6.0.7",
     "vitest": "^3.0.2"
   },
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/yourusername/yourrepo"
-  },
-  "acknowledgments": {
-    "extension-markdown": {
-      "author": "Antoine Guingand",
-      "license": "MIT",
-      "repository": "original-repo-url"
-    }
-  }
+  "license": "MIT"
 }

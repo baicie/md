@@ -35,6 +35,7 @@ export const Tooltip = ({
   shortcut,
   tippyOptions = {},
   className,
+  spanClassName,
 }: TooltipProps): JSX.Element => {
   const renderTooltip = useCallback(
     (attrs: TippyProps) => (
@@ -72,7 +73,7 @@ export const Tooltip = ({
         {...tippyOptions}
         render={renderTooltip}
       >
-        <span>{children}</span>
+        <span className={spanClassName}>{children}</span>
       </Tippy>
     )
   }

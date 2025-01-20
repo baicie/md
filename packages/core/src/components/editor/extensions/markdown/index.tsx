@@ -1,3 +1,3 @@
-import { Markdown as MarkdownExtension } from 'tiptap-markdown'
+import { Markdown as MarkdownExtension } from '@baicie/md-extension-markdown'
 
 export const Markdown = MarkdownExtension.configure({})

@@ -17,6 +17,7 @@ import {
   TableColumnMenu,
   TableRowMenu,
 } from '@/components/editor/extensions/Table/menus'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { useSidebar } from '@/hooks/use-sidebar'
 
 export const BlockEditor = ({
@@ -46,7 +47,7 @@ export const BlockEditor = ({
       />
       <div className="relative flex flex-col flex-1 h-full overflow-hidden">
         <EditorToolbar editor={editor} />
-        <div className="flex-1 w-full overflow-y-auto p-4">
+        <ScrollArea>
           <EditorContent editor={editor} className="h-full w-full" />
           <ContentItemMenu editor={editor} />
           <LinkMenu editor={editor} appendTo={menuContainerRef} />
@@ -55,7 +56,7 @@ export const BlockEditor = ({
           <TableRowMenu editor={editor} appendTo={menuContainerRef} />
           <TableColumnMenu editor={editor} appendTo={menuContainerRef} />
           <ImageBlockMenu editor={editor} appendTo={menuContainerRef} />
-        </div>
+        </ScrollArea>
       </div>
     </div>
   )

@@ -1,5 +1,7 @@
 .ProseMirror {
-  margin: 0 4rem;
+  width: 80% !important;
+  max-width: 800px !important;
+  margin: 0 auto;
   z-index: 0;
   padding-top: 4rem;
   padding-bottom: 4rem;
