@@ -131,52 +131,48 @@ export const Layout = ({
           maxSize={30}
           onResize={setWidth}
         >
-          <div className="h-full w-full flex">
-            <SidebarProvider defaultOpen>
-              <Sidebar variant="inset">
-                <SidebarHeader className="border-b border-neutral-200 dark:border-neutral-700">
-                  <div className="flex items-center justify-between">
-                    <span className="text-neutral-900 dark:text-white">
-                      文件
-                    </span>
-                    <div className="flex items-center gap-2">
-                      <SidebarTrigger />
-                      <button
-                        onClick={toggleTheme}
-                        className="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-md"
-                        aria-label="切换主题"
-                      >
-                        <Icon
-                          name={theme === 'dark' ? 'Sun' : 'Moon'}
-                          className="size-4"
-                        />
-                      </button>
-                    </div>
+          <SidebarProvider defaultOpen>
+            <Sidebar variant="inset" className="flex-1">
+              <SidebarHeader className="border-b border-neutral-200 dark:border-neutral-700 w-full">
+                <div className="flex items-center justify-between">
+                  <span className="text-neutral-900 dark:text-white">文件</span>
+                  <div className="flex items-center gap-2">
+                    <SidebarTrigger />
+                    <button
+                      onClick={toggleTheme}
+                      className="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-md"
+                      aria-label="切换主题"
+                    >
+                      <Icon
+                        name={theme === 'dark' ? 'Sun' : 'Moon'}
+                        className="size-4"
+                      />
+                    </button>
                   </div>
-                </SidebarHeader>
-                <SidebarContent>
-                  <div className="space-y-4">
-                    <FileSelector onSelect={handleFileSelect} />
-                    {files.length > 0 && (
-                      <SidebarGroup>
-                        <SidebarGroupLabel>已选择的文件</SidebarGroupLabel>
-                        <SidebarMenu>
-                          {files.map((file) => (
-                            <FileTreeNode
-                              key={file.path}
-                              file={file}
-                              onFileClick={handleFileClick}
-                              activeFile={activeFile}
-                            />
-                          ))}
-                        </SidebarMenu>
-                      </SidebarGroup>
-                    )}
-                  </div>
-                </SidebarContent>
-              </Sidebar>
-            </SidebarProvider>
-          </div>
+                </div>
+              </SidebarHeader>
+              <SidebarContent>
+                <div className="space-y-4">
+                  <FileSelector onSelect={handleFileSelect} />
+                  {files.length > 0 && (
+                    <SidebarGroup>
+                      <SidebarGroupLabel>已选择的文件</SidebarGroupLabel>
+                      <SidebarMenu>
+                        {files.map((file) => (
+                          <FileTreeNode
+                            key={file.path}
+                            file={file}
+                            onFileClick={handleFileClick}
+                            activeFile={activeFile}
+                          />
+                        ))}
+                      </SidebarMenu>
+                    </SidebarGroup>
+                  )}
+                </div>
+              </SidebarContent>
+            </Sidebar>
+          </SidebarProvider>
         </ResizablePanel>
 
         <ResizableHandle />
