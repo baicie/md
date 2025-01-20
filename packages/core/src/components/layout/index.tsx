@@ -147,7 +147,7 @@ export const Layout = ({
                       <button
                         onClick={toggleTheme}
                         className="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-md"
-                        aria-label="切换主题"
+                        aria-label="toggle theme"
                       >
                         <Icon
                           name={theme === 'dark' ? 'Sun' : 'Moon'}
