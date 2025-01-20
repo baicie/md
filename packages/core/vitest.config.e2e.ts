@@ -10,6 +10,9 @@ export default defineConfig({
       '~utils': resolve(__dirname, './test/utils'),
     },
   },
+  css: {
+    postcss: './postcss.config.js',
+  },
   test: {
     include: ['./e2e/**/*.spec.[tj]s'],
     setupFiles: ['./test/e2e/setup.ts'],

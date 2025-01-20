@@ -158,6 +158,9 @@ async function loadConfig(configEnv: ConfigEnv) {
         strict: !isBuild,
       },
     },
+    css: {
+      postcss: path.resolve(rootDir, 'postcss.config.js'),
+    },
     build: {
       // esbuild do not minify ES lib output since that would remove pure annotations and break tree-shaking
       // skip transpilation during tests to make it faster

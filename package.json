@@ -1,6 +1,7 @@
 {
   "name": "md",
   "private": "true",
+  "type": "module",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "postinstall": "simple-git-hooks && pnpm run stub",
@@ -10,7 +11,7 @@
     "server-dev": "turbo run dev --filter=./servers/*",
     "server-build": "turbo run build --filter=./servers/*",
     "build": "turbo run build",
-    "test-unit": "vitest run --workspace vitest.workspace.mts",
+    "test-unit": "vitest run --workspace vitest.workspace.ts",
     "test-serve": "pnpm -r run test:e2e",
     "test-docs": "pnpm run docs-build",
     "docs": "pnpm --filter=docs run docs",

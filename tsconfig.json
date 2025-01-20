@@ -7,9 +7,9 @@
   },
   "extends": "./tsconfig.base.json",
   "include": [
-    "eslint.config.mjs",
-    "vitest.workspace.e2e.mts",
-    "vitest.workspace.mts",
+    "eslint.config.js",
+    "vitest.workspace.e2e.ts",
+    "vitest.workspace.ts",
     "typings"
   ]
 }

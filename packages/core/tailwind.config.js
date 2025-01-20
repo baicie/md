@@ -1,12 +1,11 @@
+import typography from '@tailwindcss/typography'
+import animate from 'tailwindcss-animate'
 import defaultTheme from 'tailwindcss/defaultTheme'
+
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: 'class',
-  content: [
-    './index.html',
-    './src/**/*.{ts,tsx,js,jsx}',
-    './components/**/*.{ts,tsx,js,jsx}',
-  ],
+  content: ['./index.html', './src/**/*.{ts,tsx,js,jsx}'],
   safelist: ['ProseMirror'],
   theme: {
     extend: {
@@ -62,5 +61,7 @@ export default {
       },
     },
   },
-  plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')],
+  plugins: [animate, typography],
+  blocklist: [],
+  safelist: [],
 }
