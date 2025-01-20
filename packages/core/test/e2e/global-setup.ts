@@ -11,7 +11,7 @@ export async function setup({ provide }: TestProject): Promise<void> {
     : 'development'
 
   browserServer = await chromium.launchServer({
-    headless: false,
+    headless: !process.env.VITE_DEBUG_SERVE,
     args: process.env.CI
       ? ['--no-sandbox', '--disable-setuid-sandbox']
       : undefined,

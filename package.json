@@ -13,6 +13,7 @@
     "build": "turbo run build",
     "test-unit": "vitest run --workspace vitest.workspace.ts",
     "test-serve": "pnpm -r run test:e2e",
+    "debug-serve": "VITE_DEBUG_SERVE=1 pnpm -r run test:e2e",
     "test-docs": "pnpm run docs-build",
     "docs": "pnpm --filter=docs run docs",
     "docs-build": "pnpm --filter=docs run docs-build",
