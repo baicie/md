@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { Button } from './Button'
+import { Button } from './button'
 import {
   Card,
   CardContent,
@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from './card'
-import { Icon } from './Icon'
+import { Icon } from './icon'
 
 import { cn } from '@/lib/utils'
 

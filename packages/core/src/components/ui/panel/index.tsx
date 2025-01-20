@@ -1,7 +1,7 @@
-import { forwardRef } from 'react'
 import { Slot } from '@radix-ui/react-slot'
+import { forwardRef } from 'react'
 
-import { Surface } from '../Surface'
+import { Surface } from '../surface'
 
 import { cn } from '@/lib/utils'
 

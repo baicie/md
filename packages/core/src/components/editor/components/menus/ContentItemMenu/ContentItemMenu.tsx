@@ -7,10 +7,10 @@ import { useData } from './hooks/useData'
 
 import type { Editor } from '@tiptap/react'
 
-import { DropdownButton } from '@/components/ui/Dropdown'
-import { Icon } from '@/components/ui/Icon'
-import { Surface } from '@/components/ui/Surface'
-import { Toolbar } from '@/components/ui/Toolbar'
+import { DropdownButton } from '@/components/ui/dropdown'
+import { Icon } from '@/components/ui/icon'
+import { Surface } from '@/components/ui/surface'
+import { Toolbar } from '@/components/ui/toolbar'
 
 export interface ContentItemMenuProps {
   editor: Editor

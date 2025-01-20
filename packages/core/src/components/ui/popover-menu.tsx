@@ -2,8 +2,8 @@ import * as Popover from '@radix-ui/react-popover'
 import { icons } from 'lucide-react'
 import { forwardRef } from 'react'
 
-import { Surface } from './Surface'
-import { Toolbar } from './Toolbar'
+import { Surface } from './surface'
+import { Toolbar } from './toolbar'
 
 import { cn } from '@/lib/utils'
 

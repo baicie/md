@@ -9,9 +9,9 @@ import type {
 } from '@/components/editor/components/menus/types'
 import type { JSX } from 'react'
 
-import { Icon } from '@/components/ui/Icon'
-import * as PopoverMenu from '@/components/ui/PopoverMenu'
-import { Toolbar } from '@/components/ui/Toolbar'
+import { Icon } from '@/components/ui/icon'
+import * as PopoverMenu from '@/components/ui/popover-menu'
+import { Toolbar } from '@/components/ui/toolbar'
 
 export const TableColumnMenu = React.memo(
   ({ editor, appendTo }: MenuProps): JSX.Element => {

@@ -1,6 +1,6 @@
 import { FileSelector } from '../ui/file-select'
 
-import { Icon } from '@/components/ui/Icon'
+import { Icon } from '@/components/ui/icon'
 import {
   ResizableHandle,
   ResizablePanel,
@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/resizable'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
-import { Toolbar } from '@/components/ui/Toolbar'
+import { Toolbar } from '@/components/ui/toolbar'
 import { useThemeStore } from '@/stores/theme'
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {

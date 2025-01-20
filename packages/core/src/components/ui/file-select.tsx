@@ -1,11 +1,13 @@
 import { useState } from 'react'
 
-import { Button } from '@/components/ui/Button'
+import type { FileNode } from '@/platform/types'
+
+import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { usePlatform } from '@/hooks/use-platform'
 
 interface FileSelectorProps {
-  onSelect?: (files: { name: string; content: Uint8Array }[]) => void
+  onSelect?: (files: FileNode[]) => void
   multiple?: boolean
   accept?: Record<`${string}/${string}`, `.${string}`[]>
   description?: string
@@ -25,11 +27,12 @@ export function FileSelector({
   const handleClick = async () => {
     try {
       setLoading(true)
-      const files = await platform.fs?.readDirRecursive()
+      const files = await platform.fs?.readDirs()
 
       if (files) {
         onSelect?.(files)
       }
+      platform.logger.debug('files', files)
     } catch (e) {
       platform.logger.error('Failed to select files:', e)
     } finally {

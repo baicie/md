@@ -11,8 +11,8 @@ import type { SuggestionKeyDownProps } from '@tiptap/suggestion'
 import type { ForwardedRef } from 'react'
 import type { EmojiListProps } from '../types'
 
-import { Button } from '@/components/ui/Button'
-import { Panel } from '@/components/ui/Panel'
+import { Button } from '@/components/ui/button'
+import { Panel } from '@/components/ui/panel'
 
 const EmojiList = forwardRef(
   (

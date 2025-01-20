@@ -1,4 +1,4 @@
-import type { FileSystemCapability, LoggerCapability } from '../types'
+import type { FileNode, FileSystemCapability, LoggerCapability } from '../types'
 
 export class WebFileSystem implements FileSystemCapability {
   constructor(private readonly logger: LoggerCapability) {}
@@ -82,7 +82,7 @@ export class WebFileSystem implements FileSystemCapability {
       description?: string
       accept: Record<`${string}/${string}`, `.${string}`[]>
     }[]
-  }): Promise<{ name: string; content: Uint8Array }[]> {
+  }): Promise<FileNode[]> {
     try {
       this.logger.debug('📂 Starting readFiles', {
         description: options?.types?.[0]?.description,
@@ -117,8 +117,11 @@ export class WebFileSystem implements FileSystemCapability {
 
           return {
             name: file.name,
+            type: 'file',
+            path: file.name,
             content,
-          }
+            raw: file,
+          } satisfies FileNode
         }),
       )
 
@@ -140,9 +143,10 @@ export class WebFileSystem implements FileSystemCapability {
   async readDirRecursive(
     basePath = '',
     subDirHandle?: FileSystemDirectoryHandle,
-  ): Promise<{ name: string; content: Uint8Array }[]> {
-    const files: { name: string; content: Uint8Array }[] = []
+  ): Promise<FileNode[]> {
+    const result: FileNode[] = []
     const dirHandle = subDirHandle ?? (await window.showDirectoryPicker())
+
     try {
       for await (const entry of dirHandle.values()) {
         const path = basePath ? `${basePath}/${entry.name}` : entry.name
@@ -151,37 +155,35 @@ export class WebFileSystem implements FileSystemCapability {
           try {
             const file = await entry.getFile()
             const arrayBuffer = await file.arrayBuffer()
-            files.push({
-              name: path,
+            result.push({
+              name: file.name,
               content: new Uint8Array(arrayBuffer),
+              type: 'file',
+              path: path,
+              raw: file,
             })
           } catch (e) {
             this.logger.error(`Failed to read file ${path}:`, e)
-            // 继续处理其他文件
             continue
           }
         } else if (entry.kind === 'directory') {
           try {
             const subDirHandle = await dirHandle.getDirectoryHandle(entry.name)
-            const subFiles = await this.readDirRecursive(path, subDirHandle)
-            files.push(...subFiles)
+            const subResults = await this.readDirRecursive(path, subDirHandle)
+            result.push({
+              name: entry.name,
+              type: 'directory',
+              children: subResults,
+              path: path,
+            })
           } catch (e) {
             this.logger.error(`Failed to read directory ${path}:`, e)
-            // 继续处理其他目录
             continue
           }
         }
       }
 
-      this.logger.debug('📂 Directory read complete:', {
-        fileCount: files.length,
-        files: files.map((f) => ({
-          name: f.name,
-          size: `${(f.content.length / 1024).toFixed(2)} KB`,
-        })),
-      })
-
-      return files
+      return result
     } catch (e) {
       this.logger.error('❌ Failed to read directory recursively:', e)
       throw e
@@ -194,7 +196,7 @@ export class WebFileSystem implements FileSystemCapability {
       description?: string
       accept: Record<string, string[]>
     }[]
-  }): Promise<{ name: string; content: Uint8Array }[]> {
+  }): Promise<FileNode[]> {
     try {
       this.logger.debug('📂 Starting readDirs', {
         description: options?.types?.[0]?.description,

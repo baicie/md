@@ -7,8 +7,8 @@ import { ColumnLayout } from '../Columns'
 
 import type { MenuProps } from '@/components/editor/components/menus/types'
 
-import { Icon } from '@/components/ui/Icon'
-import { Toolbar } from '@/components/ui/Toolbar'
+import { Icon } from '@/components/ui/icon'
+import { Toolbar } from '@/components/ui/toolbar'
 import { getRenderContainer } from '@/lib/utils/index'
 
 export const ColumnsMenu = ({ editor, appendTo }: MenuProps) => {
