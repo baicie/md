@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "vite build --watch",
     "test": "vitest",
-    "build": "vite build"
+    "build": "vite build",
+    "stub": "vite build"
   },
   "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",

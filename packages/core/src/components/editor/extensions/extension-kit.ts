@@ -98,6 +98,7 @@ export const ExtensionKit = ({
       class: 'details',
     },
   }),
+  ImageBlock,
   Markdown,
   DetailsContent,
   DetailsSummary,
@@ -119,7 +120,6 @@ export const ExtensionKit = ({
   ImageUpload.configure({
     clientId: provider?.document?.clientID,
   }),
-  ImageBlock,
   FileHandler.configure({
     allowedMimeTypes: ['image/png', 'image/jpeg', 'image/gif', 'image/webp'],
     onDrop: (currentEditor, files, pos) => {

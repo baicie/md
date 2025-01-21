@@ -1,6 +1,6 @@
 import { mergeAttributes, Node } from '@tiptap/core'
 
-import { Image } from '../Image'
+import { ImageInline } from '../Image'
 
 export const Figcaption = Node.create({
   name: 'figcaption',
@@ -77,7 +77,7 @@ export const Figcaption = Node.create({
 
         // if the node before is of type image, don't do anything
         const nodeBefore = editor.state.doc.nodeAt($from.pos - 2)
-        if (nodeBefore?.type.name === Image.name) {
+        if (nodeBefore?.type.name === ImageInline.name) {
           return true
         }
 

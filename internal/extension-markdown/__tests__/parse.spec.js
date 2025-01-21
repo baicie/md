@@ -1,6 +1,6 @@
-import { describe, test, expect } from 'vitest'
+import { describe, expect, test } from 'vitest'
 
-import { parse, dedent } from './utils'
+import { dedent, parse } from './utils'
 
 describe('parse', () => {
   describe('marks', () => {

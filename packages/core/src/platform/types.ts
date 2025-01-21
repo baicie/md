@@ -103,7 +103,7 @@ interface FileTypeNode {
 interface DirectoryTypeNode {
   name: string
   type: 'directory'
-  children: FileNode[]
+  children: FileNode[] | Partial<FileNode>[]
   path: string
 }
 

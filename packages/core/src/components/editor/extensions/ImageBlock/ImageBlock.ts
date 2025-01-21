@@ -1,7 +1,7 @@
 import { mergeAttributes } from '@tiptap/core'
 import { ReactNodeViewRenderer } from '@tiptap/react'
 
-import { Image } from '../Image'
+import { ImageInline } from '../Image'
 import { ImageBlockView } from './components/ImageBlockView'
 
 import type { Range } from '@tiptap/core'
@@ -20,7 +20,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const ImageBlock = Image.extend({
+export const ImageBlock = ImageInline.extend({
   name: 'imageBlock',
 
   group: 'block',
@@ -33,9 +33,17 @@ export const ImageBlock = Image.extend({
     return {
       src: {
         default: '',
-        parseHTML: (element) => element.getAttribute('src'),
+        parseHTML: (element) => {
+          const src = element.getAttribute('src')
+          if (src && !src.startsWith('data:')) {
+            //TODO: user setting proxy
+            return `https://images.weserv.nl/?url=${encodeURIComponent(src)}&fit=inside`
+          }
+          return src
+        },
         renderHTML: (attributes) => ({
           src: attributes.src,
+          loading: 'lazy',
         }),
       },
       width: {
@@ -65,13 +73,19 @@ export const ImageBlock = Image.extend({
   parseHTML() {
     return [
       {
-        tag: 'img[src*="tiptap.dev"]:not([src^="data:"]), img[src*="windows.net"]:not([src^="data:"])',
+        // tag: 'img[src*="tiptap.dev"]:not([src^="data:"]), img[src*="windows.net"]:not([src^="data:"])',
+        tag: 'img',
       },
     ]
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['img', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)]
+    return [
+      'img',
+      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, {
+        referrerPolicy: 'no-referrer',
+      }),
+    ]
   },
 
   addCommands() {

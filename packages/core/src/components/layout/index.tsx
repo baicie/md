@@ -1,5 +1,5 @@
 import { ChevronRight, File, Folder } from 'lucide-react'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { FileSelector } from '../composite/file-select'
 import { Ellipsis } from '../ui/ellipsis'
@@ -27,6 +27,7 @@ import {
   SidebarTrigger,
 } from '@/components/ui/sidebar'
 import { usePlatform } from '@/hooks/use-platform'
+import { storageKeys } from '@/lib/constants'
 import { cn } from '@/lib/utils'
 import { useThemeStore } from '@/stores/theme'
 
@@ -62,7 +63,7 @@ const FileTreeNode = ({
             {file.children.map((child) => (
               <FileTreeNode
                 key={child.path}
-                file={child}
+                file={child as FileNode}
                 onFileClick={onFileClick}
                 activeFile={activeFile}
               />
@@ -98,19 +99,28 @@ export const Layout = ({
   const [files, setFiles] = useState<FileNode[]>([])
   const [activeFile, setActiveFile] = useState<string>()
   const [_, setIsLoading] = useState(false)
+  const [_siderLoading, setSiderLoading] = useState<boolean>(false)
   const [error, setError] = useState<Error | null>(null)
   const [width, setWidth] = useState(20)
-  const { logger } = usePlatform()
+  const { logger, storage } = usePlatform()
 
   const handleFileSelect = (selectedFiles: FileNode[]) => {
     setFiles(selectedFiles)
+    storage
+      .set(storageKeys.files, selectedFiles)
+      .then(() => {
+        logger.debug('storege success')
+      })
+      .catch((e) => {
+        logger.error('storege error', e)
+      })
   }
 
   const handleFileClick = useCallback(
     async (file: FileNode) => {
       try {
         setIsLoading(true)
-        if (file.type === 'file') {
+        if (file.type === 'file' && file.raw) {
           setActiveFile(file.path)
           const content = await file.raw.text()
           editor?.commands.setContent(content)
@@ -122,8 +132,23 @@ export const Layout = ({
         setIsLoading(false)
       }
     },
-    [editor?.commands, logger],
+    [editor, logger],
   )
+
+  useEffect(() => {
+    logger.debug('storage', storage)
+    setSiderLoading(true)
+    storage
+      .get<FileNode[]>(storageKeys.files)
+      .then((files) => {
+        if (files) {
+          setFiles(files)
+        }
+      })
+      .finally(() => {
+        setSiderLoading(false)
+      })
+  }, [logger, storage])
 
   return (
     <div className="h-screen w-full flex flex-col bg-white dark:bg-neutral-900">

@@ -24,11 +24,6 @@ export const Markdown = Extension.create({
     const commands = extensions.Commands.config.addCommands()
     return {
       setContent: (content, emitUpdate, parseOptions) => (props) => {
-        // eslint-disable-next-line no-undef, no-console
-        console.log(
-          'content',
-          props.editor.storage.markdown.parser.parse(content),
-        )
         return commands.setContent(
           props.editor.storage.markdown.parser.parse(content),
           emitUpdate,
