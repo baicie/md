@@ -9,11 +9,11 @@ export async function createPlatform(): Promise<PlatformCapabilities> {
       platform = new WebPlatform()
       break
     }
-    // case 'desktop': {
-    //   const { TauriPlatform } = await import('./tauri/index')
-    //   platform = new TauriPlatform()
-    //   break
-    // }
+    case 'desktop': {
+      const { DesktopPlatform } = await import('./desktop/index')
+      platform = new DesktopPlatform()
+      break
+    }
   }
 
   return platform!

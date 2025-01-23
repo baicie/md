@@ -1,5 +1,5 @@
 import { EditorContent } from '@tiptap/react'
-import React, { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 
 import { ContentItemMenu } from '../menus/ContentItemMenu'
 import { LinkMenu } from '../menus/LinkMenu'
@@ -31,7 +31,7 @@ export const BlockEditor = ({
   const leftSidebar = useSidebar()
 
   // 监听全局快捷键
-  React.useEffect(() => {
+  useEffect(() => {
     if (!editor) return
 
     const handleKeyDown = (_e: KeyboardEvent) => {
@@ -42,6 +42,11 @@ export const BlockEditor = ({
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [editor])
+
+  useEffect(() => {
+    if (!editor) return
+    editor.commands.focus()
   }, [editor])
 
   if (!isReady || !editor) {
