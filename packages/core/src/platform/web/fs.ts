@@ -111,10 +111,11 @@ export class WebFileSystem implements FileSystemCapability {
     }
   }
 
-  async readDirRecursive(_basePath = ''): Promise<FileNode[]> {
+  async readDirRecursive(): Promise<FileNode[]> {
     try {
       const handles = await directoryOpen({
         recursive: true,
+        startIn: 'documents',
       })
 
       const result: FileNode[] = []
