@@ -11,7 +11,8 @@ export async function createPlatform(): Promise<PlatformCapabilities> {
     }
     case 'desktop': {
       const { DesktopPlatform } = await import('./desktop/index')
-      platform = new DesktopPlatform()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      platform = new DesktopPlatform() as any
       break
     }
   }

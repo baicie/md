@@ -24,7 +24,6 @@ import {
   SidebarMenuItem,
   SidebarMenuSub,
   SidebarProvider,
-  SidebarTrigger,
 } from '@/components/ui/sidebar'
 import { usePlatform } from '@/hooks/use-platform'
 import { storageKeys } from '@/lib/constants'
@@ -165,10 +164,10 @@ export const Layout = ({
                 <SidebarHeader className="border-b border-neutral-200 dark:border-neutral-700 w-full">
                   <div className="flex items-center justify-between">
                     <span className="text-neutral-900 dark:text-white">
-                      文件
+                      文件 {__PLATFORM__}
                     </span>
                     <div className="flex items-center gap-2">
-                      <SidebarTrigger />
+                      {/* <SidebarTrigger /> */}
                       <button
                         onClick={toggleTheme}
                         className="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-md"

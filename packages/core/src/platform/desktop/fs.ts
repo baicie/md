@@ -40,10 +40,12 @@ export class DesktopFileSystem implements FileSystemCapability {
     }
   }
 
-  async readDir(dirPath: string): Promise<string[]> {
+  async readDir(dirPath: string): Promise<FileNode[]> {
     try {
       const entries = await readDir(dirPath)
-      return entries.map((entry) => entry.name)
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return entries.map((entry) => entry.name) as any
     } catch (e) {
       this.logger.error('Failed to read directory:', e)
       throw e
@@ -163,7 +165,7 @@ export class DesktopFileSystem implements FileSystemCapability {
 
       return this.readDirRecursive(selected as string)
     } catch (e) {
-      this.logger.error('❌ Failed to read directories:', e)
+      this.logger.error('❌ Desktop: Failed to read directories:', e)
       throw e
     }
   }

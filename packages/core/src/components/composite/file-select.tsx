@@ -1,4 +1,3 @@
-import { omit } from 'lodash'
 import { useState } from 'react'
 
 import type { FileNode } from '@/platform/types'
@@ -8,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { usePlatform } from '@/hooks/use-platform'
 
 interface FileSelectorProps {
-  onSelect?: (files: FileNode[], filteredFiles: Partial<FileNode>[]) => void
+  onSelect?: (files: FileNode[]) => void
   multiple?: boolean
   accept?: Record<`${string}/${string}`, `.${string}`[]>
   description?: string
@@ -25,27 +24,13 @@ export function FileSelector({
   const platform = usePlatform()
   const [loading, setLoading] = useState(false)
 
-  const filterFileNode = (node: FileNode): Partial<FileNode> => {
-    const filtered = omit(node, ['raw', 'content'])
-    if (node.type === 'directory' && node.children) {
-      return {
-        ...filtered,
-        children: node.children.map(
-          filterFileNode as (node: Partial<FileNode>) => Partial<FileNode>,
-        ),
-      }
-    }
-    return filtered
-  }
-
   const handleClick = async () => {
     try {
       setLoading(true)
-      const files = await platform.fs?.readDirs()
+      const files = await platform.fs?.readDir()
 
       if (files) {
-        const filteredFiles = files.map((file) => filterFileNode(file))
-        onSelect?.(files, filteredFiles)
+        onSelect?.(files)
       }
       platform.logger.debug('files', files)
     } catch (e) {

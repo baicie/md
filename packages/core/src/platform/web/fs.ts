@@ -1,6 +1,12 @@
-import { directoryOpen, fileOpen, fileSave } from 'browser-fs-access'
+import { directoryOpen, fileOpen, fileSave } from '@baicie/browser-fs-access'
 
-import type { FileNode, FileSystemCapability, LoggerCapability } from '../types'
+import type { FileWithDirectoryAndFileHandle } from '@baicie/browser-fs-access'
+import type {
+  DirectoryTypeNode,
+  FileNode,
+  FileSystemCapability,
+  LoggerCapability,
+} from '../types'
 
 export class WebFileSystem implements FileSystemCapability {
   constructor(private readonly logger: LoggerCapability) {}
@@ -32,18 +38,6 @@ export class WebFileSystem implements FileSystemCapability {
   async exists(_path: string): Promise<boolean> {
     // browser-fs-access 不支持检查文件存在
     return false
-  }
-
-  async readDir(_path: string): Promise<string[]> {
-    try {
-      const blobs = await directoryOpen({
-        recursive: false,
-      })
-      return blobs.map((blob) => blob.name)
-    } catch (e) {
-      this.logger.error('Failed to read directory:', e)
-      throw e
-    }
   }
 
   async createDir(_path: string): Promise<void> {
@@ -111,79 +105,76 @@ export class WebFileSystem implements FileSystemCapability {
     }
   }
 
-  async readDirRecursive(): Promise<FileNode[]> {
-    try {
-      const handles = await directoryOpen({
-        recursive: true,
-        startIn: 'documents',
-      })
+  private async buildFileTree(
+    files: FileWithDirectoryAndFileHandle[],
+  ): Promise<FileNode[]> {
+    const result: FileNode[] = []
+    const dirMap = new Map<string, DirectoryTypeNode>()
 
-      const result: FileNode[] = []
-      const dirMap = new Map<string, FileNode[]>()
+    // 首先创建所有目录节点
+    for (const file of files) {
+      const paths = file.webkitRelativePath.split('/')
+      paths.pop() // 移除文件名
 
-      // 首先创建所有目录节点
-      for (const handle of handles) {
-        const paths = handle.name.split('/')
-        let currentPath = ''
+      let currentPath = ''
+      // 为每一级目录创建节点
+      for (const segment of paths) {
+        const parentPath = currentPath
+        currentPath = currentPath ? `${currentPath}/${segment}` : segment
 
-        // 为每一级目录创建节点
-        for (let i = 0; i < paths.length - 1; i++) {
-          const parentPath = currentPath
-          currentPath = currentPath ? `${currentPath}/${paths[i]}` : paths[i]
-
-          if (!dirMap.has(currentPath)) {
-            const dirNode: FileNode = {
-              name: paths[i],
-              type: 'directory',
-              path: currentPath,
-              children: [],
-            }
-            dirMap.set(currentPath, dirNode.children as FileNode[])
-
-            if (parentPath) {
-              dirMap.get(parentPath)?.push(dirNode)
-            } else {
-              result.push(dirNode)
-            }
+        if (!dirMap.has(currentPath)) {
+          const dirNode: DirectoryTypeNode = {
+            name: segment,
+            type: 'directory',
+            path: currentPath,
+            children: [],
           }
-        }
-      }
+          dirMap.set(currentPath, dirNode)
 
-      // 然后添加文件节点
-      for (const blob of handles) {
-        if (blob instanceof File) {
-          const content = new Uint8Array(await blob.arrayBuffer())
-          const paths = (blob.webkitRelativePath || blob.name).split('/')
-          const fileName = paths[paths.length - 1]
-          const dirPath = paths.slice(0, -1).join('/')
-
-          const fileNode: FileNode = {
-            name: fileName,
-            type: 'file',
-            path: blob.webkitRelativePath || blob.name,
-            content,
-            raw: blob,
-          }
-
-          if (dirPath) {
-            dirMap.get(dirPath)?.push(fileNode)
+          if (parentPath) {
+            // 添加到父目录
+            dirMap.get(parentPath)?.children?.push(dirNode)
           } else {
-            result.push(fileNode)
+            // 根级目录
+            result.push(dirNode)
           }
         }
       }
-
-      return result
-    } catch (e) {
-      this.logger.error('❌ Failed to read directory recursively:', e)
-      throw e
     }
+
+    // 然后添加所有文件节点
+    for (const file of files) {
+      const paths = file.webkitRelativePath.split('/')
+      const fileName = paths.pop()! // 文件名
+      const dirPath = paths.join('/')
+
+      const fileNode: FileNode = {
+        name: fileName,
+        type: 'file',
+        path: file.webkitRelativePath,
+        content: await file.arrayBuffer().then((buf) => new Uint8Array(buf)),
+        raw: file,
+      }
+
+      if (dirPath) {
+        // 添加到父目录
+        dirMap.get(dirPath)?.children?.push(fileNode)
+      } else {
+        // 根级文件
+        result.push(fileNode)
+      }
+    }
+
+    return result
   }
 
-  async readDirs(): Promise<FileNode[]> {
+  async readDir(): Promise<FileNode[]> {
     try {
       this.logger.debug('📂 Starting readDirs')
-      return await this.readDirRecursive()
+      const files = await directoryOpen({
+        recursive: true,
+      })
+      return await this.buildFileTree(files as FileWithDirectoryAndFileHandle[])
     } catch (e) {
       this.logger.error('❌ Failed to read directories:', e)
       throw e

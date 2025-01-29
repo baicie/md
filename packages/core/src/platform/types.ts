@@ -100,10 +100,10 @@ interface FileTypeNode {
   raw: File
 }
 
-interface DirectoryTypeNode {
+export interface DirectoryTypeNode {
   name: string
   type: 'directory'
-  children: FileNode[] | Partial<FileNode>[]
+  children: FileNode[]
   path: string
 }
 
@@ -117,18 +117,8 @@ export interface FileSystemCapability {
   }): Promise<FileNode[]>
   writeFile(path: string, data: Uint8Array): Promise<void>
   exists(path: string): Promise<boolean>
-  readDir(path: string): Promise<string[]>
-  readDirs(options?: {
-    types?: {
-      description?: string
-      accept: Record<string, string[]>
-    }[]
-  }): Promise<FileNode[]>
+  readDir(path?: string): Promise<FileNode[]>
   createDir(path: string): Promise<void>
-  readDirRecursive(
-    basePath?: string,
-    subDirHandle?: FileSystemDirectoryHandle,
-  ): Promise<FileNode[]>
 }
 
 export interface FileStat {

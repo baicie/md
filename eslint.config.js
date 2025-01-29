@@ -38,7 +38,7 @@ export default tseslint.config(
       '**/vitest.config.ts',
       '**/tailwind.config.js',
       '**/postcss.config.js',
-      '**/internal/extension-markdown/**/*.{js,jsx}',
+      '**/internal/**/*',
       '**/desktop/src-tauri/**/*.{rs,toml}',
     ],
   },

@@ -1,0 +1,32 @@
+{
+  "name": "@baicie/browser-fs-access",
+  "version": "0.0.0",
+  "description": "File System Access API with legacy fallback in the browser.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "module": "./dist/index.js",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./index.d.ts",
+  "files": [
+    "dist/",
+    "index.d.ts"
+  ],
+  "scripts": {
+    "dev": "pnpm exec tsup --watch",
+    "build": "pnpm exec tsup"
+  },
+  "keywords": [
+    "file system access",
+    "file system access api",
+    "file system",
+    "polyfill"
+  ]
+}
