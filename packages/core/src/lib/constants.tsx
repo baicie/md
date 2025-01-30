@@ -73,4 +73,5 @@ export const themeColors = [
 
 export const storageKeys = {
   files: 'files',
+  'open-history': 'open-history',
 }

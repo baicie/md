@@ -1,11 +1,12 @@
 import { ChevronRight, File, Folder } from 'lucide-react'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 
 import { FileSelector } from '../composite/file-select'
 import { Ellipsis } from '../ui/ellipsis'
 import { ScrollArea } from '../ui/scroll-area'
+import { useLayout } from './use-file-strategy'
 
-import type { FileNode } from '@/platform/types'
+import type { FileNode, FileTypeNode } from '@/platform/types'
 import type { Editor } from '@tiptap/core'
 
 import { Icon } from '@/components/ui/icon'
@@ -26,7 +27,6 @@ import {
   SidebarProvider,
 } from '@/components/ui/sidebar'
 import { usePlatform } from '@/hooks/use-platform'
-import { storageKeys } from '@/lib/constants'
 import { cn } from '@/lib/utils'
 import { useThemeStore } from '@/stores/theme'
 
@@ -38,7 +38,7 @@ const FileTreeNode = ({
 }: {
   file: FileNode
   onFileClick: (file: FileNode) => void
-  activeFile?: string
+  activeFile?: FileTypeNode
 }) => {
   const [isOpen, setIsOpen] = useState(false)
   const isDirectory = file.type === 'directory'
@@ -77,7 +77,7 @@ const FileTreeNode = ({
     <SidebarMenuItem>
       <SidebarMenuButton
         onClick={() => onFileClick(file)}
-        isActive={activeFile === file.path}
+        isActive={activeFile?.path === file.path}
         className="gap-1"
       >
         <File className="shrink-0 size-4" />
@@ -95,59 +95,27 @@ export const Layout = ({
   editor: Editor | null
 }) => {
   const { theme, toggleTheme } = useThemeStore()
-  const [files, setFiles] = useState<FileNode[]>([])
-  const [activeFile, setActiveFile] = useState<string>()
-  const [_, setIsLoading] = useState(false)
-  const [_siderLoading, setSiderLoading] = useState<boolean>(false)
+  const { files, isLoading, handleFileSelect } = useLayout()
+  const [activeFile, setActiveFile] = useState<FileTypeNode>()
   const [error, setError] = useState<Error | null>(null)
   const [width, setWidth] = useState(20)
-  const { logger, storage } = usePlatform()
-
-  const handleFileSelect = (selectedFiles: FileNode[]) => {
-    setFiles(selectedFiles)
-    storage
-      .set(storageKeys.files, selectedFiles)
-      .then(() => {
-        logger.debug('storege success')
-      })
-      .catch((e) => {
-        logger.error('storege error', e)
-      })
-  }
+  const { logger } = usePlatform()
 
   const handleFileClick = useCallback(
     async (file: FileNode) => {
       try {
-        setIsLoading(true)
         if (file.type === 'file' && file.raw) {
-          setActiveFile(file.path)
+          setActiveFile(file)
           const content = await file.raw.text()
           editor?.commands.setContent(content)
         }
       } catch (error) {
         logger.error('Failed to load file', error)
         setError(error as Error)
-      } finally {
-        setIsLoading(false)
       }
     },
     [editor, logger],
   )
-
-  useEffect(() => {
-    logger.debug('storage', storage)
-    setSiderLoading(true)
-    storage
-      .get<FileNode[]>(storageKeys.files)
-      .then((files) => {
-        if (files) {
-          setFiles(files)
-        }
-      })
-      .finally(() => {
-        setSiderLoading(false)
-      })
-  }, [logger, storage])
 
   return (
     <div className="h-screen w-full flex flex-col bg-white dark:bg-neutral-900">
@@ -167,7 +135,6 @@ export const Layout = ({
                       文件 {__PLATFORM__}
                     </span>
                     <div className="flex items-center gap-2">
-                      {/* <SidebarTrigger /> */}
                       <button
                         onClick={toggleTheme}
                         className="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-md"
@@ -183,20 +150,24 @@ export const Layout = ({
                 </SidebarHeader>
                 <ScrollArea>
                   <FileSelector onSelect={handleFileSelect} />
-                  {files.length > 0 && (
-                    <SidebarGroup>
-                      <SidebarGroupLabel>已选择的文件</SidebarGroupLabel>
-                      <SidebarMenu>
-                        {files.map((file) => (
-                          <FileTreeNode
-                            key={file.path}
-                            file={file}
-                            onFileClick={handleFileClick}
-                            activeFile={activeFile}
-                          />
-                        ))}
-                      </SidebarMenu>
-                    </SidebarGroup>
+                  {isLoading ? (
+                    <div className="p-4">加载中...</div>
+                  ) : (
+                    files.length > 0 && (
+                      <SidebarGroup>
+                        <SidebarGroupLabel>已选择的文件</SidebarGroupLabel>
+                        <SidebarMenu>
+                          {files.map((file) => (
+                            <FileTreeNode
+                              key={file.path}
+                              file={file}
+                              onFileClick={handleFileClick}
+                              activeFile={activeFile}
+                            />
+                          ))}
+                        </SidebarMenu>
+                      </SidebarGroup>
+                    )
                   )}
                 </ScrollArea>
               </Sidebar>
@@ -210,7 +181,7 @@ export const Layout = ({
           <div className="h-full flex flex-col">
             <div className="h-10 border-b flex items-center px-4">
               <div className="flex-1">
-                {activeFile ? activeFile : '文档标题'}
+                {activeFile ? activeFile.name : '文档标题'}
               </div>
             </div>
             <div className="flex-1 overflow-hidden">

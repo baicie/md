@@ -1,4 +1,4 @@
-import { basename, dirname, join } from '@tauri-apps/api/path'
+import { basename, dirname, join, resolve } from '@tauri-apps/api/path'
 import { open } from '@tauri-apps/plugin-dialog'
 import {
   create,
@@ -10,6 +10,37 @@ import {
 
 import type { FileNode, FileSystemCapability, LoggerCapability } from '../types'
 
+export async function readDirRecursive(basePath: string): Promise<FileNode[]> {
+  const result: FileNode[] = []
+
+  const entries = await readDir(basePath)
+
+  for (const entry of entries) {
+    if (entry.name.startsWith('.')) {
+      continue
+    }
+    const fullPath = await resolve(basePath, entry.name)
+    if (entry.isDirectory) {
+      result.push({
+        name: entry.name,
+        type: 'directory',
+        children: await readDirRecursive(fullPath),
+        path: fullPath,
+      })
+    } else if (entry.isFile) {
+      const content = await readFile(fullPath)
+      result.push({
+        name: entry.name,
+        type: 'file',
+        path: fullPath,
+        content,
+        raw: new File([content], entry.name),
+      })
+    }
+  }
+
+  return result
+}
 export class DesktopFileSystem implements FileSystemCapability {
   constructor(private readonly logger: LoggerCapability) {}
 
@@ -40,17 +71,19 @@ export class DesktopFileSystem implements FileSystemCapability {
     }
   }
 
-  async readDir(dirPath: string): Promise<FileNode[]> {
-    try {
-      const entries = await readDir(dirPath)
+  // async readDir(dirPath = ''): Promise<FileNode[]> {
+  //   try {
+  //     const entries = await readDir(dirPath, {
+  //       baseDir: BaseDirectory.Download,
+  //     })
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      return entries.map((entry) => entry.name) as any
-    } catch (e) {
-      this.logger.error('Failed to read directory:', e)
-      throw e
-    }
-  }
+  //     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  //     return entries.map((entry) => entry.name) as any
+  //   } catch (e) {
+  //     this.logger.error('Failed to read directory:', e)
+  //     throw e
+  //   }
+  // }
 
   async createDir(dirPath: string): Promise<void> {
     try {
@@ -126,33 +159,7 @@ export class DesktopFileSystem implements FileSystemCapability {
     }
   }
 
-  async readDirRecursive(basePath: string): Promise<FileNode[]> {
-    const result: FileNode[] = []
-
-    try {
-      const entries = await readDir(basePath)
-
-      for (const entry of entries) {
-        const fullPath = await join(basePath, entry.name)
-
-        const content = await readFile(fullPath)
-        result.push({
-          name: entry.name,
-          type: 'file',
-          path: fullPath,
-          content: new Uint8Array(Buffer.from(content)),
-          raw: new File([content], entry.name),
-        })
-      }
-
-      return result
-    } catch (e) {
-      this.logger.error('❌ Failed to read directory recursively:', e)
-      throw e
-    }
-  }
-
-  async readDirs(): Promise<FileNode[]> {
+  async readDir(): Promise<{ files: FileNode[]; selectedPath: string | null }> {
     try {
       this.logger.debug('📂 Starting readDirs')
 
@@ -161,9 +168,16 @@ export class DesktopFileSystem implements FileSystemCapability {
         multiple: false,
       })
 
-      if (!selected) return []
-
-      return this.readDirRecursive(selected as string)
+      if (!selected)
+        return {
+          files: [],
+          selectedPath: selected,
+        }
+      const result = {
+        files: await readDirRecursive(selected),
+        selectedPath: selected,
+      }
+      return result
     } catch (e) {
       this.logger.error('❌ Desktop: Failed to read directories:', e)
       throw e

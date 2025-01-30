@@ -92,7 +92,7 @@ export interface WindowCapability {
 
 export type FileNode = FileTypeNode | DirectoryTypeNode
 
-interface FileTypeNode {
+export interface FileTypeNode {
   name: string
   type: 'file'
   content: Uint8Array
@@ -117,7 +117,9 @@ export interface FileSystemCapability {
   }): Promise<FileNode[]>
   writeFile(path: string, data: Uint8Array): Promise<void>
   exists(path: string): Promise<boolean>
-  readDir(path?: string): Promise<FileNode[]>
+  readDir(
+    path?: string,
+  ): Promise<{ files: FileNode[]; selectedPath: string | null }>
   createDir(path: string): Promise<void>
 }
 

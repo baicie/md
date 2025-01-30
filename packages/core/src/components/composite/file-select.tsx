@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { usePlatform } from '@/hooks/use-platform'
 
 interface FileSelectorProps {
-  onSelect?: (files: FileNode[]) => void
+  onSelect?: (files: FileNode[], selectedPath: string | null) => void
   multiple?: boolean
   accept?: Record<`${string}/${string}`, `.${string}`[]>
   description?: string
@@ -27,12 +27,13 @@ export function FileSelector({
   const handleClick = async () => {
     try {
       setLoading(true)
-      const files = await platform.fs?.readDir()
+      const result = await platform.fs?.readDir()
 
-      if (files) {
-        onSelect?.(files)
+      if (result && result.files.length > 0) {
+        const { files, selectedPath } = result
+        platform.logger.debug('Selected files:', files)
+        onSelect?.(files, selectedPath)
       }
-      platform.logger.debug('files', files)
     } catch (e) {
       platform.logger.error('Failed to select files:', e)
     } finally {

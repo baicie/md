@@ -7,10 +7,22 @@
     "core:default",
     "opener:default",
     "store:default",
-    "fs:default",
+    "dialog:allow-open",
     {
-      "identifier": "fs:allow-exists",
-      "allow": [{ "path": "$APPDATA/*" }]
+      "identifier": "fs:read-all",
+      "allow": [
+        {
+          "path": "**"
+        }
+      ]
+    },
+    {
+      "identifier": "fs:write-all",
+      "allow": [
+        {
+          "path": "**"
+        }
+      ]
     }
   ]
 }

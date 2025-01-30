@@ -1,19 +1,19 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "desktop",
+  "productName": "tauri-app",
   "version": "0.1.0",
-  "identifier": "com.baicie.md.desktop.app",
+  "identifier": "com.tauri-app.app",
   "build": {
     "beforeDevCommand": "pnpm --filter @baicie/md-core dev --mode desktop",
     "devUrl": "http://localhost:1420",
-    "beforeBuildCommand": "pnpm --filter @baicie/md-core build --mode desktop",
-    "frontendDist": "../../core/dist"
+    "beforeBuildCommand": "pnpm build",
+    "frontendDist": "../dist"
   },
   "app": {
     "withGlobalTauri": true,
     "windows": [
       {
-        "title": "desktop",
+        "title": "tauri-app",
         "width": 800,
         "height": 600
       }
