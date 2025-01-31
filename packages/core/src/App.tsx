@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 
+import { FileProvider } from './components/layout/file-context'
 import { useBlockEditor } from './hooks/use-block-editor'
 import { useCollaboration } from './hooks/use-collaboration'
 import { PlatformProvider } from './hooks/use-platform'
@@ -32,11 +33,13 @@ export default function App() {
 
   return (
     <PlatformProvider platform={platform}>
-      <div className="dark:bg-neutral-900 dark:text-white">
-        <Layout editor={editor}>
-          <BlockEditor editor={editor} />
-        </Layout>
-      </div>
+      <FileProvider editor={editor}>
+        <div className="dark:bg-neutral-900 dark:text-white">
+          <Layout>
+            <BlockEditor editor={editor} />
+          </Layout>
+        </div>
+      </FileProvider>
     </PlatformProvider>
   )
 }

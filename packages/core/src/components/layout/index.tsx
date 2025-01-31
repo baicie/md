@@ -1,10 +1,8 @@
 import { useState } from 'react'
 
 import { Button } from '../ui/button'
-import { FileProvider, useFiles } from './file-context'
+import { useFiles } from './file-context'
 import { Sidebar } from './sidebar'
-
-import type { Editor } from '@tiptap/core'
 
 import { Icon } from '@/components/ui/icon'
 import {
@@ -13,13 +11,7 @@ import {
   ResizablePanelGroup,
 } from '@/components/ui/resizable'
 
-export const Layout = ({
-  children,
-  editor,
-}: {
-  children: React.ReactNode
-  editor: Editor | null
-}) => {
+export const Layout = ({ children }: { children: React.ReactNode }) => {
   const [width, setWidth] = useState(20)
   const { activeFile, handleSave, error } = useFiles()
   return (
@@ -31,9 +23,7 @@ export const Layout = ({
           maxSize={30}
           onResize={setWidth}
         >
-          <FileProvider editor={editor}>
-            <Sidebar />
-          </FileProvider>
+          <Sidebar />
         </ResizablePanel>
 
         <ResizableHandle />

@@ -77,7 +77,7 @@ export const ContentItemMenu = ({ editor }: ContentItemMenuProps) => {
               <Popover.Close>
                 <DropdownButton
                   onClick={actions.deleteNode}
-                  className="text-red-500 bg-red-500 dark:text-red-500 hover:bg-red-500 dark:hover:text-red-500 dark:hover:bg-red-500 bg-opacity-10 hover:bg-opacity-20 dark:hover:bg-opacity-20"
+                  className="text-red-500 bg-red-500 dark:text-red-500 hover:bg-red-500 dark:hover:text-red-500 dark:hover:bg-red-500 bg-black/10 hover:bg-black/20 dark:hover:bg-black/20"
                 >
                   <Icon name="Trash2" />
                   Delete
