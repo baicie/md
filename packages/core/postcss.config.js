@@ -1,8 +1,8 @@
+import tailwindcss from '@tailwindcss/postcss'
 import autoprefixer from 'autoprefixer'
 import postcssNested from 'postcss-nested'
 import postcssNormalize from 'postcss-normalize'
 import postcssPresetEnv from 'postcss-preset-env'
-import tailwindcss from 'tailwindcss'
 
 export default {
   plugins: [

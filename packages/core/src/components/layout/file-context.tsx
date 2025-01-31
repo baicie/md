@@ -1,65 +1,46 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
+
+import { useFileStorageStrategy } from './file-strategy'
 
 import type { FileNode, FileTypeNode } from '@/platform/types'
 import type { Editor } from '@tiptap/core'
+import type { ReactNode } from 'react'
 
 import { usePlatform } from '@/hooks/use-platform'
-import { storageKeys } from '@/lib/constants'
 import { stringToUint8Array } from '@/lib/string-unit8'
-import { readDirRecursive } from '@/platform/desktop/fs'
 
-interface FileStorageStrategy {
-  saveFiles(files: FileNode[], selectedPath: string | null): Promise<void>
-  loadFiles(): Promise<FileNode[]>
-  saveFile(activeFile: FileTypeNode): Promise<void>
+interface FileContextType {
+  files: FileNode[]
+  setFiles: (files: FileNode[]) => void
+  setActiveFile: (file: FileTypeNode) => void
+  isLoading: boolean
+  activeFile: FileTypeNode | undefined
+  handleSave: () => Promise<void>
+  handleFileSelect: (
+    selectedFiles: FileNode[],
+    selectedPath: string | null,
+  ) => Promise<void>
+  editor: Editor | null
+  error: Error | null
+  setError: (error: Error | null) => void
 }
 
-const useFileStorageStrategy = () => {
-  const { storage, logger, fs } = usePlatform()
+const FileContext = createContext<FileContextType | null>(null)
 
-  return useMemo(() => {
-    const webStrategy: FileStorageStrategy = {
-      async saveFiles(files: FileNode[]) {
-        // Web 端保存完整的文件内容
-        await storage.set(storageKeys.files, files)
-      },
-      async loadFiles() {
-        // Web 端直接从 storage 加载完整文件
-        return (await storage.get<FileNode[]>(storageKeys.files)) || []
-      },
-      async saveFile(file) {
-        await fs?.writeFile(file.path, file.content)
-      },
-    }
-
-    const desktopStrategy: FileStorageStrategy = {
-      async saveFiles(_files: FileNode[], selectedPath: string | null) {
-        const history =
-          (await storage.get<string[]>(storageKeys['open-history'])) || []
-
-        const historySet = new Set(history)
-        if (selectedPath) {
-          historySet.add(selectedPath)
-          logger.debug('historySet', historySet)
-          await storage.set(storageKeys['open-history'], [...historySet])
-        }
-      },
-      async loadFiles() {
-        const history =
-          (await storage.get<string[]>(storageKeys['open-history'])) || []
-        return (await readDirRecursive(history[0])) || []
-      },
-      async saveFile(file) {
-        await fs?.writeFile(file.path, file.content)
-      },
-    }
-
-    return __PLATFORM__ === 'desktop' ? desktopStrategy : webStrategy
-  }, [storage, logger, fs])
+interface FileContextProps {
+  children: ReactNode
+  editor: Editor | null
 }
 
-export const useLayout = ({ editor }: { editor: Editor | null }) => {
+export const FileProvider = ({ children, editor }: FileContextProps) => {
   const { logger } = usePlatform()
+  const [error, setError] = useState<Error | null>(null)
   const [files, setFiles] = useState<FileNode[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [activeFile, setActiveFile] = useState<FileTypeNode>()
@@ -127,12 +108,30 @@ export const useLayout = ({ editor }: { editor: Editor | null }) => {
     }
   }, [strategy, logger])
 
-  return {
-    files,
-    isLoading,
-    activeFile,
-    setActiveFile,
-    handleSave,
-    handleFileSelect,
+  return (
+    <FileContext.Provider
+      value={{
+        files,
+        isLoading,
+        activeFile,
+        editor,
+        error,
+        setError,
+        setFiles,
+        handleSave,
+        handleFileSelect,
+        setActiveFile,
+      }}
+    >
+      {children}
+    </FileContext.Provider>
+  )
+}
+
+export const useFiles = () => {
+  const context = useContext(FileContext)
+  if (!context) {
+    throw new Error('useFiles must be used within FileProvider')
   }
+  return context
 }
