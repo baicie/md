@@ -1,18 +1,21 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
-import type { FileNode } from '@/platform/types'
+import type { FileNode, FileTypeNode } from '@/platform/types'
+import type { Editor } from '@tiptap/core'
 
 import { usePlatform } from '@/hooks/use-platform'
 import { storageKeys } from '@/lib/constants'
+import { stringToUint8Array } from '@/lib/string-unit8'
 import { readDirRecursive } from '@/platform/desktop/fs'
 
 interface FileStorageStrategy {
   saveFiles(files: FileNode[], selectedPath: string | null): Promise<void>
   loadFiles(): Promise<FileNode[]>
+  saveFile(activeFile: FileTypeNode): Promise<void>
 }
 
 const useFileStorageStrategy = () => {
-  const { storage, logger } = usePlatform()
+  const { storage, logger, fs } = usePlatform()
 
   return useMemo(() => {
     const webStrategy: FileStorageStrategy = {
@@ -23,6 +26,9 @@ const useFileStorageStrategy = () => {
       async loadFiles() {
         // Web 端直接从 storage 加载完整文件
         return (await storage.get<FileNode[]>(storageKeys.files)) || []
+      },
+      async saveFile(file) {
+        await fs?.writeFile(file.path, file.content)
       },
     }
 
@@ -43,16 +49,20 @@ const useFileStorageStrategy = () => {
           (await storage.get<string[]>(storageKeys['open-history'])) || []
         return (await readDirRecursive(history[0])) || []
       },
+      async saveFile(file) {
+        await fs?.writeFile(file.path, file.content)
+      },
     }
 
     return __PLATFORM__ === 'desktop' ? desktopStrategy : webStrategy
-  }, [storage, logger])
+  }, [storage, logger, fs])
 }
 
-export const useLayout = () => {
+export const useLayout = ({ editor }: { editor: Editor | null }) => {
   const { logger } = usePlatform()
   const [files, setFiles] = useState<FileNode[]>([])
   const [isLoading, setIsLoading] = useState(false)
+  const [activeFile, setActiveFile] = useState<FileTypeNode>()
   const strategy = useFileStorageStrategy()
 
   const handleFileSelect = useCallback(
@@ -78,7 +88,16 @@ export const useLayout = () => {
     [strategy, logger],
   )
 
-  // 初始化加载
+  const handleSave = useCallback(async () => {
+    if (activeFile && editor) {
+      const text = editor.getText()
+      await strategy.saveFile({
+        ...activeFile,
+        content: stringToUint8Array(text),
+      })
+    }
+  }, [activeFile, editor, strategy])
+
   useEffect(() => {
     let mounted = true
 
@@ -111,6 +130,9 @@ export const useLayout = () => {
   return {
     files,
     isLoading,
+    activeFile,
+    setActiveFile,
+    handleSave,
     handleFileSelect,
   }
 }

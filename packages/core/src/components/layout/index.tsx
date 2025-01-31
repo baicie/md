@@ -2,6 +2,7 @@ import { ChevronRight, File, Folder } from 'lucide-react'
 import { useCallback, useState } from 'react'
 
 import { FileSelector } from '../composite/file-select'
+import { Button } from '../ui/button'
 import { Ellipsis } from '../ui/ellipsis'
 import { ScrollArea } from '../ui/scroll-area'
 import { useLayout } from './use-file-strategy'
@@ -95,8 +96,15 @@ export const Layout = ({
   editor: Editor | null
 }) => {
   const { theme, toggleTheme } = useThemeStore()
-  const { files, isLoading, handleFileSelect } = useLayout()
-  const [activeFile, setActiveFile] = useState<FileTypeNode>()
+  const {
+    files,
+    isLoading,
+    activeFile,
+    setActiveFile,
+    handleFileSelect,
+    handleSave,
+  } = useLayout({ editor })
+
   const [error, setError] = useState<Error | null>(null)
   const [width, setWidth] = useState(20)
   const { logger } = usePlatform()
@@ -114,7 +122,7 @@ export const Layout = ({
         setError(error as Error)
       }
     },
-    [editor, logger],
+    [editor?.commands, logger, setActiveFile],
   )
 
   return (
@@ -180,8 +188,32 @@ export const Layout = ({
         <ResizablePanel defaultSize={80}>
           <div className="h-full flex flex-col">
             <div className="h-10 border-b flex items-center px-4">
-              <div className="flex-1">
-                {activeFile ? activeFile.name : '文档标题'}
+              <div className="flex-1 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  {activeFile ? (
+                    <span className="text-sm font-medium">
+                      {activeFile.name}
+                    </span>
+                  ) : (
+                    <span className="text-sm text-muted-foreground">
+                      文档标题
+                    </span>
+                  )}
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="ghost"
+                    onClick={handleSave}
+                    disabled={!activeFile}
+                    style={{
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <Icon name="Save" className="size-4 mr-1" />
+                    <span>保存</span>
+                  </Button>
+                </div>
               </div>
             </div>
             <div className="flex-1 overflow-hidden">

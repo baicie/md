@@ -44,11 +44,6 @@ export const BlockEditor = ({
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [editor])
 
-  useEffect(() => {
-    if (!editor) return
-    editor.commands.focus()
-  }, [editor])
-
   if (!isReady || !editor) {
     return (
       <div className="flex h-full items-center justify-center">
