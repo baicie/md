@@ -27,6 +27,20 @@ export default function App() {
     createPlatform().then(setPlatform)
   }, [])
 
+  useEffect(() => {
+    const handleContextMenu = (e: MouseEvent) => {
+      if (!__DEV__) {
+        e.preventDefault()
+      }
+    }
+
+    document.addEventListener('contextmenu', handleContextMenu)
+
+    return () => {
+      document.removeEventListener('contextmenu', handleContextMenu)
+    }
+  }, [])
+
   if (!platform) {
     return <div>loading</div>
   }

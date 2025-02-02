@@ -8,7 +8,12 @@
   padding-right: 2rem;
   padding-left: 5rem;
   caret-color: #000;
-  outline-width: 0px;
+  outline: none;
+
+  &:hover,
+  :focus {
+    outline: none;
+  }
 
   .is-empty::before {
     @apply text-neutral-500 dark:text-neutral-400;

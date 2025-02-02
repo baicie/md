@@ -12,6 +12,12 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+
+    /* Popover 颜色变量 */
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
   }
   .dark {
     --sidebar-background: 240 5.9% 10%;
@@ -22,6 +28,12 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+
+    /* Popover 暗色模式变量 */
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
   }
 }
 @layer base {

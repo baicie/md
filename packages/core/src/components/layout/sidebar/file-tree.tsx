@@ -2,10 +2,16 @@ import { ChevronRight, File, Folder } from 'lucide-react'
 import { useCallback, useState } from 'react'
 
 import { useFiles } from '../file-context'
+import {
+  EmptyAreaContextMenu,
+  FileContextMenu,
+  FolderContextMenu,
+} from './context-menu'
 
 import type { FileNode, FileTypeNode } from '@/platform/types'
 
 import { FileSelector } from '@/components/composite/file-select'
+import { ContextMenu, ContextMenuTrigger } from '@/components/ui/context-menu'
 import { Ellipsis } from '@/components/ui/ellipsis'
 import { Icon } from '@/components/ui/icon'
 import { ScrollArea } from '@/components/ui/scroll-area'
@@ -38,45 +44,60 @@ const FileTreeNode = ({
 
   if (isDirectory) {
     return (
-      <SidebarMenuItem>
-        <SidebarMenuButton onClick={() => setIsOpen(!isOpen)} className="gap-1">
-          <ChevronRight
-            className={cn(
-              'transition-transform shrink-0 size-4',
-              isOpen && 'rotate-90',
-            )}
-          />
-          <Folder className="shrink-0 size-4" />
-          <Ellipsis className="text-left">{file.name}</Ellipsis>
-        </SidebarMenuButton>
-
-        {isOpen && file.children && (
-          <SidebarMenuSub>
-            {file.children.map((child) => (
-              <FileTreeNode
-                key={child.path}
-                file={child as FileNode}
-                onFileClick={onFileClick}
-                activeFile={activeFile}
+      <ContextMenu>
+        <ContextMenuTrigger>
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              onClick={() => setIsOpen(!isOpen)}
+              className="gap-1"
+            >
+              <ChevronRight
+                className={cn(
+                  'transition-transform shrink-0 size-4',
+                  isOpen && 'rotate-90',
+                )}
               />
-            ))}
-          </SidebarMenuSub>
-        )}
-      </SidebarMenuItem>
+              <Folder className="shrink-0 size-4" />
+              <Ellipsis className="text-left">{file.name}</Ellipsis>
+            </SidebarMenuButton>
+
+            {isOpen && file.children && (
+              <SidebarMenuSub>
+                {file.children.map((child) => (
+                  <FileTreeNode
+                    key={child.path}
+                    file={child as FileNode}
+                    onFileClick={onFileClick}
+                    activeFile={activeFile}
+                  />
+                ))}
+              </SidebarMenuSub>
+            )}
+          </SidebarMenuItem>
+
+          <FolderContextMenu />
+        </ContextMenuTrigger>
+      </ContextMenu>
     )
   }
 
   return (
-    <SidebarMenuItem>
-      <SidebarMenuButton
-        onClick={() => onFileClick(file)}
-        isActive={activeFile?.path === file.path}
-        className="gap-1"
-      >
-        <File className="shrink-0 size-4" />
-        <Ellipsis className="text-left">{file.name}</Ellipsis>
-      </SidebarMenuButton>
-    </SidebarMenuItem>
+    <ContextMenu>
+      <ContextMenuTrigger>
+        <SidebarMenuItem>
+          <SidebarMenuButton
+            onClick={() => onFileClick(file)}
+            isActive={activeFile?.path === file.path}
+            className="gap-1"
+          >
+            <File className="shrink-0 size-4" />
+            <Ellipsis className="text-left">{file.name}</Ellipsis>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+
+        <FileContextMenu />
+      </ContextMenuTrigger>
+    </ContextMenu>
   )
 }
 
@@ -133,25 +154,30 @@ export const SidebarFileTree = () => {
         </SidebarHeader>
         <ScrollArea>
           <FileSelector onSelect={handleFileSelect} />
-          {isLoading ? (
-            <div className="p-4">加载中...</div>
-          ) : (
-            files.length > 0 && (
-              <SidebarGroup>
-                <SidebarGroupLabel>已选择的文件</SidebarGroupLabel>
-                <SidebarMenu>
-                  {files.map((file) => (
-                    <FileTreeNode
-                      key={file.path}
-                      file={file}
-                      onFileClick={handleFileClick}
-                      activeFile={activeFile}
-                    />
-                  ))}
-                </SidebarMenu>
-              </SidebarGroup>
-            )
-          )}
+          <ContextMenu>
+            <ContextMenuTrigger>
+              {isLoading ? (
+                <div className="p-4">加载中...</div>
+              ) : (
+                files.length > 0 && (
+                  <SidebarGroup>
+                    <SidebarGroupLabel>已选择的文件</SidebarGroupLabel>
+                    <SidebarMenu>
+                      {files.map((file) => (
+                        <FileTreeNode
+                          key={file.path}
+                          file={file}
+                          onFileClick={handleFileClick}
+                          activeFile={activeFile}
+                        />
+                      ))}
+                    </SidebarMenu>
+                  </SidebarGroup>
+                )
+              )}
+              <EmptyAreaContextMenu />
+            </ContextMenuTrigger>
+          </ContextMenu>
         </ScrollArea>
       </Sidebar>
     </SidebarProvider>
