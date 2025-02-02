@@ -108,7 +108,7 @@ export const PanelFooter = forwardRef<
   { asChild?: boolean } & React.HTMLAttributes<HTMLDivElement>
 >(({ asChild, className, children, ...rest }, ref) => {
   const footerClass = cn(
-    'border-t border-black/10 text-sm mt-2 pt-2',
+    'border-t border-opacity-10 text-sm mt-2 pt-2',
     className,
   )
 

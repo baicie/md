@@ -71,8 +71,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           'bg-transparent border-transparent text-neutral-500 dark:text-neutral-400',
           !disabled &&
             !active &&
-            'hover:bg-black/5 hover:text-neutral-700 active:bg-black/10',
-          active && 'bg-black/10 text-neutral-800 dark:bg-white/20',
+            'hover:bg-opacity-5 hover:text-neutral-700 active:bg-opacity-10',
+          active && 'bg-opacity-10 text-neutral-800 dark:bg-white/20',
         ),
 
       buttonSize === 'medium' && 'py-2 px-3',
