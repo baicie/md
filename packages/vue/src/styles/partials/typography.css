@@ -1,0 +1,109 @@
+.ProseMirror {
+  p {
+    line-height: 1.75;
+    margin: 0.25rem 0;
+  }
+
+  & > p {
+    margin: 0.5rem 0;
+  }
+
+  h1 {
+    font-size: 1.875rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+  }
+
+  h4 {
+    font-size: 1.125rem;
+  }
+
+  h5 {
+    font-size: 1rem;
+  }
+
+  h6 {
+    font-size: 0.875rem;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: bold;
+    margin: 0;
+  }
+
+  h1,
+  h2,
+  h3 {
+    margin-top: 3rem;
+  }
+
+  h4,
+  h5,
+  h6 {
+    margin-top: 2rem;
+  }
+
+  a.link {
+    color: var(--primary-color);
+    font-weight: 800;
+  }
+
+  mark {
+    background-color: var(--mark-color);
+    border-radius: 2px;
+    padding: 0.25rem 0;
+  }
+
+  img {
+    height: auto;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  [data-type='horizontalRule'] {
+    margin: 2rem 0;
+    padding: 1rem 0;
+    transition: all 0.1s ease-in-out;
+    cursor: pointer;
+
+    &.ProseMirror-selectednode {
+      background-color: rgba(0, 0, 0, 0.05);
+
+      hr {
+        border-color: rgba(0, 0, 0, 0.3);
+      }
+    }
+
+    &:hover:not(&.ProseMirror-selectednode) {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    hr {
+      border: 0;
+      border-top: 1px solid rgba(0, 0, 0, 0.2);
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+  }
+
+  [data-type='emoji'] {
+    display: inline-block;
+
+    img {
+      width: 1em;
+      height: 1em;
+      object-fit: cover;
+      display: block;
+    }
+  }
+}

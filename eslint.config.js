@@ -61,6 +61,7 @@ export default tseslint.config(
           './packages/core/tsconfig.node.json',
           './servers/api/tsconfig.json',
           './internal/extension-markdown/tsconfig.json',
+          './packages/vue/tsconfig.app.json',
         ],
         tsconfigRootDir: __dirname,
       },

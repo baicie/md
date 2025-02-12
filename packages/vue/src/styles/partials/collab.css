@@ -1,0 +1,28 @@
+.ProseMirror {
+  .collaboration-cursor {
+    &__caret {
+      border-left: 1px solid #000;
+      border-right: 1px solid #000;
+      margin-left: -1px;
+      margin-right: -1px;
+      pointer-events: none;
+      position: relative;
+      word-break: normal;
+    }
+
+    &__label {
+      border-radius: 3px;
+      border-top-left-radius: 0;
+      color: #000;
+      font-size: 12px;
+      font-weight: 600;
+      left: -1px;
+      line-height: normal;
+      padding: 0.1rem 0.3rem;
+      position: absolute;
+      top: -1.4em;
+      user-select: none;
+      white-space: nowrap;
+    }
+  }
+}

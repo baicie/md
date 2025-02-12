@@ -1,0 +1,14 @@
+:root {
+  --primary-color: #18a058;
+  --text-color: #333;
+  --bg-color: #fff;
+}
+
+html.dark {
+  --text-color: #fff;
+  --bg-color: #18181c;
+}
+
+* {
+  outline: 0;
+}

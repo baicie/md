@@ -1,0 +1,50 @@
+{
+  "name": "@baicie/md-vue",
+  "appName": "MdEditor",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@baicie/browser-fs-access": "workspace:^",
+    "@baicie/md-extension-details": "workspace:^",
+    "@baicie/md-extension-details-content": "workspace:^",
+    "@baicie/md-extension-details-summary": "workspace:^",
+    "@baicie/md-extension-drag-handle-react": "workspace:^",
+    "@baicie/md-extension-emoji": "workspace:^",
+    "@baicie/md-extension-file-handler": "workspace:^",
+    "@baicie/md-extension-import": "workspace:^",
+    "@baicie/md-extension-markdown": "workspace:^",
+    "@baicie/md-extension-table-of-contents": "workspace:^",
+    "@baicie/md-extension-unique-id": "workspace:^",
+    "@hocuspocus/provider": "^2.15.1",
+    "@tiptap/core": "^2.11.5",
+    "@tiptap/extension-image": "^2.11.5",
+    "@tiptap/extension-link": "^2.11.5",
+    "@tiptap/extension-table": "^2.11.3",
+    "@tiptap/extension-table-cell": "^2.11.3",
+    "@tiptap/extension-table-header": "^2.11.3",
+    "@tiptap/extension-table-row": "^2.11.5",
+    "@tiptap/pm": "^2.11.5",
+    "@tiptap/starter-kit": "^2.11.5",
+    "@tiptap/vue-3": "^2.11.5",
+    "localforage": "^1.10.0",
+    "naive-ui": "^2.41.0",
+    "pinia": "^3.0.0",
+    "vue": "^3.5.13",
+    "vue-i18n": "11.0.0-rc.1",
+    "yjs": "^13.6.23"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.1",
+    "@vitejs/plugin-vue-jsx": "^4.1.1",
+    "@vue/tsconfig": "^0.7.0",
+    "typescript": "~5.7.3",
+    "vite": "^6.1.0",
+    "vue-tsc": "^2.2.0"
+  }
+}

@@ -1,0 +1,161 @@
+.ProseMirror {
+  .tableWrapper {
+    margin: 3rem 0;
+  }
+
+  table {
+    border-collapse: collapse;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    box-sizing: border-box;
+    width: 100%;
+
+    td,
+    th {
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      min-width: 100px;
+      padding: 0.5rem;
+      position: relative;
+      text-align: left;
+      vertical-align: top;
+
+      &:first-of-type:not(a) {
+        margin-top: 0;
+      }
+
+      p {
+        margin: 0;
+
+        & + p {
+          margin-top: 0.75rem;
+        }
+      }
+    }
+
+    th {
+      font-weight: bold;
+    }
+
+    .column-resize-handle {
+      bottom: -2px;
+      display: flex;
+      pointer-events: none;
+      position: absolute;
+      right: -4px;
+      top: 0;
+      width: 8px;
+
+      &::before {
+        background-color: rgba(0, 0, 0, 0.2);
+        height: 100%;
+        width: 1px;
+        margin-left: 0.5rem;
+        content: '';
+      }
+    }
+
+    .selectedCell {
+      background-color: rgba(0, 0, 0, 0.05);
+      border: 2px double rgba(0, 0, 0, 0.2);
+    }
+
+    .grip-column,
+    .grip-row {
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.05);
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      position: absolute;
+      z-index: 10;
+    }
+
+    .grip-column {
+      width: calc(100% + 1px);
+      border-left: 1px solid rgba(0, 0, 0, 0.2);
+      height: 12px;
+      left: 0;
+      margin-left: -1px;
+      top: -12px;
+
+      &:hover,
+      &.selected {
+        &::before {
+          content: '';
+          width: 10px;
+        }
+      }
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+
+        &::before {
+          border-bottom: 2px dotted rgba(0, 0, 0, 0.6);
+        }
+      }
+
+      &.first {
+        border-color: transparent;
+        border-top-left-radius: 2px;
+      }
+
+      &.last {
+        border-top-right-radius: 2px;
+      }
+
+      &.selected {
+        background-color: rgba(0, 0, 0, 0.3);
+        border-color: rgba(0, 0, 0, 0.3);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+        &::before {
+          border-bottom: 2px dotted #000;
+        }
+      }
+    }
+
+    .grip-row {
+      height: calc(100% + 1px);
+      border-top: 1px solid rgba(0, 0, 0, 0.2);
+      left: -12px;
+      width: 12px;
+      top: 0;
+      margin-top: -1px;
+
+      &:hover,
+      &.selected {
+        &::before {
+          content: '';
+          height: 10px;
+        }
+      }
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+
+        &::before {
+          border-left: 2px dotted rgba(0, 0, 0, 0.6);
+        }
+      }
+
+      &.first {
+        border-color: transparent;
+        border-top-left-radius: 2px;
+      }
+
+      &.last {
+        border-bottom-left-radius: 2px;
+      }
+
+      &.selected {
+        background-color: rgba(0, 0, 0, 0.3);
+        border-color: rgba(0, 0, 0, 0.3);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+        &::before {
+          border-left: 2px dotted #000;
+        }
+      }
+    }
+  }
+}

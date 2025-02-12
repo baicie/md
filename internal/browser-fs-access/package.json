@@ -21,7 +21,8 @@
   ],
   "scripts": {
     "dev": "pnpm exec tsup --watch",
-    "build": "pnpm exec tsup"
+    "build": "pnpm exec tsup",
+    "stub": "pnpm build"
   },
   "keywords": [
     "file system access",
