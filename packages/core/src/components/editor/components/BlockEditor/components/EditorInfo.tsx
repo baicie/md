@@ -3,7 +3,7 @@ import { memo } from 'react'
 import type { WebSocketStatus } from '@hocuspocus/provider'
 import type { EditorUser } from '../types'
 
-import Tooltip from '@/components/ui/Tooltip'
+import Tooltip from '@/components/ui/tootip'
 import { cn } from '@/lib/utils'
 import { getConnectionText } from '@/lib/utils/getConnectionText'
 

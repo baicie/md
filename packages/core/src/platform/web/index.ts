@@ -9,7 +9,6 @@ import { WebTheme } from './theme'
 import type { PlatformCapabilities } from '../types'
 
 export class WebPlatform implements PlatformCapabilities {
-  storage = new WebStorage()
   theme = new WebTheme()
   clipboard = new WebClipboard()
   network = new WebNetwork()
@@ -19,4 +18,5 @@ export class WebPlatform implements PlatformCapabilities {
     prefix: __APP_NAME__,
   })
   fs = new WebFileSystem(this.logger)
+  storage = new WebStorage(this.logger)
 }

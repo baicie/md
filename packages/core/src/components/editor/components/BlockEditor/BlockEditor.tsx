@@ -1,13 +1,12 @@
 import { EditorContent } from '@tiptap/react'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 
 import { ContentItemMenu } from '../menus/ContentItemMenu'
 import { LinkMenu } from '../menus/LinkMenu'
 import { TextMenu } from '../menus/TextMenu'
 import { EditorToolbar } from '../Toolbar'
 
-import type { TiptapCollabProvider } from '@hocuspocus/provider'
-import type * as Y from 'yjs'
+import type { Editor } from '@tiptap/react'
 
 import '@/styles/index.css'
 
@@ -19,31 +18,38 @@ import {
   TableRowMenu,
 } from '@/components/editor/extensions/Table/menus'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { useBlockEditor } from '@/hooks/use-block-editor'
 import { useSidebar } from '@/hooks/use-sidebar'
 
 export const BlockEditor = ({
-  ydoc,
-  provider,
+  editor,
+  isReady = true,
 }: {
-  ydoc: Y.Doc | null
-  provider?: TiptapCollabProvider | null | undefined
+  editor: Editor | null
+  isReady?: boolean
 }) => {
   const menuContainerRef = useRef(null)
-  const [isMounted, setIsMounted] = useState(false)
-
   const leftSidebar = useSidebar()
-  const { editor, users } = useBlockEditor({ ydoc, provider })
 
+  // 监听全局快捷键
   useEffect(() => {
-    setIsMounted(true)
-    return () => {
-      editor?.destroy()
+    if (!editor) return
+
+    const handleKeyDown = (_e: KeyboardEvent) => {
+      if (!editor.isFocused) {
+        editor.commands.focus()
+      }
     }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
   }, [editor])
 
-  if (!isMounted || !editor || !users) {
-    return null
+  if (!isReady || !editor) {
+    return (
+      <div className="flex h-full items-center justify-center">
+        Loading editor...
+      </div>
+    )
   }
 
   return (
@@ -55,8 +61,8 @@ export const BlockEditor = ({
       />
       <div className="relative flex flex-col flex-1 h-full overflow-hidden">
         <EditorToolbar editor={editor} />
-        <ScrollArea className="flex-1 w-full p-4">
-          <EditorContent editor={editor} className="flex-1 overflow-y-auto" />
+        <ScrollArea>
+          <EditorContent editor={editor} className="h-full w-full" />
           <ContentItemMenu editor={editor} />
           <LinkMenu editor={editor} appendTo={menuContainerRef} />
           <TextMenu editor={editor} />

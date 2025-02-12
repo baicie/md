@@ -9,8 +9,8 @@ import type { MenuProps } from '@/components/editor/components/menus/types'
 import type { JSX } from 'react'
 import type { Instance } from 'tippy.js'
 
-import { Icon } from '@/components/ui/Icon'
-import { Toolbar } from '@/components/ui/Toolbar'
+import { Icon } from '@/components/ui/icon'
+import { Toolbar } from '@/components/ui/toolbar'
 import { getRenderContainer } from '@/lib/utils/index'
 
 export const ImageBlockMenu = ({

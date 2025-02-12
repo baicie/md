@@ -90,6 +90,23 @@ export interface WindowCapability {
   setTitle(title: string): void
 }
 
+export type FileNode = FileTypeNode | DirectoryTypeNode
+
+export interface FileTypeNode {
+  name: string
+  type: 'file'
+  content: Uint8Array
+  path: string
+  raw: File
+}
+
+export interface DirectoryTypeNode {
+  name: string
+  type: 'directory'
+  children: FileNode[]
+  path: string
+}
+
 export interface FileSystemCapability {
   readFile(path: string): Promise<Uint8Array>
   readFiles(options: {
@@ -97,15 +114,13 @@ export interface FileSystemCapability {
       description?: string
       accept: Record<`${string}/${string}`, `.${string}`[]>
     }[]
-  }): Promise<{ name: string; content: Uint8Array }[]>
+  }): Promise<FileNode[]>
   writeFile(path: string, data: Uint8Array): Promise<void>
   exists(path: string): Promise<boolean>
-  readDir(path: string): Promise<string[]>
+  readDir(
+    path?: string,
+  ): Promise<{ files: FileNode[]; selectedPath: string | null }>
   createDir(path: string): Promise<void>
-  readDirRecursive(
-    basePath?: string,
-    subDirHandle?: FileSystemDirectoryHandle,
-  ): Promise<{ name: string; content: Uint8Array }[]>
 }
 
 export interface FileStat {

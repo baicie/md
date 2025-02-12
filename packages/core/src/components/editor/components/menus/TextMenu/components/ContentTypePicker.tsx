@@ -3,10 +3,10 @@ import { useMemo } from 'react'
 
 import type { icons } from 'lucide-react'
 
-import { DropdownButton, DropdownCategoryTitle } from '@/components/ui/Dropdown'
-import { Icon } from '@/components/ui/Icon'
-import { Surface } from '@/components/ui/Surface'
-import { Toolbar } from '@/components/ui/Toolbar'
+import { DropdownButton, DropdownCategoryTitle } from '@/components/ui/dropdown'
+import { Icon } from '@/components/ui/icon'
+import { Surface } from '@/components/ui/surface'
+import { Toolbar } from '@/components/ui/toolbar'
 
 export interface ContentTypePickerOption {
   label: string

@@ -7,5 +7,5 @@ fn main() {
     // 设置默认语言为中文
     set_locale("zh-CN");
 
-    desktop_lib::run()
+    md_desktop_lib::run()
 }

@@ -6,8 +6,8 @@ import type { WebSocketStatus } from '@hocuspocus/provider'
 import type { Editor } from '@tiptap/core'
 import type { EditorUser } from '../types'
 
-import { Icon } from '@/components/ui/Icon'
-import { Toolbar } from '@/components/ui/Toolbar'
+import { Icon } from '@/components/ui/icon'
+import { Toolbar } from '@/components/ui/toolbar'
 
 export interface EditorHeaderProps {
   isSidebarOpen?: boolean

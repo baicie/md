@@ -4,12 +4,12 @@
   }
 
   table {
-    @apply border-collapse border-black/10 rounded box-border w-full;
+    @apply border-collapse border-opacity-10 rounded box-border w-full;
     @apply dark:border-white/20;
 
     td,
     th {
-      @apply border border-black/10 min-w-[100px] p-2 relative text-left align-top;
+      @apply border border-opacity-10 min-w-[100px] p-2 relative text-left align-top;
       @apply dark:border-white/20;
 
       &:first-of-type:not(a) {
@@ -33,25 +33,25 @@
       @apply -bottom-[2px] flex pointer-events-none absolute -right-1 top-0 w-2;
 
       &::before {
-        @apply bg-black/20 h-full w-[1px] ml-2;
+        @apply bg-opacity-20 h-full w-[1px] ml-2;
         @apply dark:bg-white/20;
         content: '';
       }
     }
 
     .selectedCell {
-      @apply bg-black/5 border-black/20 border-double;
+      @apply bg-opacity-5 border-opacity-20 border-double;
       @apply dark:bg-white/10 dark:border-white/20;
     }
 
     .grip-column,
     .grip-row {
-      @apply items-center bg-black/5 cursor-pointer flex justify-center absolute z-10;
+      @apply items-center bg-opacity-5 cursor-pointer flex justify-center absolute z-10;
       @apply dark:bg-white/10;
     }
 
     .grip-column {
-      @apply w-[calc(100%+1px)] border-l border-black/20 h-3 left-0 -ml-[1px] -top-3;
+      @apply w-[calc(100%+1px)] border-l border-opacity-20 h-3 left-0 -ml-[1px] -top-3;
       @apply dark:border-white/20;
 
       &:hover,
@@ -63,11 +63,11 @@
       }
 
       &:hover {
-        @apply bg-black/10;
+        @apply bg-opacity-10;
         @apply dark:bg-white/20;
 
         &::before {
-          @apply border-b-2 border-dotted border-black/60;
+          @apply border-b-2 border-dotted border-opacity-60;
           @apply dark:border-white/60;
         }
       }
@@ -81,7 +81,7 @@
       }
 
       &.selected {
-        @apply bg-black/30 border-black/30 shadow-sm;
+        @apply bg-opacity-30 border-opacity-30 shadow-sm;
         @apply dark:bg-white/30 dark:border-white/30;
 
         &::before {
@@ -91,7 +91,7 @@
     }
 
     .grip-row {
-      @apply h-[calc(100%+1px)] border-t border-black/20 -left-3 w-3 top-0 -mt-[1px];
+      @apply h-[calc(100%+1px)] border-t border-opacity-20 -left-3 w-3 top-0 -mt-[1px];
       @apply dark:border-white/20;
 
       &:hover,
@@ -102,11 +102,11 @@
         }
       }
       &:hover {
-        @apply bg-black/10;
+        @apply bg-opacity-10;
         @apply dark:bg-white/20;
 
         &::before {
-          @apply border-l-2 border-dotted border-black/60;
+          @apply border-l-2 border-dotted border-opacity-60;
           @apply dark:border-white/60;
         }
       }
@@ -120,7 +120,7 @@
       }
 
       &.selected {
-        @apply bg-black/30 border-black/30 shadow-sm;
+        @apply bg-opacity-30 border-opacity-30 shadow-sm;
         @apply dark:bg-white/30 dark:border-white/30;
 
         &::before {

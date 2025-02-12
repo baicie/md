@@ -5,6 +5,7 @@ import {
   Figcaption,
   HorizontalRule,
   ImageBlock,
+  // ImageBlock,
   ImageUpload,
   Link,
 } from '@/components/editor/extensions'
@@ -39,7 +40,6 @@ export const isCustomNodeSelected = (editor: Editor, node: HTMLElement) => {
     ImageBlock.name,
     ImageUpload.name,
     CodeBlock.name,
-    ImageBlock.name,
     Link.name,
     Figcaption.name,
     TableOfContentsNode.name,

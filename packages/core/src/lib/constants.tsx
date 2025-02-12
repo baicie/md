@@ -70,3 +70,8 @@ export const themeColors = [
   '#a5f3fc',
   '#a5b4fc',
 ]
+
+export const storageKeys = {
+  files: 'files',
+  'open-history': 'open-history',
+}

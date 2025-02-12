@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 
+import { FileProvider } from './components/layout/file-context'
+import { useBlockEditor } from './hooks/use-block-editor'
 import { useCollaboration } from './hooks/use-collaboration'
 import { PlatformProvider } from './hooks/use-platform'
 import { createPlatform } from './platform'
@@ -14,11 +16,29 @@ export default function App() {
     docId: '123',
     enabled: true,
   })
+  const { editor } = useBlockEditor({
+    ydoc: providerState.yDoc,
+    provider: providerState.provider,
+  })
 
   const [platform, setPlatform] = useState<PlatformCapabilities | null>(null)
 
   useEffect(() => {
     createPlatform().then(setPlatform)
+  }, [])
+
+  useEffect(() => {
+    const handleContextMenu = (e: MouseEvent) => {
+      if (!__DEV__) {
+        e.preventDefault()
+      }
+    }
+
+    document.addEventListener('contextmenu', handleContextMenu)
+
+    return () => {
+      document.removeEventListener('contextmenu', handleContextMenu)
+    }
   }, [])
 
   if (!platform) {
@@ -27,14 +47,13 @@ export default function App() {
 
   return (
     <PlatformProvider platform={platform}>
-      <div className="dark:bg-neutral-900 dark:text-white">
-        <Layout>
-          <BlockEditor
-            ydoc={providerState.yDoc}
-            provider={providerState.provider}
-          />
-        </Layout>
-      </div>
+      <FileProvider editor={editor}>
+        <div className="dark:bg-neutral-900 dark:text-white">
+          <Layout>
+            <BlockEditor editor={editor} />
+          </Layout>
+        </div>
+      </FileProvider>
     </PlatformProvider>
   )
 }

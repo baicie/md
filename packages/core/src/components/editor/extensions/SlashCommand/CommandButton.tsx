@@ -2,7 +2,7 @@ import { forwardRef } from 'react'
 
 import type { icons } from 'lucide-react'
 
-import { Icon } from '@/components/ui/Icon'
+import { Icon } from '@/components/ui/icon'
 import { cn } from '@/lib/utils'
 
 export interface CommandButtonProps {

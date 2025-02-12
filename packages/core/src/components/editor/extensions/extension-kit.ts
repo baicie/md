@@ -28,6 +28,7 @@ import {
   HorizontalRule,
   ImageBlock,
   Link,
+  Markdown,
   Placeholder,
   Selection,
   SlashCommand,
@@ -97,6 +98,8 @@ export const ExtensionKit = ({
       class: 'details',
     },
   }),
+  ImageBlock,
+  Markdown,
   DetailsContent,
   DetailsSummary,
   CodeBlock,
@@ -117,7 +120,6 @@ export const ExtensionKit = ({
   ImageUpload.configure({
     clientId: provider?.document?.clientID,
   }),
-  ImageBlock,
   FileHandler.configure({
     allowedMimeTypes: ['image/png', 'image/jpeg', 'image/gif', 'image/webp'],
     onDrop: (currentEditor, files, pos) => {
@@ -163,7 +165,7 @@ export const ExtensionKit = ({
   Placeholder.configure({
     includeChildren: true,
     showOnlyCurrent: false,
-    placeholder: () => '',
+    placeholder: () => 'placeholder',
   }),
   SlashCommand,
   Focus,

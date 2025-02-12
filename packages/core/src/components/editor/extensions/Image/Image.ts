@@ -1,6 +1,6 @@
 import { Image as BaseImage } from '@tiptap/extension-image'
 
-export const Image = BaseImage.extend({
+export const ImageInline = BaseImage.extend({
   group: 'block',
 })
 

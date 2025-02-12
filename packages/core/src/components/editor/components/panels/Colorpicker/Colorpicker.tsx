@@ -3,8 +3,8 @@ import { HexColorPicker } from 'react-colorful'
 
 import { ColorButton } from './ColorButton'
 
-import { Icon } from '@/components/ui/Icon'
-import { Toolbar } from '@/components/ui/Toolbar'
+import { Icon } from '@/components/ui/icon'
+import { Toolbar } from '@/components/ui/toolbar'
 import { themeColors } from '@/lib/constants'
 
 export interface ColorPickerProps {

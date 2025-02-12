@@ -11,4 +11,6 @@ uploads
 # .vscode
 coverage
 !internal/*/dist
+internal/extension-markdown/dist
+internal/browser-fs-access/dist
 target

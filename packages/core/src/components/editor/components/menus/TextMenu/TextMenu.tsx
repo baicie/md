@@ -13,9 +13,9 @@ import { useTextmenuStates } from './hooks/useTextmenuStates'
 
 import type { Editor } from '@tiptap/react'
 
-import { Icon } from '@/components/ui/Icon'
-import { Surface } from '@/components/ui/Surface'
-import { Toolbar } from '@/components/ui/Toolbar'
+import { Icon } from '@/components/ui/icon'
+import { Surface } from '@/components/ui/surface'
+import { Toolbar } from '@/components/ui/toolbar'
 
 // We memorize the button so each button is not rerendered
 // on every editor state change

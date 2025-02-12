@@ -4,8 +4,8 @@ import useGroups from '../../extensions/SlashCommand/groups'
 
 import type { Editor } from '@tiptap/core'
 
-import { Icon } from '@/components/ui/Icon'
-import { Toolbar as UIToolbar } from '@/components/ui/Toolbar'
+import { Icon } from '@/components/ui/icon'
+import { Toolbar as UIToolbar } from '@/components/ui/toolbar'
 
 interface EditorToolbarProps {
   editor: Editor | null

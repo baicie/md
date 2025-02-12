@@ -1,4 +1,4 @@
-import react from '@vitejs/plugin-react'
+import react from '@vitejs/plugin-react-swc'
 import path from 'node:path'
 import { defineConfig, loadEnv } from 'vite'
 import { appName } from './package.json'
@@ -17,6 +17,7 @@ export default defineConfig(({ mode }) => {
     server: {
       port: 1420,
     },
+    envPrefix: ['VITE_', 'TAURI_ENV_*'],
     define: {
       __PLATFORM__: JSON.stringify(env.VITE_APP_PLATFORM || 'web'),
       __VERSION__: JSON.stringify(env.VITE_APP_VERSION),
@@ -24,6 +25,10 @@ export default defineConfig(({ mode }) => {
       __APP_NAME__: JSON.stringify(appName),
     },
     build: {
+      target:
+        process.env.TAURI_ENV_PLATFORM == 'windows' ? 'chrome105' : 'safari13',
+      minify: !process.env.TAURI_ENV_DEBUG ? 'esbuild' : false,
+      sourcemap: !!process.env.TAURI_ENV_DEBUG,
       emptyOutDir: true,
       rollupOptions: {
         output: {

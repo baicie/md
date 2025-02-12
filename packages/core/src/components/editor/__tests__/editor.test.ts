@@ -82,8 +82,8 @@ describe('Editor Basic Functions', () => {
   // 测试列表功能
   it('should handle lists', () => {
     editor.commands.toggleBulletList()
-    expect(editor.getHTML()).toContain('<ul>')
-    expect(editor.getHTML()).toContain('<li>')
+    expect(editor.getHTML()).toMatch(/<ul[^>]*>/)
+    expect(editor.getHTML()).toMatch(/<li[^>]*>/)
   })
 
   // 测试标题功能
