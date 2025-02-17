@@ -8,12 +8,11 @@ import {
 
 import { useFileStorageStrategy } from './file-strategy'
 
-import type { FileNode, FileTypeNode } from '@/platform/types'
+import type { FileNode, FileTypeNode, ReadDirResult } from '@/platform/types'
 import type { Editor } from '@tiptap/core'
 import type { ReactNode } from 'react'
 
 import { usePlatform } from '@/hooks/use-platform'
-import { stringToUint8Array } from '@/lib/string-unit8'
 
 interface FileContextType {
   files: FileNode[]
@@ -22,10 +21,7 @@ interface FileContextType {
   isLoading: boolean
   activeFile: FileTypeNode | undefined
   handleSave: () => Promise<void>
-  handleFileSelect: (
-    selectedFiles: FileNode[],
-    selectedPath: string | null,
-  ) => Promise<void>
+  handleFileSelect: (result: ReadDirResult) => Promise<void>
   editor: Editor | null
   error: Error | null
   setError: (error: Error | null) => void
@@ -47,16 +43,14 @@ export const FileProvider = ({ children, editor }: FileContextProps) => {
   const strategy = useFileStorageStrategy()
 
   const handleFileSelect = useCallback(
-    async (selectedFiles: FileNode[], selectedPath: string | null) => {
+    async (result: ReadDirResult) => {
       try {
         setIsLoading(true)
-        logger.debug('开始保存文件...', { count: selectedFiles.length })
+        logger.debug('开始保存文件...', { count: result.tree.length })
 
-        // 立即更新UI
-        setFiles(selectedFiles)
+        setFiles(result.tree)
 
-        // 异步保存文件
-        await strategy.saveFiles(selectedFiles, selectedPath)
+        await strategy.saveFiles(result)
         logger.debug('文件保存成功')
       } catch (error) {
         logger.error('保存文件失败:', error)
@@ -71,10 +65,8 @@ export const FileProvider = ({ children, editor }: FileContextProps) => {
 
   const handleSave = useCallback(async () => {
     if (activeFile && editor) {
-      const text = editor.getText()
       await strategy.saveFile({
         ...activeFile,
-        content: stringToUint8Array(text),
       })
     }
   }, [activeFile, editor, strategy])
@@ -87,10 +79,10 @@ export const FileProvider = ({ children, editor }: FileContextProps) => {
 
       try {
         setIsLoading(true)
-        const loadedFiles = await strategy.loadFiles()
+        const filesTree = await strategy.loadFilesTree()
         if (mounted) {
-          setFiles(loadedFiles)
-          logger.debug('文件加载成功', { count: loadedFiles.length })
+          setFiles(filesTree)
+          logger.debug('文件加载成功', { count: filesTree.length })
         }
       } catch (error) {
         logger.error('加载文件失败:', error)

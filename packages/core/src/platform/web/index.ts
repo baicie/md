@@ -5,6 +5,7 @@ import { WebNetwork } from './network'
 import { WebStorage } from './storage'
 import { WebSystem } from './system'
 import { WebTheme } from './theme'
+import { WebToast } from './toast'
 
 import type { PlatformCapabilities } from '../types'
 
@@ -19,4 +20,5 @@ export class WebPlatform implements PlatformCapabilities {
   })
   fs = new WebFileSystem(this.logger)
   storage = new WebStorage(this.logger)
+  toast = new WebToast()
 }

@@ -72,6 +72,19 @@ export const themeColors = [
 ]
 
 export const storageKeys = {
+  /**
+   * 文件列表
+   * file list
+   */
   files: 'files',
+  /**
+   * 文件内容
+   * file content
+   */
+  'file-raw': 'file-raw',
+  /**
+   * 打开的文件历史
+   * open file history
+   */
   'open-history': 'open-history',
 }

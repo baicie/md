@@ -6,6 +6,7 @@ import type {
   FileNode,
   FileSystemCapability,
   LoggerCapability,
+  ReadDirResult,
 } from '../types'
 
 export class WebFileSystem implements FileSystemCapability {
@@ -107,9 +108,17 @@ export class WebFileSystem implements FileSystemCapability {
 
   private async buildFileTree(
     files: FileWithDirectoryAndFileHandle[],
-  ): Promise<FileNode[]> {
+  ): Promise<{ tree: FileNode[]; fileMap: Map<string, File> }> {
     const result: FileNode[] = []
     const dirMap = new Map<string, DirectoryTypeNode>()
+    const fileMap = new Map<string, File>()
+
+    // 文件过滤函数
+    const shouldIncludeFile = (fileName: string) => {
+      // if (fileName === '.DS_Store') return false
+      if (fileName.startsWith('.')) return false
+      return true
+    }
 
     // 首先创建所有目录节点
     for (const file of files) {
@@ -119,6 +128,8 @@ export class WebFileSystem implements FileSystemCapability {
       let currentPath = ''
       // 为每一级目录创建节点
       for (const segment of paths) {
+        if (!shouldIncludeFile(segment)) continue
+
         const parentPath = currentPath
         currentPath = currentPath ? `${currentPath}/${segment}` : segment
 
@@ -142,22 +153,23 @@ export class WebFileSystem implements FileSystemCapability {
       }
     }
 
-    // 然后添加所有文件节点
     for (const file of files) {
       const paths = file.webkitRelativePath.split('/')
-      const fileName = paths.pop()! // 文件名
+      const fileName = paths.pop()!
       const dirPath = paths.join('/')
+
+      // 跳过需要过滤的文件
+      if (!shouldIncludeFile(fileName)) continue
+
+      fileMap.set(file.webkitRelativePath, file)
 
       const fileNode: FileNode = {
         name: fileName,
         type: 'file',
         path: file.webkitRelativePath,
-        content: await file.arrayBuffer().then((buf) => new Uint8Array(buf)),
-        raw: file,
       }
 
       if (dirPath) {
-        // 添加到父目录
         dirMap.get(dirPath)?.children?.push(fileNode)
       } else {
         // 根级文件
@@ -165,16 +177,26 @@ export class WebFileSystem implements FileSystemCapability {
       }
     }
 
-    return result
+    return {
+      tree: result,
+      fileMap,
+    }
   }
 
-  async readDir(): Promise<FileNode[]> {
+  async readDir(): Promise<ReadDirResult> {
     try {
       this.logger.debug('📂 Starting readDirs')
       const files = await directoryOpen({
         recursive: true,
       })
-      return await this.buildFileTree(files as FileWithDirectoryAndFileHandle[])
+      const { tree, fileMap } = await this.buildFileTree(
+        files as FileWithDirectoryAndFileHandle[],
+      )
+      return {
+        tree,
+        selectedPath: null,
+        fileMap,
+      }
     } catch (e) {
       this.logger.error('❌ Failed to read directories:', e)
       throw e

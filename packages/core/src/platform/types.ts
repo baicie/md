@@ -11,6 +11,7 @@ export interface PlatformCapabilities {
   updater?: UpdaterCapability
   system: SystemCapability
   logger: LoggerCapability
+  toast: ToastCapability
 }
 
 export type LogLevel = 'debug' | 'info' | 'warn' | 'error'
@@ -95,9 +96,7 @@ export type FileNode = FileTypeNode | DirectoryTypeNode
 export interface FileTypeNode {
   name: string
   type: 'file'
-  content: Uint8Array
   path: string
-  raw: File
 }
 
 export interface DirectoryTypeNode {
@@ -117,11 +116,17 @@ export interface FileSystemCapability {
   }): Promise<FileNode[]>
   writeFile(path: string, data: Uint8Array): Promise<void>
   exists(path: string): Promise<boolean>
-  readDir(
-    path?: string,
-  ): Promise<{ files: FileNode[]; selectedPath: string | null }>
+  readDir: ReadDirFunc
   createDir(path: string): Promise<void>
 }
+
+export interface ReadDirResult {
+  tree: FileNode[]
+  fileMap: Map<string, File>
+  selectedPath: string | null
+}
+
+type ReadDirFunc = (path?: string) => Promise<ReadDirResult>
 
 export interface FileStat {
   createdAt: number
@@ -142,4 +147,61 @@ export interface StorageCapability {
   set<T>(key: string, value: T): Promise<void>
   remove(key: string): Promise<void>
   clear(): Promise<void>
+}
+
+/**
+ * 提示类型
+ */
+export type ToastType = 'info' | 'success' | 'warning' | 'error'
+
+/**
+ * 提示选项
+ */
+export interface ToastOptions {
+  /** 提示类型 */
+  type?: ToastType
+  /** 提示标题 */
+  title?: string
+  /** 提示内容 */
+  message: string
+  /** 持续时间（毫秒） */
+  duration?: number
+  /** 是否可关闭 */
+  closeable?: boolean
+  /** 关闭回调 */
+  onClose?: () => void
+  /** 点击回调 */
+  onClick?: () => void
+  /** 位置 */
+  position?:
+    | 'top-right'
+    | 'top-left'
+    | 'bottom-right'
+    | 'bottom-left'
+    | 'top-center'
+    | 'bottom-center'
+}
+
+/**
+ * 提示能力接口
+ */
+export interface ToastCapability {
+  /** 显示提示 */
+  show(options: ToastOptions): void
+  /** 显示成功提示 */
+  success(
+    message: string,
+    options?: Omit<ToastOptions, 'type' | 'message'>,
+  ): void
+  /** 显示错误提示 */
+  error(message: string, options?: Omit<ToastOptions, 'type' | 'message'>): void
+  /** 显示警告提示 */
+  warning(
+    message: string,
+    options?: Omit<ToastOptions, 'type' | 'message'>,
+  ): void
+  /** 显示信息提示 */
+  info(message: string, options?: Omit<ToastOptions, 'type' | 'message'>): void
+  /** 清除所有提示 */
+  clear(): void
 }

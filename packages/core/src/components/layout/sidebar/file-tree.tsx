@@ -7,6 +7,7 @@ import {
   FileContextMenu,
   FolderContextMenu,
 } from './context-menu'
+import { useFileStorageStrategy } from '../file-strategy'
 
 import type { FileNode, FileTypeNode } from '@/platform/types'
 
@@ -104,6 +105,7 @@ const FileTreeNode = ({
 export const SidebarFileTree = () => {
   const { logger } = usePlatform()
   const { theme, toggleTheme } = useThemeStore()
+  const strategy = useFileStorageStrategy()
   const {
     files,
     isLoading,
@@ -117,10 +119,13 @@ export const SidebarFileTree = () => {
   const handleFileClick = useCallback(
     async (file: FileNode) => {
       try {
-        if (file.type === 'file' && file.raw) {
-          setActiveFile(file)
-          const content = await file.raw.text()
-          editor?.commands.setContent(content)
+        if (file.type === 'file') {
+          const rawFile = await strategy.loadFile(file.path)
+          if (rawFile) {
+            setActiveFile(file)
+            const content = await rawFile.text()
+            editor?.commands.setContent(content)
+          }
         }
       } catch (error) {
         logger.error('Failed to load file', error)
