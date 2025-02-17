@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Toaster } from 'react-hot-toast'
 
 import { FileProvider } from './components/layout/file-context'
 import { useBlockEditor } from './hooks/use-block-editor'
@@ -53,6 +54,7 @@ export default function App() {
             <BlockEditor editor={editor} />
           </Layout>
         </div>
+        <Toaster />
       </FileProvider>
     </PlatformProvider>
   )

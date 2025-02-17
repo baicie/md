@@ -49,6 +49,7 @@ export class WebToast implements ToastCapability {
     message: string,
     options?: Omit<ToastOptions, 'type' | 'message'>,
   ): void {
+    this.clear()
     this.show({ ...options, type: 'success', message })
   }
 
@@ -56,6 +57,7 @@ export class WebToast implements ToastCapability {
     message: string,
     options?: Omit<ToastOptions, 'type' | 'message'>,
   ): void {
+    this.clear()
     this.show({ ...options, type: 'error', message })
   }
 
@@ -63,6 +65,7 @@ export class WebToast implements ToastCapability {
     message: string,
     options?: Omit<ToastOptions, 'type' | 'message'>,
   ): void {
+    this.clear()
     this.show({ ...options, type: 'warning', message })
   }
 
@@ -70,6 +73,7 @@ export class WebToast implements ToastCapability {
     message: string,
     options?: Omit<ToastOptions, 'type' | 'message'>,
   ): void {
+    this.clear()
     this.show({ ...options, type: 'info', message })
   }
 

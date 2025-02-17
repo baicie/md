@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 
 import type {
   FileNode,
-  FileTypeNode,
+  FileSystemCapability,
   LoggerCapability,
   ReadDirResult,
   StorageCapability,
@@ -11,6 +11,7 @@ import type {
 import { usePlatform } from '@/hooks/use-platform'
 import { storageKeys } from '@/lib/constants'
 import { addPrefix } from '@/lib/prefix'
+import { stringToUint8Array } from '@/lib/string-unit8'
 import { readDirRecursive } from '@/platform/desktop/fs'
 
 interface FileStorageStrategy {
@@ -45,6 +46,7 @@ class WebFileStorage implements FileStorageStrategy {
   constructor(
     private readonly storage: StorageCapability,
     private readonly logger: LoggerCapability,
+    private readonly fs: FileSystemCapability,
   ) {}
 
   async saveFiles(result: ReadDirResult): Promise<void> {
@@ -78,6 +80,12 @@ class WebFileStorage implements FileStorageStrategy {
     })
 
     await this.storage.set(addPrefix(storageKeys['file-raw'], path), file)
+
+    // save to local
+    await this.fs.writeFile(
+      path.split('/').pop() || path,
+      stringToUint8Array(newContent),
+    )
   }
 
   async loadFile(path: string): Promise<File | null> {
@@ -115,7 +123,7 @@ class DesktopFileStorage implements FileStorageStrategy {
     return readDirRecursive(history[0])
   }
 
-  async saveFile(file: FileTypeNode): Promise<void> {
+  async saveFile(_path: string): Promise<void> {
     if (!file.raw) {
       this.logger.error('File raw content is missing')
       return
@@ -132,13 +140,13 @@ class DesktopFileStorage implements FileStorageStrategy {
 }
 
 export const useFileStorageStrategy = () => {
-  const { storage, logger } = usePlatform()
+  const { storage, logger, fs } = usePlatform()
 
   return useMemo(
     () =>
       __PLATFORM__ === 'desktop'
         ? new DesktopFileStorage(storage, logger)
-        : new WebFileStorage(storage, logger),
-    [storage, logger],
+        : new WebFileStorage(storage, logger, fs),
+    [storage, logger, fs],
   )
 }

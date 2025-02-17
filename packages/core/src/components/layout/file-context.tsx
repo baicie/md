@@ -20,7 +20,7 @@ interface FileContextType {
   setActiveFile: (file: FileTypeNode) => void
   isLoading: boolean
   activeFile: FileTypeNode | undefined
-  handleSave: () => Promise<void>
+  handleSave: () => void
   handleFileSelect: (result: ReadDirResult) => Promise<void>
   editor: Editor | null
   error: Error | null
@@ -35,7 +35,7 @@ interface FileContextProps {
 }
 
 export const FileProvider = ({ children, editor }: FileContextProps) => {
-  const { logger } = usePlatform()
+  const { logger, toast } = usePlatform()
   const [error, setError] = useState<Error | null>(null)
   const [files, setFiles] = useState<FileNode[]>([])
   const [isLoading, setIsLoading] = useState(false)
@@ -54,7 +54,6 @@ export const FileProvider = ({ children, editor }: FileContextProps) => {
         logger.debug('文件保存成功')
       } catch (error) {
         logger.error('保存文件失败:', error)
-        // 如果保存失败，回滚状态
         setFiles([])
       } finally {
         setIsLoading(false)
@@ -63,13 +62,19 @@ export const FileProvider = ({ children, editor }: FileContextProps) => {
     [strategy, logger],
   )
 
-  const handleSave = useCallback(async () => {
+  const handleSave = useCallback(() => {
     if (activeFile && editor) {
-      await strategy.saveFile({
-        ...activeFile,
-      })
+      const newContent = editor.getText()
+      strategy
+        .saveFile(activeFile.path, newContent)
+        .then(() => {
+          toast.success('保存成功')
+        })
+        .catch((e) => {
+          toast.error('保存失败', e)
+        })
     }
-  }, [activeFile, editor, strategy])
+  }, [activeFile, editor, strategy, toast])
 
   useEffect(() => {
     let mounted = true

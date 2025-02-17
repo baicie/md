@@ -2,12 +2,12 @@ import { ChevronRight, File, Folder } from 'lucide-react'
 import { useCallback, useState } from 'react'
 
 import { useFiles } from '../file-context'
+import { useFileStorageStrategy } from '../file-strategy'
 import {
   EmptyAreaContextMenu,
   FileContextMenu,
   FolderContextMenu,
 } from './context-menu'
-import { useFileStorageStrategy } from '../file-strategy'
 
 import type { FileNode, FileTypeNode } from '@/platform/types'
 
@@ -132,7 +132,7 @@ export const SidebarFileTree = () => {
         setError(error as Error)
       }
     },
-    [editor?.commands, logger, setActiveFile, setError],
+    [editor?.commands, logger, setActiveFile, setError, strategy],
   )
 
   return (
