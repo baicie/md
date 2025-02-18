@@ -12,7 +12,6 @@ import { usePlatform } from '@/hooks/use-platform'
 import { storageKeys } from '@/lib/constants'
 import { addPrefix } from '@/lib/prefix'
 import { stringToUint8Array } from '@/lib/string-unit8'
-import { readDirRecursive } from '@/platform/desktop/fs'
 
 interface FileStorageStrategy {
   /**
@@ -100,9 +99,11 @@ class DesktopFileStorage implements FileStorageStrategy {
   constructor(
     private readonly storage: StorageCapability,
     private readonly logger: LoggerCapability,
+    private readonly fs: FileSystemCapability,
   ) {}
 
   async saveFiles(result: ReadDirResult): Promise<void> {
+    // open history
     const history =
       (await this.storage.get<string[]>(storageKeys['open-history'])) || []
     const historySet = new Set(history)
@@ -112,6 +113,7 @@ class DesktopFileStorage implements FileStorageStrategy {
       this.logger.debug('historySet', historySet)
       await this.storage.set(storageKeys['open-history'], [...historySet])
     }
+    // do not save files to storage
   }
 
   async loadFilesTree(): Promise<FileNode[]> {
@@ -120,22 +122,21 @@ class DesktopFileStorage implements FileStorageStrategy {
     if (!history.length) {
       return []
     }
-    return readDirRecursive(history[0])
+    const { tree } = await this.fs.readDir(history[0])
+    this.logger.debug('loadFilesTree', tree)
+    return tree
   }
 
-  async saveFile(_path: string): Promise<void> {
-    if (!file.raw) {
-      this.logger.error('File raw content is missing')
-      return
-    }
-    const content = await file.raw.arrayBuffer()
-    await this.storage.set(file.path, new Uint8Array(content))
+  async saveFile(path: string, newContent: string): Promise<void> {
+    await this.fs.writeFile(path, stringToUint8Array(newContent))
   }
 
   async loadFile(path: string): Promise<File | null> {
-    return await this.storage.get<File>(
-      addPrefix(storageKeys['file-raw'], path),
-    )
+    this.logger.debug('loadFile', path)
+    const file = await this.fs.readFile(path)
+    return new File([file], path.split('/').pop() || 'untitled', {
+      type: 'text/plain',
+    })
   }
 }
 
@@ -145,7 +146,7 @@ export const useFileStorageStrategy = () => {
   return useMemo(
     () =>
       __PLATFORM__ === 'desktop'
-        ? new DesktopFileStorage(storage, logger)
+        ? new DesktopFileStorage(storage, logger, fs)
         : new WebFileStorage(storage, logger, fs),
     [storage, logger, fs],
   )

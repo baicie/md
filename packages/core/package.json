@@ -37,6 +37,7 @@
     "@tauri-apps/api": "^2.2.0",
     "@tauri-apps/plugin-dialog": "^2.2.0",
     "@tauri-apps/plugin-fs": "^2.2.0",
+    "@tauri-apps/plugin-notification": "^2.2.1",
     "@tauri-apps/plugin-store": "^2.2.0",
     "@tippyjs/react": "^4.2.6",
     "@tiptap/core": "^2.11.5",

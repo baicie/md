@@ -1,24 +1,53 @@
-import { message } from '@tauri-apps/api/dialog'
+import {
+  isPermissionGranted,
+  requestPermission,
+  sendNotification,
+} from '@tauri-apps/plugin-notification'
 
 import type { ToastCapability, ToastOptions } from '../types'
 
 export class DesktopToast implements ToastCapability {
+  private permission = false
+  private initPermission = async () => {
+    this.permission = await isPermissionGranted()
+    if (!this.permission) {
+      const permission = await requestPermission()
+      this.permission = permission === 'granted'
+    }
+  }
+
   async show(options: ToastOptions): Promise<void> {
     const { type = 'info', title, message: content } = options
-
+    await this.initPermission()
+    if (!this.permission) {
+      return
+    }
+    sendNotification({ title: 'Tauri', body: 'Tauri is awesome!' })
     switch (type) {
       case 'error':
-        await message(content, { title: title || '错误', type: 'error' })
+        sendNotification({
+          title: title || '错误',
+          body: content,
+        })
         break
       case 'warning':
-        await message(content, { title: title || '警告', type: 'warning' })
+        sendNotification({
+          title: title || '警告',
+          body: content,
+        })
         break
       case 'success':
-        await message(content, { title: title || '成功', type: 'info' })
+        sendNotification({
+          title: title || '成功',
+          body: content,
+        })
         break
       case 'info':
       default:
-        await message(content, { title: title || '提示', type: 'info' })
+        sendNotification({
+          title: title || '提示',
+          body: content,
+        })
     }
   }
 

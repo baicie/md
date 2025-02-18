@@ -46,66 +46,6 @@ export class WebFileSystem implements FileSystemCapability {
     throw new Error('Operation not supported in web environment')
   }
 
-  async readFiles(options?: {
-    types?: {
-      description?: string
-      accept: Record<string, string[]>
-    }[]
-  }): Promise<FileNode[]> {
-    try {
-      this.logger.debug('📂 Starting readFiles', {
-        description: options?.types?.[0]?.description,
-        accept: options?.types?.[0]?.accept,
-      })
-
-      const blobs = await fileOpen({
-        multiple: true,
-        // 转换文件类型格式
-        mimeTypes: options?.types?.flatMap((type) => Object.keys(type.accept)),
-      })
-
-      const files = await Promise.all(
-        Array.from(blobs)
-          .filter((blob): blob is File => blob instanceof File)
-          .map(async (blob) => {
-            const content = new Uint8Array(await blob.arrayBuffer())
-            const paths = (blob.webkitRelativePath || blob.name).split('/')
-            const fileName = paths[paths.length - 1]
-
-            if (content.length === 0) {
-              this.logger.warn('⚠️ File is empty:', fileName)
-            }
-
-            this.logger.debug(`📄 File loaded:`, {
-              name: fileName,
-              size: `${(content.length / 1024).toFixed(2)} KB`,
-            })
-
-            return {
-              name: fileName,
-              type: 'file' as const,
-              path: blob.webkitRelativePath || blob.name,
-              content,
-              raw: blob,
-            }
-          }),
-      )
-
-      this.logger.debug(
-        '✅ Files processed:',
-        files.map((f) => ({
-          name: f.name,
-          size: `${(f.content.length / 1024).toFixed(2)} KB`,
-        })),
-      )
-
-      return files
-    } catch (e) {
-      this.logger.error('❌ Failed to read files:', e)
-      throw e
-    }
-  }
-
   private async buildFileTree(
     files: FileWithDirectoryAndFileHandle[],
   ): Promise<{ tree: FileNode[]; fileMap: Map<string, File> }> {
@@ -115,7 +55,6 @@ export class WebFileSystem implements FileSystemCapability {
 
     // 文件过滤函数
     const shouldIncludeFile = (fileName: string) => {
-      // if (fileName === '.DS_Store') return false
       if (fileName.startsWith('.')) return false
       return true
     }

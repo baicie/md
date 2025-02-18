@@ -27,6 +27,7 @@ tauri-plugin-dialog = "2.2.0"
 tauri-plugin-fs = "2.2.0"
 tauri-plugin-window-state = "2"
 rust-i18n = "3.1.2"
+tauri-plugin-notification = "2"
 
 [profile.release]
 incremental = false

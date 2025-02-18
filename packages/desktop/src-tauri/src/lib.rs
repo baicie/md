@@ -8,7 +8,10 @@ use commands::greet;
 use plugins::init_plugins;
 use rust_i18n::t;
 use setup::setup;
-use tauri::{menu::{Menu, MenuItem, PredefinedMenuItem, Submenu}, Manager};
+use tauri::{
+    menu::{Menu, MenuItem, PredefinedMenuItem, Submenu},
+    Manager,
+};
 use theme::toggle_theme;
 
 // 设置翻译文件目录

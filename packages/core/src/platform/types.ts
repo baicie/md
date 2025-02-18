@@ -2,7 +2,7 @@
 export interface PlatformCapabilities {
   storage: StorageCapability
   theme: ThemeCapability
-  fs?: FileSystemCapability
+  fs: FileSystemCapability
   window?: WindowCapability
   dialog?: DialogCapability
   clipboard: ClipboardCapability
@@ -108,12 +108,6 @@ export interface DirectoryTypeNode {
 
 export interface FileSystemCapability {
   readFile(path: string): Promise<Uint8Array>
-  readFiles(options: {
-    types?: {
-      description?: string
-      accept: Record<`${string}/${string}`, `.${string}`[]>
-    }[]
-  }): Promise<FileNode[]>
   writeFile(path: string, data: Uint8Array): Promise<void>
   exists(path: string): Promise<boolean>
   readDir: ReadDirFunc
