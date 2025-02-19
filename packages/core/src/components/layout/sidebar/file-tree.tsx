@@ -11,22 +11,11 @@ import {
 
 import type { FileNode, FileTypeNode } from '@/platform/types'
 
-import { FileSelector } from '@/components/composite/file-select'
+import { Button } from '@/components/ui/button'
 import { ContextMenu, ContextMenuTrigger } from '@/components/ui/context-menu'
 import { Ellipsis } from '@/components/ui/ellipsis'
 import { Icon } from '@/components/ui/icon'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import {
-  Sidebar,
-  SidebarGroup,
-  SidebarGroupLabel,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarProvider,
-} from '@/components/ui/sidebar'
+import { Sidebar, SidebarProvider } from '@/components/ui/sidebar'
 import { usePlatform } from '@/hooks/use-platform'
 import { cn } from '@/lib/utils'
 import { useThemeStore } from '@/stores/theme'
@@ -47,11 +36,8 @@ const FileTreeNode = ({
     return (
       <ContextMenu>
         <ContextMenuTrigger>
-          <SidebarMenuItem>
-            <SidebarMenuButton
-              onClick={() => setIsOpen(!isOpen)}
-              className="gap-1"
-            >
+          <div>
+            <Button onClick={() => setIsOpen(!isOpen)} className="gap-1">
               <ChevronRight
                 className={cn(
                   'transition-transform shrink-0 size-4',
@@ -60,10 +46,10 @@ const FileTreeNode = ({
               />
               <Folder className="shrink-0 size-4" />
               <Ellipsis className="text-left">{file.name}</Ellipsis>
-            </SidebarMenuButton>
+            </Button>
 
             {isOpen && file.children && (
-              <SidebarMenuSub>
+              <div>
                 {file.children.map((child) => (
                   <FileTreeNode
                     key={child.path}
@@ -72,9 +58,9 @@ const FileTreeNode = ({
                     activeFile={activeFile}
                   />
                 ))}
-              </SidebarMenuSub>
+              </div>
             )}
-          </SidebarMenuItem>
+          </div>
 
           <FolderContextMenu />
         </ContextMenuTrigger>
@@ -85,16 +71,16 @@ const FileTreeNode = ({
   return (
     <ContextMenu>
       <ContextMenuTrigger>
-        <SidebarMenuItem>
-          <SidebarMenuButton
+        <div>
+          <Button
             onClick={() => onFileClick(file)}
-            isActive={activeFile?.path === file.path}
+            // isActive={activeFile?.path === file.path}
             className="gap-1"
           >
             <File className="shrink-0 size-4" />
             <Ellipsis className="text-left">{file.name}</Ellipsis>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
+          </Button>
+        </div>
 
         <FileContextMenu />
       </ContextMenuTrigger>
@@ -108,10 +94,9 @@ export const SidebarFileTree = () => {
   const strategy = useFileStorageStrategy()
   const {
     files,
-    isLoading,
     activeFile,
     editor,
-    handleFileSelect,
+    // handleFileSelect,
     setActiveFile,
     setError,
   } = useFiles()
@@ -137,54 +122,40 @@ export const SidebarFileTree = () => {
   )
 
   return (
-    <SidebarProvider defaultOpen>
-      <Sidebar variant="sidebar" className="flex-1">
-        <SidebarHeader className="w-full">
-          <div className="flex items-center justify-between">
-            <span className="text-neutral-900 dark:text-white">
-              文件 {__PLATFORM__}
-            </span>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={toggleTheme}
-                className="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-md"
-                aria-label="toggle theme"
-              >
-                <Icon
-                  name={theme === 'dark' ? 'Sun' : 'Moon'}
-                  className="size-4"
-                />
-              </button>
-            </div>
+    <SidebarProvider>
+      <Sidebar className="flex-1">
+        <div className="flex items-center justify-between">
+          <span className="text-neutral-900 dark:text-white">
+            文件 {__PLATFORM__}
+          </span>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={toggleTheme}
+              className="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-md"
+              aria-label="toggle theme"
+            >
+              <Icon
+                name={theme === 'dark' ? 'Sun' : 'Moon'}
+                className="size-4"
+              />
+            </button>
           </div>
-        </SidebarHeader>
-        <ScrollArea>
-          <FileSelector onSelect={handleFileSelect} />
-          <ContextMenu>
-            <ContextMenuTrigger>
-              {isLoading ? (
-                <div className="p-4">加载中...</div>
-              ) : (
-                files.length > 0 && (
-                  <SidebarGroup>
-                    <SidebarGroupLabel>已选择的文件</SidebarGroupLabel>
-                    <SidebarMenu>
-                      {files.map((file) => (
-                        <FileTreeNode
-                          key={file.path}
-                          file={file}
-                          onFileClick={handleFileClick}
-                          activeFile={activeFile}
-                        />
-                      ))}
-                    </SidebarMenu>
-                  </SidebarGroup>
-                )
-              )}
-              <EmptyAreaContextMenu />
-            </ContextMenuTrigger>
-          </ContextMenu>
-        </ScrollArea>
+        </div>
+        {/* <FileSelector onSelect={handleFileSelect} /> */}
+        <ContextMenu>
+          <ContextMenuTrigger>
+            {files.map((file) => (
+              <FileTreeNode
+                key={file.path}
+                file={file}
+                onFileClick={handleFileClick}
+                activeFile={activeFile}
+              />
+            ))}
+
+            <EmptyAreaContextMenu />
+          </ContextMenuTrigger>
+        </ContextMenu>
       </Sidebar>
     </SidebarProvider>
   )

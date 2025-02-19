@@ -58,7 +58,7 @@ const ScrollArea = React.forwardRef<HTMLDivElement, ScrollAreaProps>(
         >
           <div
             className={cn(
-              'flex flex-col space-y-4 px-6 py-4 min-w-0',
+              'flex flex-col space-y-4 py-4 min-w-0',
               contentClassName,
             )}
           >
