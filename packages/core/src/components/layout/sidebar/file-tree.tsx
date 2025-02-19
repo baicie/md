@@ -124,6 +124,7 @@ export const SidebarFileTree = () => {
           if (rawFile) {
             setActiveFile(file)
             const content = await rawFile.text()
+            editor?.commands.blur()
             editor?.commands.setContent(content)
           }
         }
@@ -137,8 +138,8 @@ export const SidebarFileTree = () => {
 
   return (
     <SidebarProvider defaultOpen>
-      <Sidebar variant="inset" className="flex-1">
-        <SidebarHeader className="border-b border-neutral-200 dark:border-neutral-700 w-full">
+      <Sidebar variant="sidebar" className="flex-1">
+        <SidebarHeader className="w-full">
           <div className="flex items-center justify-between">
             <span className="text-neutral-900 dark:text-white">
               文件 {__PLATFORM__}

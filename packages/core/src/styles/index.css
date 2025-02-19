@@ -13,15 +13,10 @@
 @tailwind utilities;
 
 .ProseMirror {
-  @apply caret-black dark:caret-white outline-0 pr-8 pl-20 py-16 z-0 lg:pl-8 lg:pr-8 mx-auto max-w-2xl;
+  @apply caret-black dark:caret-white outline-0 pr-8 pl-20 pt-2 pb-16 z-0 lg:pl-8 lg:pr-8 mx-auto max-w-2xl;
 
   .selection {
     @apply inline;
-  }
-
-  .selection,
-  *::selection {
-    @apply bg-opacity-10 dark:bg-white/20 inline;
   }
 
   & > .react-renderer {
@@ -39,6 +34,24 @@
       @apply border-t-black/40 dark:border-t-white/40 w-full -top-[1.5em] max-w-2xl mx-auto left-0 right-0;
     }
   }
+
+  ::selection {
+    background: rgba(46, 170, 220, 0.2);
+  }
+
+  ::-moz-selection {
+    background: rgba(46, 170, 220, 0.2);
+  }
+
+  &.ProseMirror-focused {
+    ::selection {
+      background: rgba(46, 170, 220, 0.3);
+    }
+
+    ::-moz-selection {
+      background: rgba(46, 170, 220, 0.3);
+    }
+  }
 }
 
 [data-theme='slash-command'] {
@@ -52,5 +65,35 @@
   }
   .scrollbar-none::-webkit-scrollbar {
     display: none;
+  }
+}
+
+/* 改进亮色主题下的选中效果 */
+:root[data-theme='light'] {
+  .ProseMirror {
+    ::selection {
+      background: rgba(35, 131, 226, 0.28);
+      color: #000;
+    }
+
+    ::-moz-selection {
+      background: rgba(35, 131, 226, 0.28);
+      color: #000;
+    }
+  }
+}
+
+/* 保持暗色主题的选中效果 */
+:root[data-theme='dark'] {
+  .ProseMirror {
+    ::selection {
+      background: rgba(66, 153, 225, 0.35);
+      color: #fff;
+    }
+
+    ::-moz-selection {
+      background: rgba(66, 153, 225, 0.35);
+      color: #fff;
+    }
   }
 }

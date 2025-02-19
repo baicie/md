@@ -8,7 +8,7 @@ export class WebToast implements ToastCapability {
       type = 'info',
       message,
       duration = 2000,
-      position = 'top-center',
+      position = 'top-right',
     } = options
 
     switch (type) {

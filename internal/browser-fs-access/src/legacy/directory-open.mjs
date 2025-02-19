@@ -31,8 +31,21 @@ export default async (options = [{}]) => {
     input.type = 'file'
     input.webkitdirectory = true
 
-    const _reject = () => cleanupListenersAndMaybeReject(reject)
+    // 将input临时添加到DOM中，并在使用后移除
+    input.style.display = 'none' // 隐藏input
+    document.body.appendChild(input)
+
+    const cleanup = () => {
+      document.body.removeChild(input)
+    }
+
+    const _reject = () => {
+      cleanup()
+      cleanupListenersAndMaybeReject(reject)
+    }
+
     const _resolve = (value) => {
+      cleanup()
       if (typeof cleanupListenersAndMaybeReject === 'function') {
         cleanupListenersAndMaybeReject()
       }

@@ -21,8 +21,6 @@
  * @returns {boolean} Returns `true` if the File System Access API is supported and usable, else returns `false`.
  */
 const supported = (() => {
-  console.log('supported')
-
   // When running in an SSR environment return `false`.
   if (typeof self === 'undefined') {
     return false
@@ -40,18 +38,12 @@ const supported = (() => {
       return false
     }
   }
-  console.log('showOpenFilePicker' in self)
-
   if ('showOpenFilePicker' in self) {
     return true
   }
-  console.log('webkit' in self)
-
   if ('webkit' in self && 'showOpenFilePicker' in self.webkit) {
     return true
   }
-  console.log('not supported')
-
   return false
 })()
 

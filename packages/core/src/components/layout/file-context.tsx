@@ -46,12 +46,8 @@ export const FileProvider = ({ children, editor }: FileContextProps) => {
     async (result: ReadDirResult) => {
       try {
         setIsLoading(true)
-        logger.debug('开始保存文件...', { count: result.tree.length })
-
         setFiles(result.tree)
-
         await strategy.saveFiles(result)
-        logger.debug('文件保存成功')
       } catch (error) {
         logger.error('保存文件失败:', error)
         setFiles([])

@@ -3,10 +3,8 @@
   max-width: 800px !important;
   margin: 0 auto;
   z-index: 0;
-  padding-top: 4rem;
+  padding-top: 1rem;
   padding-bottom: 4rem;
-  padding-right: 2rem;
-  padding-left: 5rem;
   caret-color: #000;
   outline: none;
 
